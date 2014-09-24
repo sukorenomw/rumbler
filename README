@@ -1,3 +1,38 @@
-RENO Bangsat-!
-GIAN BANGSAT !
-CORET PLS!
+abis install git konfigurasi username sama email dulu
+caranya :
+
+	- buka terminal / git bash (windows)
+	- konfigurasi username :
+	- ketik git config --global user.name "username di gitlab" ex : git config --global user.name "smw94flynn"
+	- konfigurasi email :
+	- ketik git config --global user.email email yg di gitlab ex : git config --global user.email sukorenomw@gmail.com
+
+kalo udah konfigurasi username sama email, sekarang configurasi ssh key
+
+	- buka terminal / git bash (windows)
+	- ketik ssh-keygen -t rsa -C "email di gitlab" ex: ssh-keygen -t rsa -C "sukorenomw@gmail.com"
+	- terus enter aja, kalo di tanya suruh isi apa, kosongin aja sampe keluar gambar2 aneh
+	- ketik cat ~/.ssh/id_rsa.pub
+	- nanti keluar huruf2 aneh, copas semua ke gitlab, caranya :
+		- profile
+		- SSH key
+		- add SSH key
+		- pastein huruf2 aneh yg tadi ke SSH key field, title field nya bebas aja
+
+setelah beres konfig2, sekarang clone projectnya, caranya :
+
+	- buka terminal / git bash (windows)
+	- ketik git clone git@gitlab.com:smw94flynn/rumbler.git (khusus buat project PBOL)
+	- kalo udah tinggal buka di netbean
+
+
+code-code penting : 
+	- git commit -m "pesan apa yg di edit, apa yg berubah, ditambah dll" -> buat kasih tau apa yg berubah
+	- git add [nama file yg mau di upload] -> buat nandain file apa aja yg mau di push, ga pake tanda [ ]
+	- (alternatif git add) : git add . -> titik buat masukin semua file yg berubah, otomatis kedetek
+	- git push -u origin development -> buat upload file tadi ke repo, origin nama remote, development nama branch
+
+Penjelasan branch :
+	- Master -> isinya code2 yg udah jadi, udah beres, ga ada yg di ubah2, udah siap di kumpulin
+	- Development -> code2 yg masih di coba2, di edit, masih ngebug
+	- Staging -> code2 yg udah ga ada bug, udah fix, tapi belum beres, siap di pindah ke Master
