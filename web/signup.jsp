@@ -18,8 +18,8 @@
     </head>
     <body class="sign-up-page">
         <div class="jarak3"></div>
-        <h1 class="text-center blogtitle titel">rumbler.</h1>
-        <div class="sign-up-desc"><p class="text-center">Follow the blogs you've been hearing about.
+        <h1 class="text-center titel size-56">rumbler.</h1>
+        <div class="sign-up-desc"><p class="text-center" style="color:white;">Follow the blogs you've been hearing about.
                 Share the things you love.</p></div>
         <form class="form-2" method="post" action="signup.html" data-abide>
             <h1><span class="sign-up">sign up</span></h1>

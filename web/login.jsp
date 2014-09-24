@@ -19,7 +19,7 @@
     </head>
     <body class="login-page">
         <div class="jarak2"></div>
-        <h1 class="text-center titel blogtitle ">rumbler.</h1>
+        <h1 class="text-center titel size-56">rumbler.</h1>
         <form class="form-2" method="post">
             <h1><span class="log-in">Log in</span> or <span class="sign-up">sign up</span></h1>
             <p class="float">
@@ -37,8 +37,6 @@
         <a href="signup.jsp" class="button transparan radius">SIGN UP</a>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
-        <script>
-            $(document).foundation();
-        </script>
+        <script src="assets/js/script.js"></script>
     </body>
 </html>

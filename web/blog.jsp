@@ -192,7 +192,7 @@
                 
             </div>
         </div>
-        <a href="#" class="button totop radius">Back To Top</a>
+        <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script> 
         <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/js/foundation.min.js" ></script>-->
