@@ -52,7 +52,7 @@
 }
 
 .search-bar{
-    margin: 0.25rem;
+    margin: auto;
 }
 
 h1.blogtitle{
@@ -132,6 +132,13 @@ h1.titel{
 
 .transparan{
     background: rgba(255,255,255,0.4);
+}
+
+.totop{
+    background: rgba(48,148,215,0.4);
+}
+
+.transparan, .totop{
     color: #073786;
     left: 2%;
     position: fixed;

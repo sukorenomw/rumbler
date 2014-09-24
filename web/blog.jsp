@@ -11,11 +11,12 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Profile Page</title>
-
         <link rel="stylesheet" href="assets/css/foundation-icons.css" />
         <link rel="stylesheet" href="assets/css/foundation.css" />
         <!--<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/css/foundation.css" />-->
         <link rel="stylesheet" href="assets/css/custom.css" />
+        <!--<link rel="stylesheet" href="assets/css/normalize.css" />-->
+
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body>
@@ -28,18 +29,32 @@
                     </section>
 
                     <section class="middle tab-bar-section">
-                        <div class="search-bar">
-                            <div class="small-6 columns push-1">
-                                <div class="row collapse postfix-radius">
-                                    <div class="small-10 columns">
-                                        <input type="text" placeholder="Search something..">
-                                    </div>
-                                    <div class="small-1 columns pull-1">
-                                        <a href="#" class="button postfix"><i class="fi-magnifying-glass"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <nav class="top-bar" data-topbar role="navigation">
+                            <section class="top-bar-section">
+                                <!-- Right Nav Section -->
+                                <ul class="right">
+                                    <li class="has-form">
+                                        <!--<form>-->
+                                        <div class="large-12 column">
+                                            <div class="row collapse postfix-radius">
+                                                <div class="small-9 columns">
+                                                    <input type="text" placeholder="Value" class="radius">
+                                                </div>
+                                                <div class="small-3 columns">
+                                                    <a href="#" class="button postfix radius">Go</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--</form>-->
+                                    </li>
+                                    <li><a href="#"><i class="fi-home size-24"></i></a></li>
+                                    <li><a href="#"><i class="fi-mail size-24"></i></a></li>
+                                    <li><a href="#"><i class="fi-torsos-male-female size-24"></i></a></li>
+                                    <li><a href="#"><i class="fi-widget size-24"></i></a></li>
+                                    <li><a href="#"><i class="fi-power size-24"></i></a></li>
+                                </ul>
+                            </section>
+                        </nav>
                     </section>
                 </nav>
 
@@ -105,10 +120,17 @@
 
                                     <!-- popup isi comment -->
                                     <div id="commentModal" class="reveal-modal small" data-reveal>
-                                      <h2>This is a modal.</h2>
-                                      <p>Reveal makes these very easy to summon and dismiss. The close button is simply an anchor with a unicode character icon and a class of <code>close-reveal-modal</code>. Clicking anywhere outside the modal will also dismiss it.</p>
-                                      <p>Finally, if your modal summons another Reveal modal, the plugin will handle that for you gracefully.</p>
-                                      <a class="close-reveal-modal">&#215;</a>
+                                        <h2>Post a comment</h2>
+                                        <div class="row">
+                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                            <div class="large-8 columns">
+                                                <textarea placeholder="Write a comment..." style="resize: none;"></textarea>
+                                            </div>
+                                            <div class="large-2 columns small-3">
+                                                <a href="#" class="button" style="margin-left: -30px; height: 3.15rem; width: 4rem; padding: 15px 5px 15px 5px;">Submit</a>
+                                            </div>
+                                        </div>
+                                        <a class="close-reveal-modal">&#215;</a>
                                     </div>
 
                                     <hr/>
@@ -167,51 +189,14 @@
                         <!-- menu timeline profile end -->
                     </div>
                 </div>
-
+                
             </div>
         </div>
+        <a href="#" class="button totop radius">Back To Top</a>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script> 
         <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/js/foundation.min.js" ></script>-->
-        <script>
-            $(document).foundation();
-            var menu = $('.left-off-canvas-menu');
-            $(document).on('resize', function() {
-                menu.height($(this).height());
-            });
-            $(document).trigger('resize');
-
-            $(document).ready(function() {
-               $(".accordion").on("click", "dd", function () {
-                $("dd.active").find(".content").slideUp("slow");
-                if(!$(this).hasClass("active")) {
-                  $(this).find(".content").slideToggle("slow");
-                }
-              });
-
-                // Cache the Window object
-                $window = $(window);
-
-                $('section[data-type="background"]').each(function() {
-                    var $bgobj = $(this); // assigning the object
-
-                    $(window).scroll(function() {
-
-                        // Scroll the background at var speed
-                        // the yPos is a negative value because we're scrolling it UP!								
-                        var yPos = -($window.scrollTop() / $bgobj.data('speed'));
-
-                        // Put together our final background position
-                        var coords = '50% ' + yPos + 'px';
-
-                        // Move the background
-                        $bgobj.css({backgroundPosition: coords});
-
-                    }); // window scroll Ends
-
-                });
-            });
-        </script>
+        <script src="assets/js/script.js"></script>
     </body>
 </html>
 
