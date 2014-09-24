@@ -60,6 +60,10 @@ img {
 img {
     -ms-interpolation-mode: bicubic; }
 
+img.radius{
+    border-radius: 8px; 
+}
+
 #map_canvas img,
 #map_canvas embed,
 #map_canvas object,
@@ -1939,7 +1943,7 @@ meta.foundation-mq-topbar {
 .panel.callout a:not(.button) {
     color: #008cba; }
 .panel.radius {
-    border-radius: 3px; }
+    border-radius: 8px; }
 
 .dropdown.button, button.dropdown {
     position: relative;
