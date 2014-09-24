@@ -1,3 +1,14 @@
+PENTING !! :
+
+	Kalo mau ngedit repo, mending di cek dulu filenya sama apa engga, caranya (bisa pilih salah satu) :
+	- git log -> buat liat perubahan siapa yg commit, dan apa yg di commit
+	- git status -uno -> buat nyocokin file di repo sama file di lokal
+	- git show-branch origin/development -> buat nyocokin file juga
+
+	kalo tulisannya ada yg beda, butuh pull baru di pull, caranya : 
+	- git pull origin development
+
+
 abis install git konfigurasi username sama email dulu
 caranya :
 
