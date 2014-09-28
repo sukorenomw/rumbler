@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="assets/css/foundation-icons.css" />
         <link rel="stylesheet" href="assets/css/foundation.css" />
         <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
         <!--<link rel="stylesheet" href="assets/css/normalize.css" />-->
 
         <script src="assets/js/vendor/modernizr.js"></script>
@@ -24,7 +26,7 @@
             <!--<div class="large-12 collapse ">-->
             <div class="row">
                 <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
-                <div class="large-6 pull-4 columns bubble radius small-padding">
+                <div class="large-7 pull-3 columns bubble radius small-padding">
                     <section>
                         <ul class="inline-list">
                             <li>
@@ -46,6 +48,11 @@
                                 <a href="#"><i class="fi-link size-72 army-green"></i></a>
                                 <label>Link</label>
                             </li>
+                            <li><span class="size-72">|</span></li>
+                            <li>
+                                <a href="#"><i class="fi-video size-72 gray-light"></i></a>
+                                <label>Video</label>
+                            </li>
                         </ul>
                     </section>
                 </div>
@@ -53,7 +60,7 @@
             <div class="jarak"></div>
             <div class="row">
                 <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
-                <div class="large-8 pull-2 columns bubble radius">
+                <div class="large-7 pull-3 columns bubble radius">
                     <section>
                         <p class="size-14"><a href="#">Sukoreno Mukti</a></p>
                         <header><h3 class="title">Judul Postingan</h3></header>
@@ -86,7 +93,7 @@
             <div class="jarak"></div>
             <div class="row">
                 <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
-                <div class="large-8 pull-2 columns bubble radius">
+                <div class="large-7 pull-3 columns bubble radius">
                     <section>
                         <p class="size-14"><a href="#">Raiven Teguh</a></p>
                         <header><h3 class="title">Judul Postingan</h3></header>

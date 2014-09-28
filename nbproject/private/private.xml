@@ -5,7 +5,8 @@
         <group>
             <file>file:/home/smw/NetBeansProjects/rumbler/web/WEB-INF/web.xml</file>
             <file>file:/home/smw/NetBeansProjects/rumbler/nbproject/build-impl.xml</file>
-            <file>file:/home/smw/NetBeansProjects/rumbler/src/Source%20Packages/model/HibernateUtil.java</file>
+            <file>file:/home/smw/NetBeansProjects/rumbler/src/Source%20Packages/util/HibernateUtil.java</file>
+            <file>file:/home/smw/NetBeansProjects/rumbler/src/Source%20Packages/hibernate.cfg.xml</file>
         </group>
     </open-files>
 </project-private>

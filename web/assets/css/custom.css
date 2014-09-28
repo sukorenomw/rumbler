@@ -332,7 +332,7 @@ h1.titel{
 
 .mainbg{
     background: #014387;
-    border-radius: 8px;
+    border-radius: 10px;
     /*width: 100%;*/
     /*min-height: 400px;*/
     height: auto;
@@ -366,6 +366,10 @@ h1.titel{
 
 .maroon{
     color: #d55142;
+}
+
+.gray-light{
+    color: #7f828d;
 }
 
 .orange{
