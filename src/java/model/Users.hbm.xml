@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 28, 2014 2:53:01 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Users" table="users" catalog="rumbler">
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="128" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="32" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="32" not-null="true" />
+        </property>
+        <property name="birthday" type="timestamp">
+            <column name="birthday" length="19" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="32" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" not-null="true" />
+        </property>
+        <property name="blogTitle" type="string">
+            <column name="blog_title" length="32" not-null="true" />
+        </property>
+        <property name="registeredAt" type="timestamp">
+            <column name="registered_at" length="19" not-null="true" />
+        </property>
+        <property name="lastLogin" type="timestamp">
+            <column name="last_login" length="19" not-null="true" />
+        </property>
+        <set name="commentses" table="comments" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Comments" />
+        </set>
+        <set name="followersesForFollowerId" table="followers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="follower_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Followers" />
+        </set>
+        <set name="notificationsesForUserId" table="notifications" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Notifications" />
+        </set>
+        <set name="notificationsesForFromUserId" table="notifications" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="from_user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Notifications" />
+        </set>
+        <set name="postses" table="posts" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Posts" />
+        </set>
+        <set name="likeses" table="likes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Likes" />
+        </set>
+        <one-to-one name="settings" class="model.Settings"></one-to-one>
+        <set name="followersesForUserId" table="followers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Followers" />
+        </set>
+    </class>
+</hibernate-mapping>
