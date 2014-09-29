@@ -16,7 +16,7 @@
                 
                 <li><a href="#"class="white item"> Sitemap </a></li>
                 <li><a href="#"class="white item"> Contact Us</a></li>
-                <li><a href="#"class="white item"> Contact Us</a></li>
+                
            </ul>
           <p class="copyright">© 1998–2014 Awesome, Inc. All rights reserved.</p>
         </div
