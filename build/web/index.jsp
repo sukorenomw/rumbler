@@ -22,7 +22,30 @@
     </head>
     <body class="timeline-page">
         <jsp:include flush="true" page="header.jsp" />
+
         <div class="row mainbg radius">
+            <aside>
+                <div class="large-2 right">
+                    <p>Recommended Blogs</p>
+                    <hr/>
+                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
+                        <p class="left blogname">blognamehere </p>
+                        <span class="left"><i class="fi-plus size-28"></i></span></a>
+                    <hr class="hr-child"/>
+                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
+                        <p class="left blogname">blognamehere </p>
+                        <span class="left"><i class="fi-plus size-28"></i></span></a>
+                    <hr class="hr-child"/>
+                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
+                        <p class="left blogname">blognamehere </p>
+                        <span class="left"><i class="fi-plus size-28"></i></span></a>
+                    <hr class="hr-child"/>
+                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
+                        <p class="left blogname">blognamehere </p>
+                        <span class="left"><i class="fi-plus size-28"></i></span></a>
+                    <hr class="hr-child"/>
+                </div>
+            </aside>
             <!--<div class="large-12 collapse ">-->
             <div class="row">
                 <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>

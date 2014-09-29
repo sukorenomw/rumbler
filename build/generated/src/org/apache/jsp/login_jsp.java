@@ -58,7 +58,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </head>\n");
       out.write("    <body class=\"login-page\">\n");
       out.write("        <div class=\"jarak2\"></div>\n");
-      out.write("        <h1 class=\"text-center titel blogtitle \">rumbler.</h1>\n");
+      out.write("        <h1 class=\"text-center titel size-56\">rumbler.</h1>\n");
       out.write("        <form class=\"form-2\" method=\"post\">\n");
       out.write("            <h1><span class=\"log-in\">Log in</span> or <span class=\"sign-up\">sign up</span></h1>\n");
       out.write("            <p class=\"float\">\n");
@@ -73,12 +73,10 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <input type=\"submit\" name=\"submit\" value=\"Log in\">\n");
       out.write("            </p>\n");
       out.write("        </form>\n");
-      out.write("        <a href=\"signup.html\" class=\"button transparan radius\">SIGN UP</a>\n");
+      out.write("        <a href=\"signup.jsp\" class=\"button transparan radius\">SIGN UP</a>\n");
       out.write("        <script src=\"assets/js/vendor/jquery.js\"></script>\n");
       out.write("        <script src=\"assets/js/foundation.min.js\"></script>\n");
-      out.write("        <script>\n");
-      out.write("            $(document).foundation();\n");
-      out.write("        </script>\n");
+      out.write("        <script src=\"assets/js/script.js\"></script>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
