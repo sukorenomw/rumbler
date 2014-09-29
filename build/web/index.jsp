@@ -153,6 +153,7 @@
         <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
 
         <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
+        <jsp:include flush="true" page="footer.jsp" />
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
         <script src="assets/js/script.js"></script>
