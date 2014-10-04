@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 4, 2014 6:56:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Likes" table="likes" catalog="rumbler" optimistic-lock="version">
+        <id name="likeId" type="java.lang.Integer">
+            <column name="like_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="posts" class="model.Posts" fetch="select">
+            <column name="post_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="users" class="model.Users" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

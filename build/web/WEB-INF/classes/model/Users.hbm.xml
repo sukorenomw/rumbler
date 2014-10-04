@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 28, 2014 3:01:05 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 4, 2014 6:56:42 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Users" table="users" catalog="rumbler" optimistic-lock="version">
         <id name="userId" type="java.lang.Integer">
@@ -34,6 +34,9 @@
         </property>
         <property name="lastLogin" type="timestamp">
             <column name="last_login" length="19" not-null="true" />
+        </property>
+        <property name="picturePath" type="string">
+            <column name="picture_path" length="65535" not-null="true" />
         </property>
         <set name="commentses" table="comments" inverse="true" lazy="true" fetch="select">
             <key>

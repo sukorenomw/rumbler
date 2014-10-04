@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 4, 2014 6:56:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Posts" table="posts" catalog="rumbler" optimistic-lock="version">
+        <id name="postId" type="java.lang.Integer">
+            <column name="post_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="model.Users" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="title" type="string">
+            <column name="title" length="32" not-null="true" />
+        </property>
+        <property name="image" type="string">
+            <column name="image" length="128" not-null="true" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="65535" not-null="true" />
+        </property>
+        <property name="createdAt" type="timestamp">
+            <column name="created_at" length="19" not-null="true" />
+        </property>
+        <set name="commentses" table="comments" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="post_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Comments" />
+        </set>
+        <set name="notificationses" table="notifications" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="post_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Notifications" />
+        </set>
+        <set name="likeses" table="likes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="post_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Likes" />
+        </set>
+    </class>
+</hibernate-mapping>
