@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="controller.ModelStatic" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,7 +23,13 @@
     </head>
     <body class="timeline-page">
         <jsp:include flush="true" page="header.jsp" />
-
+        <%
+            if (session.getAttribute("user") == null) {
+                String site = new String("login.jsp");
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", site);
+            }
+        %>
         <div class="row mainbg radius">
             <aside>
                 <div class="large-2 right">
@@ -48,7 +55,7 @@
             </aside>
             <!--<div class="large-12 collapse ">-->
             <div class="row">
-                <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
+                <div class="large-2 columns small-3 profpict"><img class="radius" src="<% out.print(controller.ModelStatic.useRumbler.getPicturePath());%>"/></div>
                 <div class="large-7 pull-3 columns bubble radius small-padding">
                     <section>
                         <ul class="inline-list">
@@ -115,12 +122,12 @@
             </div>
             <div class="jarak"></div>
             <div class="row">
-                <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
+                <div class="large-2 columns small-3 profpict"><img class="radius" src="null"/></div>
                 <div class="large-7 pull-3 columns bubble radius">
                     <section>
                         <p class="size-14"><a href="#">Raiven Teguh</a></p>
                         <header><h3 class="title">Judul Postingan</h3></header>
-                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="http://zurb.com/university/assets/courses/foundation-sass.png" width="480" height="320" />
+                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="null" width="480" height="320" />
                         </span>
                         <hr/>
                         <p>#photos, #gambar, #bagus, #keren, #testes</p>

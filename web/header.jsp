@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="white item"> 
+                    <a href="ServLogOut" class="white item"> 
                         <i class="fi-power size-36"></i> 
                     </a>
                 </li>

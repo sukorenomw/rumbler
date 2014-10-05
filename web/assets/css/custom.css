@@ -406,6 +406,10 @@ h1.titel{
 .profpict{
     margin-left: 25px;
 }
+.profpict img{
+    width: 80px;
+    height: 80px;
+}
 
 .bubble.small-padding{
     padding: 0px 10px 0px 40px;

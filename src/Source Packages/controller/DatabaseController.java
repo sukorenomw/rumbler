@@ -19,32 +19,19 @@ import org.hibernate.cfg.Configuration;
  */
 public class DatabaseController {
 
-    private static SessionFactory factory;
-
-    public static void main(String[] args) {
-        try {
-            factory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        DatabaseController dbc = new DatabaseController();
-        dbc.selectOperator(factory.openSession());
-    }
-
-    public List selectOperator(Session session) {
+    public List selectOperator(Session session,String user) {
         Transaction tx = null;
         List results = null;
         try {
             tx = session.beginTransaction();
-            String sql = "SELECT * FROM Users";
+            String sql = "SELECT * FROM Users WHERE username = '"+user+"'";
             SQLQuery query = session.createSQLQuery(sql);
             query.addEntity(Users.class);
             results = query.list();
-            for (Iterator itr = results.iterator(); itr.hasNext();) {
+            /*for (Iterator itr = results.iterator(); itr.hasNext();) {
                 Users usr = (Users) itr.next();
                 System.out.println("user id = "+usr.getUserId() + "\nname : " + usr.getName());
-            }
+            }*/
             tx.commit();
         } catch (Exception e) {
 
