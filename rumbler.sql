@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2014 at 12:06 PM
+-- Generation Time: Oct 05, 2014 at 08:15 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `birthday`, `password`, `description`, `blog_title`, `registered_at`, `last_login`, `picture_path`) VALUES
-(1, 'raiven teguh', 'vayneblue', 'vayneblue@yahoo.com', '1994-09-20 00:00:00', 'vayneblue', '', '', '2014-10-04 02:04:03', '2014-10-04 10:08:09', '');
+(1, 'raiven teguh', 'vayneblue', 'vayneblue@yahoo.com', '1994-09-20 00:00:00', 'vayneblue', '', '', '2014-10-04 02:04:03', '2014-10-04 10:08:09', 'assets/img/Ahri.jpg');
 
 --
 -- Constraints for dumped tables
