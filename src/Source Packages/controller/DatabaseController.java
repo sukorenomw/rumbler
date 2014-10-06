@@ -24,7 +24,7 @@ public class DatabaseController {
         List results = null;
         try {
             tx = session.beginTransaction();
-            String sql = "SELECT * FROM Users WHERE username = '"+user+"'";
+            String sql = "SELECT * FROM users WHERE username = '"+user+"'";
             SQLQuery query = session.createSQLQuery(sql);
             query.addEntity(Users.class);
             results = query.list();
