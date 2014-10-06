@@ -1,3 +1,8 @@
+**PENTING BANGET**
+	- sebelum push, source code di clean dulu, inget cuman **CLEAN** bukan *CLEAN AND BUILD*
+	- hanya git add file yang di edit aja, ga usah semua file di add
+
+
 PENTING !! :
 
 	Kalo mau ngedit repo, mending di cek dulu filenya sama apa engga, caranya (bisa pilih salah satu) :
