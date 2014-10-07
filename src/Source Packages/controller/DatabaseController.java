@@ -6,7 +6,9 @@
 package controller;
 
 import java.util.*;
+import model.Posts;
 import model.Users;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,24 +23,26 @@ public class DatabaseController {
 
     public List selectOperator(Session session,String user) {
         Transaction tx = null;
-        List results = null;
+        List res = null;
         try {
             tx = session.beginTransaction();
-            String sql = "SELECT * FROM users WHERE username = '"+user+"'";
-            SQLQuery query = session.createSQLQuery(sql);
-            query.addEntity(Users.class);
-            results = query.list();
-            /*for (Iterator itr = results.iterator(); itr.hasNext();) {
+            String hql = "FROM Users u WHERE u.username = '"+user+"'";
+            Query qry = session.createQuery(hql);
+            res = qry.list();
+            for (Iterator itr = res.iterator(); itr.hasNext();) {
                 Users usr = (Users) itr.next();
-                System.out.println("user id = "+usr.getUserId() + "\nname : " + usr.getName());
-            }*/
+                System.out.println("user id = "+usr.getUserId() + "\nname : " + usr.getName()+" ppost = "+usr.getPostses().size());
+                for(Posts obj : usr.getPostses()){
+                    System.out.println("title = "+((Posts)obj).getTitle());
+                }
+            }
             tx.commit();
         } catch (Exception e) {
 
         } finally {
             session.close();
         }
-        return results;
+        return res;
     }
     public void inputOperation(){
         

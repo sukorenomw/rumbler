@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 4, 2014 6:56:41 PM by Hibernate Tools 4.3.1
+// Generated Oct 7, 2014 11:51:27 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,6 +18,7 @@ public class Posts  implements java.io.Serializable {
      private String image;
      private String content;
      private Date createdAt;
+     private String tag;
      private Set<Comments> commentses = new HashSet<Comments>(0);
      private Set<Notifications> notificationses = new HashSet<Notifications>(0);
      private Set<Likes> likeses = new HashSet<Likes>(0);
@@ -26,19 +27,21 @@ public class Posts  implements java.io.Serializable {
     }
 
 	
-    public Posts(Users users, String title, String image, String content, Date createdAt) {
+    public Posts(Users users, String title, String image, String content, Date createdAt, String tag) {
         this.users = users;
         this.title = title;
         this.image = image;
         this.content = content;
         this.createdAt = createdAt;
+        this.tag = tag;
     }
-    public Posts(Users users, String title, String image, String content, Date createdAt, Set<Comments> commentses, Set<Notifications> notificationses, Set<Likes> likeses) {
+    public Posts(Users users, String title, String image, String content, Date createdAt, String tag, Set<Comments> commentses, Set<Notifications> notificationses, Set<Likes> likeses) {
        this.users = users;
        this.title = title;
        this.image = image;
        this.content = content;
        this.createdAt = createdAt;
+       this.tag = tag;
        this.commentses = commentses;
        this.notificationses = notificationses;
        this.likeses = likeses;
@@ -85,6 +88,13 @@ public class Posts  implements java.io.Serializable {
     
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getTag() {
+        return this.tag;
+    }
+    
+    public void setTag(String tag) {
+        this.tag = tag;
     }
     public Set<Comments> getCommentses() {
         return this.commentses;

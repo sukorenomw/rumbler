@@ -4,6 +4,9 @@
     Author     : smw
 --%>
 
+<%@page import="model.Posts"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="controller.ModelStatic" %>
 <!DOCTYPE html>
@@ -88,13 +91,31 @@
                 </div>
             </div>
             <div class="jarak"></div>
+            <%
+                int n = 5;
+                if (ModelStatic.useRumbler.getPostses().size() < 5) {
+                    n = ModelStatic.useRumbler.getPostses().size();
+                }
+                ArrayList<Posts> arr = new ArrayList<Posts>();
+
+                for (Posts obj : ModelStatic.useRumbler.getPostses()) {
+                    System.out.println(obj.getTitle());
+                    arr.add(obj);
+                }
+                for (int i = 0; i < n; i++) {
+
+            %>
             <div class="row">
                 <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
                 <div class="large-7 pull-3 columns bubble radius">
                     <section>
-                        <p class="size-14"><a href="#">Sukoreno Mukti</a></p>
-                        <header><h3 class="title">Judul Postingan</h3></header>
-                        <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
+                        <p class="size-14"><a href="#"><% out.print(ModelStatic.useRumbler.getName()); %></a></p>
+                        <header><h3 class="title"><% out.print(arr.get(i).getContent()); %></h3></header>
+                        <p><% out.print(arr.get(i).getTitle()); %></p>
+                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<% out.print(arr.get(i).getImage()); %>" width="480" height="320" />
+                        </span>
+                        <hr/>
+                        <p><% out.print(arr.get(i).getTag()); %></p>
                         <ul class="inline-list">
                             <li><a href=""><i class="step fi-heart size-36"></i></a></li>
                             <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
@@ -107,7 +128,7 @@
                             <div id="commentView" class="content radius">
                                 <h6>2 Comments</h6>
                                 <div class="row">
-                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%  %>"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
                                     <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
                                 </div>
 
@@ -121,41 +142,9 @@
                 </div>
             </div>
             <div class="jarak"></div>
-            <div class="row">
-                <div class="large-2 columns small-3 profpict"><img class="radius" src="null"/></div>
-                <div class="large-7 pull-3 columns bubble radius">
-                    <section>
-                        <p class="size-14"><a href="#">Raiven Teguh</a></p>
-                        <header><h3 class="title">Judul Postingan</h3></header>
-                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="null" width="480" height="320" />
-                        </span>
-                        <hr/>
-                        <p>#photos, #gambar, #bagus, #keren, #testes</p>
-                        <ul class="inline-list">
-                            <li><a href=""><i class="step fi-heart size-36"></i></a></li>
-                            <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
-                        </ul>
-                    </section>
-                    <hr/>
-                    <dl class="accordion radius" data-accordion>
-                        <dd class="accordion-navigation">
-                            <a href="#commentView1" >View Comments</a>
-                            <div id="commentView1" class="content radius">
-                                <h6>2 Comments</h6>
-                                <div class="row">
-                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                    <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                    <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
+            <%
+                }
+            %>
         </div>
         <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
 

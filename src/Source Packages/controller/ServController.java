@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Posts;
 import model.Users;
 import org.hibernate.SessionFactory;
 
@@ -107,11 +108,15 @@ public class ServController extends HttpServlet {
                         ModelStatic.useRumbler = usr;
                         if (username.equals(usr.getUsername()) && password.equals(usr.getPassword())) {
                             HttpSession session = request.getSession();
+                            for (Posts obj : ModelStatic.useRumbler.getPostses()) {
+                                System.out.println("title = " + ((Posts)obj).getTitle());
+                            }
                             session.setAttribute("user", usr.getName());
                             String encodedURL = response.encodeRedirectURL("index.jsp");
                             response.sendRedirect(encodedURL);
                         } else {
-                            System.out.println("bajingan");
+                            String encodedURL = response.encodeRedirectURL("login.jsp");
+                            response.sendRedirect(encodedURL);
                         }
                     }
                 } catch (Exception e) {

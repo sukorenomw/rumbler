@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="white item"> 
+                    <a class="white item" href="blog.jsp"> 
                         <i class="fi-torsos-male-female size-36"></i> 
                     </a>
                 </li>
