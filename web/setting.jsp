@@ -24,108 +24,231 @@
     <body class="timeline-page">
         <jsp:include flush="true" page="header.jsp" />
         <div class="row mainbg radius">
-            <aside>
-                <div class="large-2 right">
-                    <p>Settings</p>
-                    <hr/>
-                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                        <p class="left blogname">blognamehere </p>
-                        <span class="left"><i class="fi-plus size-28"></i></span></a>
-                    <hr class="hr-child"/>
-                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                        <p class="left blogname">blognamehere </p>
-                        <span class="left"><i class="fi-plus size-28"></i></span></a>
-                    <hr class="hr-child"/>
-                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                        <p class="left blogname">blognamehere </p>
-                        <span class="left"><i class="fi-plus size-28"></i></span></a>
-                    <hr class="hr-child"/>
-                    <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                        <p class="left blogname">blognamehere </p>
-                        <span class="left"><i class="fi-plus size-28"></i></span></a>
-                    <hr class="hr-child"/>
+            <div class="large-9 columns">
+                <div class="row" >
+                    <div class="large-11 panel radius">
+                        <div id='generalSetting'>
+                            <h3 class="title">Account</h3>
+                            <hr/>
+                            <form>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Email</label>
+                                            </div>
+                                            <div class="small-9 push-1 columns">
+                                                <input type="text" id="right-label" class="radius" placeholder="youremail@domain">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Password</label>
+                                            </div>
+                                            <div class="small-9 push-1 columns">
+                                                <input type="password" id="right-label" class="radius" placeholder="********">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
+                                            </div>
+                                            <div class="small-9 push-1 columns">
+                                                <input type="text" id="right-label" class="radius" placeholder="Your Name Here">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
+                                            </div>
+                                            <div class="small-9 push-1 columns">
+                                                <input type="text" id="right-label" class="radius" placeholder="Your Blog name Here">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
+                                            </div>
+                                            <div class="small-9 push-1 columns">
+                                                <input type="date" id="datepicker" placeholder="Pick a Date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="push-1 small-3">
+                                        <a href="#" class="button small radius">Save</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id='privacySetting'>
+                            <h3 class="title">Privacy</h3>
+                            <p class="size-12">This setting let people see or not your detail</p>
+                            <hr/>
+                            <form>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Email</label>
+                                            </div>
+                                            <p class="left size-14 push-1">example@example.com</p>
+                                            <div class="switch round tiny right">
+                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox">
+                                                <label for="emailSwitchPrivacy"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
+                                            </div>
+                                            <p class="left size-14 push-1">Sukoreno Mukti</p>
+                                            <div class="switch round tiny right">
+                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox">
+                                                <label for="nameSwitchPrivacy"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Username</label>
+                                            </div>
+                                            <p class="left size-14 push-1">smw94flynn</p>
+                                            <div class="switch round tiny right">
+                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox">
+                                                <label for="usrnameSwitchPrivacy"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
+                                            </div>
+                                            <p class="left size-14 push-1">26 February 1994</p>
+                                            <div class="switch round tiny right">
+                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox">
+                                                <label for="bdSwitchPrivacy"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="push-1 small-3">
+                                        <a href="#" class="button small radius">Save</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id='notifSetting'>
+                            <h3 class="title">Notification</h3>
+                            <p class="size-12">This setting set your notification on or off</p>
+                            <hr/>
+                            <form>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <p class="left size-14 push-1">Likes from followers</p>
+                                            <div class="switch round tiny right">
+                                                <input id="likesNotif" name="likesNotif" type="checkbox">
+                                                <label for="likesNotif"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <p class="left size-14 push-1">Comments of your posts</p>
+                                            <div class="switch round tiny right">
+                                                <input id="commentsNotif" name="commentsNotif" type="checkbox">
+                                                <label for="commentsNotif"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <p class="left size-14 push-1">New followers</p>
+                                            <div class="switch round tiny right">
+                                                <input id="followerNotif" name="followerNotif" type="checkbox">
+                                                <label for="followerNotif"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="push-1 small-3">
+                                        <a href="#" class="button small radius">Save</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </aside>
-            <!--<div class="row" >-->
-            <div class="large-9 panel radius">
-                <h3 class="title">Account</h3>
-                <hr/>
-                <form>
-                    <div class="row">
-                        <div class="small-8">
-                            <div class="row">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right" style="font-weight: bold;">Email</label>
-                                </div>
-                                <div class="small-9 push-1 columns">
-                                    <input type="text" id="right-label" class="radius" placeholder="youremail@domain">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="switch round tiny push-3 left">
-                            <input id="emailSwitch" name="emailSwitch" type="checkbox">
-                            <label for="emailSwitch"></label>
-                        </div>
-                        <p class=" push-3 left size-12">Let people see my email</p>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="small-8">
-                            <div class="row">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right" style="font-weight: bold;">Password</label>
-                                </div>
-                                <div class="small-9 push-1 columns">
-                                    <input type="password" id="right-label" class="radius" placeholder="********">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="small-8">
-                            <div class="row">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
-                                </div>
-                                <div class="small-9 push-1 columns">
-                                    <input type="text" id="right-label" class="radius" placeholder="Your Name Here">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="small-8">
-                            <div class="row">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
-                                </div>
-                                <div class="small-9 push-1 columns">
-                                    <input type="text" id="right-label" class="radius" placeholder="Your Blog name Here">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="small-8">
-                            <div class="row">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
-                                </div>
-                                <div class="small-9 push-1 columns">
-                                     <input type="date" id="datepicker">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
             </div>
-            <!--</div>-->
+            <div class="large-3 columns">
+                <aside>
+                    <div class="large-2 columns right">
+                        <p>Settings</p>
+                        <hr/>
+                        <a href="#" id='generalSettingBtn'>
+                            <p class="left blogname">General Settings </p>
+                            <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <hr class="hr-child"/>
+                        <a href="#" id='privacySettingBtn'>
+                            <p class="left blogname">Privacy Settings </p>
+                            <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <hr class="hr-child"/>
+                        <a href="#" id='notifSettingBtn'>
+                            <p class="left blogname">Notification Settings </p>
+                            <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <hr class="hr-child"/>
+                    </div>
+                </aside>
+            </div>
         </div>
-        <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
+        <jsp:include flush="true" page="footer.jsp"></jsp:include>
+            <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
             <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
