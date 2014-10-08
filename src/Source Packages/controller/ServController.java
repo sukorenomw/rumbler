@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -89,6 +90,7 @@ public class ServController extends HttpServlet {
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         SessionFactory factory;
+        Integer usrCount = 0;
         switch (userPath) {
             case "/ServLogin":
                 System.out.println(userPath);
@@ -109,16 +111,20 @@ public class ServController extends HttpServlet {
                         if (username.equals(usr.getUsername()) && password.equals(usr.getPassword())) {
                             HttpSession session = request.getSession();
                             for (Posts obj : ModelStatic.useRumbler.getPostses()) {
-                                System.out.println("title = " + ((Posts)obj).getTitle());
+                                System.out.println("title = " + ((Posts) obj).getTitle());
                             }
                             session.setAttribute("user", usr.getName());
                             String encodedURL = response.encodeRedirectURL("index.jsp");
                             response.sendRedirect(encodedURL);
                         } else {
-                            String encodedURL = response.encodeRedirectURL("login.jsp?login=failed");
-                            response.sendRedirect(encodedURL);
+                            errorLogin(request, response, username);
                         }
+                        usrCount++;
                     }
+                    if (usrCount <= 0) {
+                        errorLogin(request, response, username);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -148,4 +154,11 @@ public class ServController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    protected void errorLogin(HttpServletRequest request, HttpServletResponse response, String username)
+            throws ServletException, IOException {
+        request.setAttribute("login", "failed");
+        request.setAttribute("userVal", username);
+        RequestDispatcher reqDispatcher = request.getRequestDispatcher("login.jsp");
+        reqDispatcher.forward(request, response);
+    }
 }

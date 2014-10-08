@@ -8,12 +8,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Sign Up Tes</title>
+        <title>Sign Up</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/css/foundation-icons.css" />
         <link rel="stylesheet" href="assets/css/foundation.css" />
         <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body class="sign-up-page">
