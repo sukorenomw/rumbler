@@ -115,7 +115,7 @@ public class ServController extends HttpServlet {
                             String encodedURL = response.encodeRedirectURL("index.jsp");
                             response.sendRedirect(encodedURL);
                         } else {
-                            String encodedURL = response.encodeRedirectURL("login.jsp");
+                            String encodedURL = response.encodeRedirectURL("login.jsp?login=failed");
                             response.sendRedirect(encodedURL);
                         }
                     }

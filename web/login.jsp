@@ -13,6 +13,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/css/foundation-icons.css" />
         <link rel="stylesheet" href="assets/css/foundation.css" />
+        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
         <!--<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/css/foundation.css" />-->
         <link rel="stylesheet" href="assets/css/custom.css" />
         <script src="assets/js/vendor/modernizr.js"></script>

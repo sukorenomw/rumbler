@@ -7,6 +7,7 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/rumbler?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+    <property name="hibernate.connection.password">m4yh3m94@</property>
     <mapping resource="model/Users.hbm.xml"/>
     <mapping resource="model/Followers.hbm.xml"/>
     <mapping resource="model/Settings.hbm.xml"/>

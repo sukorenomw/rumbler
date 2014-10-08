@@ -343,12 +343,15 @@ h1.titel{
 
 .mainbg aside div{
     /*min-width: 30%;*/
-    width: 13rem;
-    height: 20rem;
+    width: 14.7rem;
+/*    height: 20rem;
     right: 12rem;
-    position: absolute;
+    position: absolute;*/
     /*    background: white;
         border-radius: 10px;*/
+    /*margin-left: -14rem;*/
+    /*padding-left: 0;*/
+    margin-right: -1rem;
 }
 
 .mainbg aside div p:not(.blogname){
@@ -404,8 +407,9 @@ h1.titel{
 }
 
 .profpict{
-    margin-left: 25px;
+    margin-left: -1rem;
 }
+
 .profpict img{
     width: 80px;
     height: 80px;
