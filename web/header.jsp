@@ -11,7 +11,7 @@
         <div class="large-4 columns">
             <h1 class="size-48 titel">rumbler.</h1>
         </div>
-        <div class="large-4 five-up columns icon-bar push-1" role="navigation">
+        <div class="large-4 five-up columns icon-bar push-2" role="navigation">
             <ul class="inline-list">
                 <li>
                     <a href="index.jsp"class="white item"> 
@@ -20,13 +20,9 @@
                 </li>
                 <li>
                     <a class="white item"> 
-                        <i class="fi-mail size-36"></i> 
-                    </a>
-                </li>
-                <li>
-                    <a class="white item"> 
                         <i class="fi-info size-36"></i> 
                     </a>
+                    <span class="label alert radius notif_badge">100</span>
                 </li>
                 <li>
                     <a class="white item" href="blog.jsp"> 
