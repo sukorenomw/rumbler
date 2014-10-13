@@ -98,7 +98,7 @@
                                 <hr/>
                                 <div class="row">
                                     <div class="push-1 small-3">
-                                        <a href="#" class="button small radius">Save</a>
+                                        <input type="submit" class="button small radius" value="save" />
                                     </div>
                                 </div>
                             </form>
@@ -170,7 +170,7 @@
                                 <hr/>
                                 <div class="row">
                                     <div class="push-1 small-3">
-                                        <a href="#" class="button small radius">Save</a>
+                                        <input type="submit" class="button small radius" value="save" />
                                     </div>
                                 </div>
                             </form>
@@ -218,7 +218,7 @@
                                 <hr/>
                                 <div class="row">
                                     <div class="push-1 small-3">
-                                        <a href="#" class="button small radius">Save</a>
+                                        <input type="submit" class="button small radius" value="save" />
                                     </div>
                                 </div>
                             </form>

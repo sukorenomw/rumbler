@@ -13,6 +13,7 @@ $(document).trigger('resize');
 
 $(document).ready(function () {
 //    $('#generalSetting').hide();
+    $('.flyout').hide();
     $('#privacySetting').hide();
     $('#notifSetting').hide();
     $('.totop').hide();
@@ -24,23 +25,30 @@ $(document).ready(function () {
         }
     });
 
+    $(".notif, .notif_badge, .flyout").hover(function () {
+        $(".flyout").stop().fadeIn();
+        $(".notif_badge").hide();
+    }, function () {
+        $(".flyout").stop().fadeOut();
+    });
+
     $('#generalSettingBtn').click(function () {
         $('#privacySetting').hide();
         $('#notifSetting').hide();
         $('#generalSetting').show();
     });
-    
+
     $('#privacySettingBtn').click(function () {
         $('#generalSetting').hide();
         $('#notifSetting').hide();
         $('#privacySetting').show();
     });
-    
+
     $('#notifSettingBtn').click(function () {
         $('#generalSetting').hide();
         $('#privacySetting').hide();
         $('#notifSetting').show();
-    
+
     });
 
     $('.totop').click(function () {
