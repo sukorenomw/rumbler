@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 7, 2014 11:51:27 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 13, 2014 2:34:18 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Posts" table="posts" catalog="rumbler" optimistic-lock="version">
         <id name="postId" type="java.lang.Integer">
@@ -15,7 +15,7 @@
             <column name="title" length="32" not-null="true" />
         </property>
         <property name="image" type="string">
-            <column name="image" length="128" not-null="true" />
+            <column name="image" length="128" />
         </property>
         <property name="content" type="string">
             <column name="content" length="65535" not-null="true" />
@@ -25,6 +25,9 @@
         </property>
         <property name="tag" type="string">
             <column name="tag" length="65535" not-null="true" />
+        </property>
+        <property name="isVideo" type="int">
+            <column name="isVideo" not-null="true" />
         </property>
         <set name="commentses" table="comments" inverse="true" lazy="true" fetch="select">
             <key>

@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 7, 2014 11:51:27 AM by Hibernate Tools 4.3.1
+// Generated Oct 13, 2014 2:34:17 PM by Hibernate Tools 4.3.1
 
 
 
@@ -15,16 +15,22 @@ public class Settings  implements java.io.Serializable {
      private int realname;
      private int birthday;
      private int email;
+     private int newFollower;
+     private int newLikes;
+     private int newComment;
 
     public Settings() {
     }
 
-    public Settings(Users users, int username, int realname, int birthday, int email) {
+    public Settings(Users users, int username, int realname, int birthday, int email, int newFollower, int newLikes, int newComment) {
        this.users = users;
        this.username = username;
        this.realname = realname;
        this.birthday = birthday;
        this.email = email;
+       this.newFollower = newFollower;
+       this.newLikes = newLikes;
+       this.newComment = newComment;
     }
    
     public int getUserId() {
@@ -68,6 +74,27 @@ public class Settings  implements java.io.Serializable {
     
     public void setEmail(int email) {
         this.email = email;
+    }
+    public int getNewFollower() {
+        return this.newFollower;
+    }
+    
+    public void setNewFollower(int newFollower) {
+        this.newFollower = newFollower;
+    }
+    public int getNewLikes() {
+        return this.newLikes;
+    }
+    
+    public void setNewLikes(int newLikes) {
+        this.newLikes = newLikes;
+    }
+    public int getNewComment() {
+        return this.newComment;
+    }
+    
+    public void setNewComment(int newComment) {
+        this.newComment = newComment;
     }
 
 

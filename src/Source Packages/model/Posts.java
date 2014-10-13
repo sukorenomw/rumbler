@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 7, 2014 11:51:27 AM by Hibernate Tools 4.3.1
+// Generated Oct 13, 2014 2:34:17 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,6 +19,7 @@ public class Posts  implements java.io.Serializable {
      private String content;
      private Date createdAt;
      private String tag;
+     private int isVideo;
      private Set<Comments> commentses = new HashSet<Comments>(0);
      private Set<Notifications> notificationses = new HashSet<Notifications>(0);
      private Set<Likes> likeses = new HashSet<Likes>(0);
@@ -27,21 +28,22 @@ public class Posts  implements java.io.Serializable {
     }
 
 	
-    public Posts(Users users, String title, String image, String content, Date createdAt, String tag) {
+    public Posts(Users users, String title, String content, Date createdAt, String tag, int isVideo) {
         this.users = users;
         this.title = title;
-        this.image = image;
         this.content = content;
         this.createdAt = createdAt;
         this.tag = tag;
+        this.isVideo = isVideo;
     }
-    public Posts(Users users, String title, String image, String content, Date createdAt, String tag, Set<Comments> commentses, Set<Notifications> notificationses, Set<Likes> likeses) {
+    public Posts(Users users, String title, String image, String content, Date createdAt, String tag, int isVideo, Set<Comments> commentses, Set<Notifications> notificationses, Set<Likes> likeses) {
        this.users = users;
        this.title = title;
        this.image = image;
        this.content = content;
        this.createdAt = createdAt;
        this.tag = tag;
+       this.isVideo = isVideo;
        this.commentses = commentses;
        this.notificationses = notificationses;
        this.likeses = likeses;
@@ -95,6 +97,13 @@ public class Posts  implements java.io.Serializable {
     
     public void setTag(String tag) {
         this.tag = tag;
+    }
+    public int getIsVideo() {
+        return this.isVideo;
+    }
+    
+    public void setIsVideo(int isVideo) {
+        this.isVideo = isVideo;
     }
     public Set<Comments> getCommentses() {
         return this.commentses;
