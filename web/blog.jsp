@@ -47,11 +47,10 @@
                                         </div>
                                         <!--</form>-->
                                     </li>
-                                    <li><a href="#"><i class="fi-home size-24"></i></a></li>
-                                    <li><a href="#"><i class="fi-mail size-24"></i></a></li>
+                                    <li><a href="index.jsp"><i class="fi-home size-24"></i></a></li>
                                     <li><a href="#"><i class="fi-torsos-male-female size-24"></i></a></li>
-                                    <li><a href="#"><i class="fi-widget size-24"></i></a></li>
-                                    <li><a href="#"><i class="fi-power size-24"></i></a></li>
+                                    <li><a href="setting.jsp"><i class="fi-widget size-24"></i></a></li>
+                                    <li><a href="ServLogOut"><i class="fi-power size-24"></i></a></li>
                                 </ul>
                             </section>
                         </nav>

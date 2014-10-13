@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="assets/css/foundation-icons.css" />
         <link rel="stylesheet" href="assets/css/foundation.css" />
         <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body class="sign-up-page">

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.9deb0.1
+-- version 4.2.9.1deb0.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 28, 2014 at 02:17 PM
+-- Generation Time: Oct 13, 2014 at 02:21 PM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `rumbler`
 --
-CREATE DATABASE IF NOT EXISTS `rumbler` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `rumbler` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `rumbler`;
 
 -- --------------------------------------------------------
@@ -34,7 +34,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `user_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`comment_id`, `post_id`, `user_id`, `content`, `created_at`) VALUES
+(1, 1, 2, 'Bajingan Lu!', '2014-10-08 00:00:00'),
+(2, 1, 1, 'jgn kasar donk', '2014-10-08 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -46,7 +54,14 @@ CREATE TABLE IF NOT EXISTS `followers` (
 `id` int(30) NOT NULL,
   `user_id` int(30) NOT NULL,
   `follower_id` int(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `followers`
+--
+
+INSERT INTO `followers` (`id`, `user_id`, `follower_id`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -70,7 +85,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 `notification_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
-  `from_user_id` int(11) NOT NULL
+  `from_user_id` int(11) NOT NULL,
+  `notification_type` int(11) NOT NULL,
+  `seen_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -83,10 +100,20 @@ CREATE TABLE IF NOT EXISTS `posts` (
 `post_id` int(10) NOT NULL,
   `user_id` int(10) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `image` varchar(128) NOT NULL,
+  `image` varchar(128) DEFAULT 'no image',
   `content` text NOT NULL,
-  `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created_at` datetime NOT NULL,
+  `tag` text NOT NULL,
+  `isVideo` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`post_id`, `user_id`, `title`, `image`, `content`, `created_at`, `tag`, `isVideo`) VALUES
+(1, 1, 'TesRumbler', 'assets/img/PostPic/images.jpe', 'cek cek cek', '2014-10-04 13:27:23', '#loser #bangsat', 0),
+(2, 1, 'tes2', 'no image', 'asbcd', '2014-10-07 00:00:00', '', 0);
 
 -- --------------------------------------------------------
 
@@ -99,7 +126,10 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `username` int(11) NOT NULL,
   `realname` int(11) NOT NULL,
   `birthday` int(11) NOT NULL,
-  `email` int(11) NOT NULL
+  `email` int(11) NOT NULL,
+  `newFollower` int(11) NOT NULL,
+  `newLikes` int(11) NOT NULL,
+  `newComment` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -118,8 +148,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `description` text NOT NULL,
   `blog_title` varchar(32) NOT NULL,
   `registered_at` datetime NOT NULL,
-  `last_login` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `last_login` datetime NOT NULL,
+  `picture_path` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `birthday`, `password`, `description`, `blog_title`, `registered_at`, `last_login`, `picture_path`) VALUES
+(1, 'raiven teguh', 'vayneblue', 'vayneblue@yahoo.com', '1994-09-20 00:00:00', 'vayneblue', '', '', '2014-10-04 02:04:03', '2014-10-04 10:08:09', 'assets/img/ProfPic/Ahri.jpg'),
+(2, 'sukoreno mukti', 'smwflynn', 'smwflynn@yahoo.com', '2000-10-09 00:00:00', 'adsfasdf', 'tes', 'tes', '2014-10-07 00:00:00', '2014-10-07 00:00:00', 'assets/img/PostPic/images.jpe');
 
 --
 -- Indexes for dumped tables
@@ -175,12 +214,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `comment_id` int(30) NOT NULL AUTO_INCREMENT;
+MODIFY `comment_id` int(30) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `followers`
 --
 ALTER TABLE `followers`
-MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(30) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `likes`
 --
@@ -195,12 +234,12 @@ MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `post_id` int(10) NOT NULL AUTO_INCREMENT;
+MODIFY `post_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT;
+MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --

@@ -6,14 +6,18 @@
 
 $(document).foundation();
 var menu = $('.left-off-canvas-menu');
-$(document).on('resize', function() {
+$(document).on('resize', function () {
     menu.height($(this).height());
 });
 $(document).trigger('resize');
 
-$(document).ready(function() {
+$(document).ready(function () {
+//    $('#generalSetting').hide();
+    $('.flyout').hide();
+    $('#privacySetting').hide();
+    $('#notifSetting').hide();
     $('.totop').hide();
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
             $('.totop').fadeIn();
         } else {
@@ -21,12 +25,38 @@ $(document).ready(function() {
         }
     });
 
-    $('.totop').click(function() {
+    $(".notif, .notif_badge, .flyout").hover(function () {
+        $(".flyout").stop().fadeIn();
+        $(".notif_badge").hide();
+    }, function () {
+        $(".flyout").stop().fadeOut();
+    });
+
+    $('#generalSettingBtn').click(function () {
+        $('#privacySetting').hide();
+        $('#notifSetting').hide();
+        $('#generalSetting').show();
+    });
+
+    $('#privacySettingBtn').click(function () {
+        $('#generalSetting').hide();
+        $('#notifSetting').hide();
+        $('#privacySetting').show();
+    });
+
+    $('#notifSettingBtn').click(function () {
+        $('#generalSetting').hide();
+        $('#privacySetting').hide();
+        $('#notifSetting').show();
+
+    });
+
+    $('.totop').click(function () {
         $('html, body').animate({scrollTop: 0}, 800);
         return false;
     });
 
-    $(".accordion").on("click", "dd", function() {
+    $(".accordion").on("click", "dd", function () {
         $("dd.active").find(".content").slideUp("slow");
         if (!$(this).hasClass("active")) {
             $(this).find(".content").slideToggle("slow");
@@ -36,10 +66,10 @@ $(document).ready(function() {
     // Cache the Window object
     $window = $(window);
 
-    $('section[data-type="background"]').each(function() {
+    $('section[data-type="background"]').each(function () {
         var $bgobj = $(this); // assigning the object
 
-        $(window).scroll(function() {
+        $(window).scroll(function () {
 
             // Scroll the background at var speed
             // the yPos is a negative value because we're scrolling it UP!								

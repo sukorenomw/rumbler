@@ -11,35 +11,40 @@
         <div class="large-4 columns">
             <h1 class="size-48 titel">rumbler.</h1>
         </div>
-        <div class="large-4 five-up columns icon-bar push-1" role="navigation">
+        <div class="large-4 five-up columns icon-bar push-2" role="navigation">
             <ul class="inline-list">
                 <li>
-                    <a class="white item"> 
+                    <a href="index.jsp"class="white item"> 
                         <i class="fi-home size-36"></i> 
                     </a>
                 </li>
                 <li>
-                    <a class="white item"> 
-                        <i class="fi-mail size-36"></i> 
-                    </a>
-                </li>
-                <li>
-                    <a class="white item"> 
+                    <a class="white item notif" href="notification.jsp"> 
                         <i class="fi-info size-36"></i> 
                     </a>
+                    <span class="label alert radius notif_badge">100</span>
+                    <div class="flyout">
+                        <h2>Notifications</h2>
+                        <ul class="no-bullet size-14">
+                            <li><a href="#"><i class="fi-heart"></i> Jeremy Gunawan likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Kevin likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-comment gray-light"></i> Egia commented on your photos.</a></li>
+                        </ul>
+                        <!--tes.-->
+                    </div>
                 </li>
                 <li>
-                    <a class="white item"> 
+                    <a class="white item" href="blog.jsp"> 
                         <i class="fi-torsos-male-female size-36"></i> 
                     </a>
                 </li>
                 <li>
-                    <a class="white item"> 
+                    <a href="setting.jsp" class="white item"> 
                         <i class="fi-widget size-36"></i> 
                     </a>
                 </li>
                 <li>
-                    <a class="white item"> 
+                    <a href="ServLogOut" class="white item"> 
                         <i class="fi-power size-36"></i> 
                     </a>
                 </li>
