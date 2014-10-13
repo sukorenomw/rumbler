@@ -90,8 +90,10 @@
                             <p class="size-14"><a href="#"><% out.print(ModelStatic.useRumbler.getName()); %></a></p>
                             <header><h3 class="title"><% out.print(arr.get(i).getContent()); %></h3></header>
                             <p><% out.print(arr.get(i).getTitle()); %></p>
+                            <% if(!arr.get(i).getImage().equals("no image")){ %>
                             <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<% out.print(arr.get(i).getImage()); %>" width="480" height="320" />
                             </span>
+                            <% } %>
                             <hr/>
                             <p><% out.print(arr.get(i).getTag());%></p>
                             <ul class="inline-list">
