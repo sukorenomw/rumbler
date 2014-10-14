@@ -35,6 +35,19 @@
                                     <div class="small-8">
                                         <div class="row">
                                             <div class="small-3 columns">
+                                                <label for="right-label" class="right" style="font-weight: bold;">Profil Picture</label>
+                                            </div>
+                                            <div class="small-5 pull-3 columns">
+                                                <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
@@ -251,6 +264,7 @@
             <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
             <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
         <script src="assets/js/vendor/jquery.js"></script>
+        <script src="assets/js/ajaxupload.js"></script>
         <script src="assets/js/foundation.min.js"></script>
         <script src="assets/js/datepicker.js"></script>
         <script>

@@ -57,9 +57,26 @@ $(document).ready(function () {
     });
 
     $(".accordion").on("click", "dd", function () {
-        $("dd.active").find(".content").slideUp("slow");
+        $("dd.active").find(".content").stop().slideUp("slow");
         if (!$(this).hasClass("active")) {
-            $(this).find(".content").slideToggle("slow");
+            $(this).find(".content").stop().slideToggle("slow");
+        }
+    });
+
+    var thumb = $('img#thumb');
+
+    new AjaxUpload('imageUpload', {
+        action: $('form#newHotnessForm').attr('action'),
+        name: 'image',
+        onSubmit: function (file, extension) {
+            $('div.preview').addClass('loading');
+        },
+        onComplete: function (file, response) {
+            thumb.load(function () {
+                $('div.preview').removeClass('loading');
+                thumb.unbind();
+            });
+            thumb.attr('src', response);
         }
     });
 
