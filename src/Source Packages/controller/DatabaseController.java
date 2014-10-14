@@ -53,4 +53,23 @@ public class DatabaseController {
     public void updateOperation(){
         
     }
+    public List selectPosts(Session session,int user) {
+        Transaction tx = null;
+        List<Posts> res = null;
+        try {
+            tx = session.beginTransaction();
+            String sql = "select * from posts where user_id = "+user+" OR user_id in (select follower_id from followers where user_id = "+user+")";
+            Query qry = session.createSQLQuery(sql).addEntity(Posts.class);
+            res = qry.list();
+            for (Posts entity : res) {
+                System.out.println("data = "+entity.getTitle());
+            }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
 }

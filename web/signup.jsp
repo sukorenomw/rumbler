@@ -23,7 +23,7 @@
         <h1 class="text-center titel size-56">rumbler.</h1>
         <div class="sign-up-desc"><p class="text-center" style="color:white;">Follow the blogs you've been hearing about.
                 Share the things you love.</p></div>
-        <form class="form-2" method="post" action="signup.html" data-abide>
+        <form class="form-2" method="post" action="ServSignUp" data-abide>
             <h1><span class="sign-up">sign up</span></h1>
             <div>
                 <input type="email" name="email" placeholder="Email" required pattern="email">

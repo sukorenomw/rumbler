@@ -91,6 +91,8 @@ public class ServController extends HttpServlet {
         String userPath = request.getServletPath();
         SessionFactory factory;
         Integer usrCount = 0;
+        DatabaseController dbc = new DatabaseController();
+        List results = null;
         switch (userPath) {
             case "/ServLogin":
                 System.out.println(userPath);
@@ -102,17 +104,13 @@ public class ServController extends HttpServlet {
                     System.err.println("Failed to create sessionFactory object." + ex);
                     throw new ExceptionInInitializerError(ex);
                 }
-                DatabaseController dbc = new DatabaseController();
-                List results = dbc.selectOperator(factory.openSession(), username);
+                results = dbc.selectOperator(factory.openSession(), username);
                 try {
                     for (Iterator itr = results.iterator(); itr.hasNext();) {
                         Users usr = (Users) itr.next();
                         ModelStatic.useRumbler = usr;
                         if (username.equals(usr.getUsername()) && password.equals(usr.getPassword())) {
                             HttpSession session = request.getSession();
-                            for (Posts obj : ModelStatic.useRumbler.getPostses()) {
-                                System.out.println("title = " + ((Posts) obj).getTitle());
-                            }
                             session.setAttribute("user", usr.getName());
                             String encodedURL = response.encodeRedirectURL("index.jsp");
                             response.sendRedirect(encodedURL);
@@ -124,13 +122,16 @@ public class ServController extends HttpServlet {
                     if (usrCount <= 0) {
                         errorLogin(request, response, username);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    System.out.println("POSTS\n");
+                    results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
                 }
                 break;
             case "/ServSignUp":
                 System.out.println(userPath);
+
                 break;
 
         }
