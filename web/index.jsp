@@ -7,7 +7,10 @@
 <%@page import="model.Posts"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="org.hibernate.SessionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="controller.DatabaseController" %>
 <%@ page import="controller.ModelStatic" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,16 +72,24 @@
                     </div>
                 </div>
                 <div class="jarak"></div>
+                <%!
+                    ArrayList<Posts> arr = new ArrayList<Posts>();
+                    DatabaseController dbc = new DatabaseController();
+                    SessionFactory factory;
+                %>
                 <%
                     int n = 5;
-                    if (ModelStatic.useRumbler.getPostses().size() < 5) {
-                        n = ModelStatic.useRumbler.getPostses().size();
+                    DatabaseController dbc = new DatabaseController();
+                    List<Posts> results = null;
+                    try {
+                        factory = util.HibernateUtil.getSessionFactory();
+                    } catch (Throwable ex) {
+                        System.err.println("Failed to create sessionFactory object." + ex);
+                        throw new ExceptionInInitializerError(ex);
                     }
-                    ArrayList<Posts> arr = new ArrayList<Posts>();
-
-                    for (Posts obj : ModelStatic.useRumbler.getPostses()) {
-                        System.out.println(obj.getTitle());
-                        arr.add(obj);
+                    results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                    for (Posts entity : results) {
+                        arr.add(entity);
                     }
                     for (int i = 0; i < n; i++) {
 
@@ -87,15 +98,15 @@
                     <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
                     <div class="large-10 columns bubble radius">
                         <section>
-                            <p class="size-14"><a href="#"><% out.print(ModelStatic.useRumbler.getName()); %></a></p>
-                            <header><h3 class="title"><% out.print(arr.get(i).getContent()); %></h3></header>
-                            <p><% out.print(arr.get(i).getTitle()); %></p>
-                            <% if(!arr.get(i).getImage().equals("no image")){ %>
+                            <p class="size-14"><a href="#"><%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId()) %></a></p>
+                            <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
+                            <p><%= arr.get(i).getTitle()%></p>
+                            <% if (!arr.get(i).getImage().equals("no image")) { %>
                             <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<% out.print(arr.get(i).getImage()); %>" width="480" height="320" />
                             </span>
-                            <% } %>
+                            <% }%>
                             <hr/>
-                            <p><% out.print(arr.get(i).getTag());%></p>
+                            <p><%= arr.get(i).getTag()%></p>
                             <ul class="inline-list">
                                 <li><a href=""><i class="step fi-heart size-36"></i></a></li>
                                 <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>

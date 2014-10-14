@@ -21,19 +21,19 @@ import org.hibernate.cfg.Configuration;
  */
 public class DatabaseController {
 
-    public List selectOperator(Session session,String user) {
+    public List selectOperator(Session session, String user) {
         Transaction tx = null;
         List res = null;
         try {
             tx = session.beginTransaction();
-            String hql = "FROM Users u WHERE u.username = '"+user+"'";
+            String hql = "FROM Users u WHERE u.username = '" + user + "'";
             Query qry = session.createQuery(hql);
             res = qry.list();
             for (Iterator itr = res.iterator(); itr.hasNext();) {
                 Users usr = (Users) itr.next();
-                System.out.println("user id = "+usr.getUserId() + "\nname : " + usr.getName()+" ppost = "+usr.getPostses().size());
-                for(Posts obj : usr.getPostses()){
-                    System.out.println("title = "+((Posts)obj).getTitle());
+                System.out.println("user id = " + usr.getUserId() + "\nname : " + usr.getName() + " ppost = " + usr.getPostses().size());
+                for (Posts obj : usr.getPostses()) {
+                    System.out.println("title = " + ((Posts) obj).getTitle());
                 }
             }
             tx.commit();
@@ -44,25 +44,52 @@ public class DatabaseController {
         }
         return res;
     }
-    public void inputOperation(){
-        
+
+    public void inputOperation() {
+
     }
-    public void deleteOperation(){
-        
+
+    public void deleteOperation() {
+
     }
-    public void updateOperation(){
-        
+
+    public void updateOperation() {
+
     }
-    public List selectPosts(Session session,int user) {
+
+    public String selectFriendsName(Session session, int user) {
+        Transaction tx = null;
+        List<String> res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            String sql = "Select name from users WHERE user_id = "+user;
+            Query qry = session.createSQLQuery(sql);
+            res = qry.list();
+            for (String entity : res) {
+                System.out.println("data = " + entity);
+                name = entity;
+            }
+            
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return name;
+    }
+
+    public List selectPosts(Session session, int user) {
         Transaction tx = null;
         List<Posts> res = null;
         try {
             tx = session.beginTransaction();
-            String sql = "select * from posts where user_id = "+user+" OR user_id in (select follower_id from followers where user_id = "+user+")";
+            String sql = "select * from posts where user_id = " + user + " OR user_id in (select follower_id from followers where user_id = " + user + ") ORDER BY created_at DESC";
             Query qry = session.createSQLQuery(sql).addEntity(Posts.class);
             res = qry.list();
             for (Posts entity : res) {
-                System.out.println("data = "+entity.getTitle());
+                System.out.println("data = " + entity.getTitle());
             }
             tx.commit();
         } catch (Exception e) {
