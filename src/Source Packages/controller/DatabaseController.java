@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.*;
+import model.Comments;
 import model.Posts;
 import model.Users;
 import org.hibernate.Query;
@@ -140,5 +141,24 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+   public List selectComments(Session session, int post) {
+        Transaction tx = null;
+        List<Comments> res = null;
+        try {
+            tx = session.beginTransaction();
+            String sql = "select * from comments where post_id = " + post+" ORDER BY created_at DESC";
+            Query qry = session.createSQLQuery(sql).addEntity(Comments.class);
+            res = qry.list();
+            for (Comments entity : res) {
+                System.out.println("data = " + entity.getContent());
+            }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
     }
 }
