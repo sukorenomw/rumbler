@@ -7,8 +7,11 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -96,6 +99,9 @@ public class ServController extends HttpServlet {
         String username = "";
         String password = "";
         String email = "";
+        String date = "";
+        String blog = "";
+        String name = "";
         switch (userPath) {
             case "/infiniteScroll":
                 response.setContentType("text/html;charset=UTF-8");
@@ -198,6 +204,27 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
                 dbc.inputOperation(factory.openSession(), username, password, email, "signup");
+                break;
+            case "/settingGeneral":
+                System.out.println(userPath);
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                 {
+                    try {
+                        password = request.getParameter("password") == null ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
+                    } catch (NoSuchAlgorithmException ex) {
+                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                email = request.getParameter("email");
+                date = request.getParameter("date");
+                blog = request.getParameter("blog");
+                name = request.getParameter("name");
+                dbc.updateOperation(factory.openSession(), password, email, date, blog, name,"settingG",ModelStatic.useRumbler.getUserId());
                 break;
 
         }

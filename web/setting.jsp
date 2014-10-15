@@ -56,7 +56,7 @@
                         <div id='generalSetting'>
                             <h3 class="title">Account</h3>
                             <hr/>
-                            <form action="settingGeneral">
+                            <form action="settingGeneral"  method="post"  data-abide>
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">
@@ -77,7 +77,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="Email" value="<%= ModelStatic.useRumbler.getEmail() %>">
+                                                <input type="text" id="right-label" class="radius" name="email" placeholder="Email" value="<%= ModelStatic.useRumbler.getEmail() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Password</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="password" id="right-label" class="radius" placeholder="********">
+                                                <input type="password" id="right-label" class="radius" name="password" placeholder="********">
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
+                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="date" id="datepicker" placeholder="Pick a Date">
+                                                <input type="date" id="datepicker" name="date" placeholder="Pick a Date">
                                             </div>
                                         </div>
                                     </div>
