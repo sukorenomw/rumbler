@@ -75,6 +75,25 @@
                                     <label>Video</label>
                                 </li>
                             </ul>
+                            <section id="post-quote" style="display:none">
+                                <form data-abide name="text-only-post" action="" method="POST">
+                                    <div class="row">
+                                        <div>
+                                            <textarea placeholder="Post here .." rows="10" style="resize:none" required></textarea>
+                                        </div>
+                                        <input name="post-tag" type="text" placeholder="hashtag..">
+                                    </div>
+                                    <div class="jarak"></div>
+                                    <div class="row">
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div class="cancelBtn small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
                             <section id="post-picture" style="display:none">
                                 <form method="post" action="" enctype="multipart/form-data">
                                     <div id="upload">
@@ -86,6 +105,7 @@
 
                                         <ul>
                                         </ul>
+                                        <input name="post-tag" type="text" placeholder="hashtag..">
                                     </div>
 
                                     <div class="jarak"></div>
@@ -207,6 +227,13 @@
                     %>
                 </div>
                 <div class="jarak"></div>
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
             </div>
             <div class="large-3 columns">
                 <aside>
@@ -233,10 +260,10 @@
                 </aside>
             </div>
         </div>
+
         <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
 
         <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
-        <jsp:include flush="true" page="footer.jsp" />
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
         <script src="assets/js/transit.min.js"></script>
