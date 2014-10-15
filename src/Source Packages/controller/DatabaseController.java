@@ -45,8 +45,30 @@ public class DatabaseController {
         return res;
     }
 
-    public void inputOperation() {
+    public void inputOperation(Session session, String user, String password, String email, String kond) {
+        Transaction tx = null;
+        List res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            switch (kond) {
+                case "signup":
+                    sql = "INSERT INTO users(username,email,password) VALUES (:user,:email,:password)";
+                    qry = session.createSQLQuery(sql);
+                    qry.setParameter("user", user);
+                    qry.setParameter("email", email);
+                    qry.setParameter("password", password);
+                    qry.executeUpdate();
+                    break;
+            }
+            tx.commit();
+        } catch (Exception e) {
 
+        } finally {
+            session.close();
+        }
     }
 
     public void deleteOperation() {
@@ -63,14 +85,14 @@ public class DatabaseController {
         String name = "";
         try {
             tx = session.beginTransaction();
-            String sql = "Select name from users WHERE user_id = "+user;
+            String sql = "Select name from users WHERE user_id = " + user;
             Query qry = session.createSQLQuery(sql);
             res = qry.list();
             for (String entity : res) {
                 System.out.println("data = " + entity);
                 name = entity;
             }
-            
+
             tx.commit();
         } catch (Exception e) {
 

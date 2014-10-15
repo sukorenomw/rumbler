@@ -93,10 +93,13 @@ public class ServController extends HttpServlet {
         Integer usrCount = 0;
         DatabaseController dbc = new DatabaseController();
         List results = null;
+        String username = "";
+        String password = "";
+        String email = "";
         switch (userPath) {
             case "/infiniteScroll":
                 response.setContentType("text/html;charset=UTF-8");
-                
+
                 List<Posts> res = null;
                 try {
                     factory = util.HibernateUtil.getSessionFactory();
@@ -133,11 +136,11 @@ public class ServController extends HttpServlet {
                     out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
                     out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
                     out.print("</div>");
-                    
+
                     out.print("<div class=\"row\">");
                     out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Nama User\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
                     out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
-                    
+
                     out.print("</div>");
                     out.print("</div>");
                     out.print("</dd>");
@@ -146,13 +149,13 @@ public class ServController extends HttpServlet {
                     out.print("</div>");
                     out.print("<div class=\"jarak\"></div>");
                 }
-                
+
                 break;
-            
+
             case "/ServLogin":
                 System.out.println(userPath);
-                String username = request.getParameter("login");
-                String password = request.getParameter("password");
+                username = request.getParameter("login");
+                password = request.getParameter("password");
                 try {
                     factory = util.HibernateUtil.getSessionFactory();
                 } catch (Throwable ex) {
@@ -179,16 +182,24 @@ public class ServController extends HttpServlet {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    System.out.println("POSTS\n");
-                    results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
                 }
                 break;
             case "/ServSignUp":
                 System.out.println(userPath);
-                
+                username = request.getParameter("username");
+                password = request.getParameter("password");
+                email = request.getParameter("email");
+                String encodedURL = response.encodeRedirectURL("login.jsp");
+                response.sendRedirect(encodedURL);
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                dbc.inputOperation(factory.openSession(), username, password, email, "signup");
                 break;
-            
+
         }
         /* // use RequestDispatcher to forward request internally
          String url = "/WEB-INF/view" + userPath + ".jsp";
