@@ -152,8 +152,10 @@
                                     <section>
                                         <header><h1 class="title"><%= arr.get(i).getTitle()%></h1></header>
                                         <p><%= arr.get(i).getContent()%></p>
+                                         <% if (!arr.get(i).getImage().equals("no image")) { %>
                                         <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
                                         </span>
+                                        <% } %>
                                         <hr/>
                                         <p><%= arr.get(i).getTag()%></p>
                                         <ul class="inline-list">
