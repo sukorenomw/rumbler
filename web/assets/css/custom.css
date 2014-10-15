@@ -876,7 +876,10 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     border-bottom: 1px solid #dcdbda;
 }
 
-#post-text form div input[type="text"],#post-text form div textarea{
+#post-text form div input[type="text"],
+#post-text form div textarea,
+#post-quote form div input[type="text"],
+#post-quote form div textarea{
     margin-bottom: 0px;
 }
 

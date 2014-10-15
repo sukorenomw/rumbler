@@ -148,21 +148,14 @@ $(document).ready(function () {
             $(this).find(".content").stop().slideToggle("slow");
         }
     });
-//    var thumb = $('img#thumb');
-//    new AjaxUpload('imageUpload', {
-//        action: $('form#newHotnessForm').attr('action'),
-//        name: 'image',
-//        onSubmit: function (file, extension) {
-//            $('div.preview').addClass('loading');
-//        },
-//        onComplete: function (file, response) {
-//            thumb.load(function () {
-//                $('div.preview').removeClass('loading');
-//                thumb.unbind();
-//            });
-//            thumb.attr('src', response);
-//        }
-//    });
+
+    $("#newQuote, #newLink").click(function () {
+        $("#usr_post_menu").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '+=300px'}, 500, function () {
+                $("#post-quote").stop().fadeIn();
+            });
+        });
+    });
 
     $("#newText").click(function () {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
@@ -179,17 +172,18 @@ $(document).ready(function () {
             });
         });
     });
-    
+
     $(".cancelBtn").click(function () {
+        $("#post-quote").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '130px'}, 500, function () {
+                $("#usr_post_menu").stop().fadeIn();
+            });
+        });
         $("#post-picture").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '130px'}, 500, function () {
                 $("#usr_post_menu").stop().fadeIn();
             });
         });
-
-    });
-
-    $(".cancelBtn").click(function () {
         $("#post-text").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '130px'}, 500, function () {
                 $("#usr_post_menu").stop().fadeIn();

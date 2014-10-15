@@ -61,38 +61,38 @@
                                 </li>
                                 <li><span class="size-72">|</span></li>
                                 <li>
-                                    <a href="#"><i class="fi-quote size-72 orange"></i></a>
+                                    <a href="#" id="newVideo"><i class="fi-video size-72 gray-light"></i></a>
+                                    <label>Video</label>
+                                </li>
+                                <li><span class="size-72">|</span></li>
+                                <li>
+                                    <a href="#" id='newQuote'><i class="fi-quote size-72 orange"></i></a>
                                     <label>Quote</label>
                                 </li>
                                 <li><span class="size-72">|</span></li>
                                 <li>
-                                    <a href="#"><i class="fi-link size-72 army-green"></i></a>
+                                    <a href="#" id='newLink'><i class="fi-link size-72 army-green"></i></a>
                                     <label>Link</label>
                                 </li>
-                                <li><span class="size-72">|</span></li>
-                                <li>
-                                    <a href="#"><i class="fi-video size-72 gray-light"></i></a>
-                                    <label>Video</label>
-                                </li>
+
                             </ul>
+                            <section id="post-link" style="display:none">
+                                <div id="upload">
+                                    <div id="drop">
+                                        Cooming Soon<br/>
+                                        <a class="cancelBtn">Cancel</a>
+
+                                    </div>
+                                </div>
+                            </section>
                             <section id="post-quote" style="display:none">
-                                <form data-abide name="text-only-post" action="" method="POST">
-                                    <div class="row">
-                                        <div>
-                                            <textarea placeholder="Post here .." rows="10" style="resize:none" required></textarea>
-                                        </div>
-                                        <input name="post-tag" type="text" placeholder="hashtag..">
+                                <div id="upload">
+                                    <div id="drop">
+                                        Cooming Soon<br/>
+                                        <a class="cancelBtn">Cancel</a>
+
                                     </div>
-                                    <div class="jarak"></div>
-                                    <div class="row">
-                                        <div class="small-3 left small">
-                                            <input type="submit" class="button small radius" value="post" />
-                                        </div>
-                                        <div class="cancelBtn small-3 right columns small">
-                                            <a href="#" class="button radius small alert">Cancel</a>
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
                             </section>
                             <section id="post-picture" style="display:none">
                                 <form method="post" action="" enctype="multipart/form-data">
@@ -105,9 +105,8 @@
 
                                         <ul>
                                         </ul>
-                                        <input name="post-tag" type="text" placeholder="hashtag..">
                                     </div>
-
+                                    <input name="post-tag" class='radius' type="text" placeholder="hashtag..">    
                                     <div class="jarak"></div>
                                     <div class="row">
                                         <div class="small-3 left small">
