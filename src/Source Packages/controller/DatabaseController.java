@@ -5,16 +5,17 @@
  */
 package controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import model.Comments;
+import model.Notifications;
 import model.Posts;
 import model.Users;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 /**
  *
@@ -60,7 +61,7 @@ public class DatabaseController {
                     qry = session.createSQLQuery(sql);
                     qry.setParameter("user", user);
                     qry.setParameter("email", email);
-                    qry.setParameter("password", password);
+                    qry.setParameter("password", MD5(password));
                     qry.executeUpdate();
                     break;
             }
@@ -122,6 +123,7 @@ public class DatabaseController {
         }
         return res;
     }
+
     public void updateModelStatic(String username) {
         SessionFactory factory;
         Integer usrCount = 0;
@@ -142,17 +144,18 @@ public class DatabaseController {
             e.printStackTrace();
         }
     }
-   public List selectComments(Session session, int post) {
+
+    public List selectComments(Session session, int post) {
         Transaction tx = null;
         List<Comments> res = null;
         try {
             tx = session.beginTransaction();
-            String sql = "select * from comments where post_id = " + post+" ORDER BY created_at DESC";
+            String sql = "select * from comments where post_id = " + post + " ORDER BY created_at DESC";
             Query qry = session.createSQLQuery(sql).addEntity(Comments.class);
             res = qry.list();
-            for (Comments entity : res) {
-                System.out.println("data = " + entity.getContent());
-            }
+//            for (Comments entity : res) {
+//                System.out.println("data = " + entity.getContent());
+//            }
             tx.commit();
         } catch (Exception e) {
 
@@ -160,5 +163,41 @@ public class DatabaseController {
             session.close();
         }
         return res;
+    }
+
+    public List selecNotifs(Session session, int user) {
+        Transaction tx = null;
+        List<Notifications> res = null;
+        try {
+            tx = session.beginTransaction();
+            String sql = "select * from notifications where user_id = " + user;
+            //+" OR user_id in (select follower_id from followers where user_id = " + user + ") ORDER BY created_at DESC"
+            Query qry = session.createSQLQuery(sql).addEntity(Notifications.class);
+            res = qry.list();
+//            for (Notifications entity : res) {
+//                System.out.println("data = " + entity.getContent());
+//            }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
+
+    public String MD5(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+
+        byte byteData[] = md.digest();
+
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
     }
 }

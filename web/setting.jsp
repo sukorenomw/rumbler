@@ -4,6 +4,11 @@
     Author     : smw
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="model.Users"%>
+<%@page import="controller.ModelStatic"%>
+<%@page import="controller.DatabaseController"%>
+<%@page import="org.hibernate.SessionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +27,28 @@
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body class="timeline-page">
+        <%
+            if (session.getAttribute("user") == null) {
+                String site = new String("login.jsp");
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", site);
+            }
+        %>
         <jsp:include flush="true" page="header.jsp" />
+        <%!
+            DatabaseController dbc = new DatabaseController();
+            SessionFactory factory;
+        %>
+        <%
+            DatabaseController dbc = new DatabaseController();
+            try {
+                factory = util.HibernateUtil.getSessionFactory();
+            } catch (Throwable ex) {
+                System.err.println("Failed to create sessionFactory object." + ex);
+                throw new ExceptionInInitializerError(ex);
+            }
+            dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
+        %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
                 <div class="row" >
@@ -30,7 +56,7 @@
                         <div id='generalSetting'>
                             <h3 class="title">Account</h3>
                             <hr/>
-                            <form>
+                            <form action="settingGeneral">
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">
@@ -51,7 +77,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="youremail@domain">
+                                                <input type="text" id="right-label" class="radius" placeholder="Email" value="<%= ModelStatic.useRumbler.getEmail() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +103,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="Your Name Here">
+                                                <input type="text" id="right-label" class="radius" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +116,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" placeholder="Your Blog name Here">
+                                                <input type="text" id="right-label" class="radius" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
                                             </div>
                                         </div>
                                     </div>
