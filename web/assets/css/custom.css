@@ -854,6 +854,12 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     left: 55px;
 }
 
+.flyout .notifContent{
+    height: 200px;
+    overflow-y: scroll;
+
+}
+
 .flyout:after{
     content: '';
     position: absolute;

@@ -56,7 +56,7 @@
                         <div id='generalSetting'>
                             <h3 class="title">Account</h3>
                             <hr/>
-                            <form action="settingGeneral"  method="post"  data-abide>
+                            <form action="settingGeneral" method="post">
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">

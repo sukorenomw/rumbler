@@ -19,13 +19,22 @@
                     </a>
                 </li>
                 <li>
-                    <a class="white item notif" href="notification.jsp"> 
+                    <a class="white item notif" href="#"> 
                         <i class="fi-info size-36"></i> 
                     </a>
                     <span class="label alert radius notif_badge">100</span>
                     <div class="flyout">
                         <h2>Notifications</h2>
-                        <ul class="no-bullet size-14">
+                        <ul class="no-bullet size-14 notifContent">
+                            <li><a href="#"><i class="fi-heart"></i> Jeremy Gunawan likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Kevin likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-comment gray-light"></i> Egia commented on your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Jeremy Gunawan likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Kevin likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-comment gray-light"></i> Egia commented on your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Jeremy Gunawan likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-heart"></i> Kevin likes your photos.</a></li>
+                            <li><a href="#"><i class="fi-comment gray-light"></i> Egia commented on your photos.</a></li>
                             <li><a href="#"><i class="fi-heart"></i> Jeremy Gunawan likes your photos.</a></li>
                             <li><a href="#"><i class="fi-heart"></i> Kevin likes your photos.</a></li>
                             <li><a href="#"><i class="fi-comment gray-light"></i> Egia commented on your photos.</a></li>

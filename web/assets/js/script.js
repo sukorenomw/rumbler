@@ -117,11 +117,22 @@ $(document).ready(function () {
             $('.totop').fadeOut();
         }
     });
-    $(".notif, .notif_badge, .flyout").hover(function () {
-        $(".flyout").stop().fadeIn();
-        $(".notif_badge").hide();
-    }, function () {
-        $(".flyout").stop().fadeOut();
+//    $(".notif, .notif_badge, .flyout").hover(function () {
+//        $(".flyout").stop().fadeIn();
+//        $(".notif_badge").hide();
+//    }, function () {
+//        $(".flyout").stop().fadeOut();
+//    });
+    $notifShow = false;
+    $('.notif, .notif_badge').click(function () {
+        if ($notifShow == false) {
+            $(".flyout").stop().fadeIn();
+            $(".notif_badge").hide();
+            $notifShow = true;
+        } else {
+            $(".flyout").stop().fadeOut();
+            $notifShow = false;
+        }
     });
     $('#generalSettingBtn').click(function () {
         $('#privacySetting').hide();
@@ -194,7 +205,7 @@ $(document).ready(function () {
 
     $contentLoadTriggered = false;
     $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        if ($(window).scrollTop() + $(window).height() == $(document).height() && document.location.pathname.match(/[^\/]+$/)[0] === 'index.jsp') {
             if ($contentLoadTriggered == false) {
                 $contentLoadTriggered = true;
                 $.post("infiniteScroll", function (data) {
