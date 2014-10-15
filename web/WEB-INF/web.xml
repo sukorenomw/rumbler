@@ -22,6 +22,7 @@
         <url-pattern>/ServLogOut</url-pattern>
         <url-pattern>/ServLogin</url-pattern>
         <url-pattern>/ServSignUp</url-pattern>
+        <url-pattern>/infiniteScroll</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -20,21 +20,31 @@
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body class="login-page">
+        <%
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Cache-Control", "no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0);
+            if (session.getAttribute("user") != null) {
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", "index.jsp");
+            }
+        %>
         <div class="jarak2"></div>
         <h1 class="text-center titel size-56">rumbler.</h1>
         <% String userVal = ""; %>
-        <% if(request.getAttribute("login") != null && request.getAttribute("login").equals("failed")){ %>
+        <% if (request.getAttribute("login") != null && request.getAttribute("login").equals("failed")) { %>
         <% userVal = (String) request.getAttribute("userVal"); %>
         <div data-alert class="row alert-box info radius large-3">
             Username or Password is wrong!
             <a href="#" class="close">&times;</a>
         </div>
-        <% } %>
+        <% }%>
         <form class="form-2" action="ServLogin" method="post">
             <h1><span class="log-in">Log in</span> or <span class="sign-up">sign up</span></h1>
             <p class="float">
                 <label for="login"><i class="fi-mail size-12"></i>Username</label>
-                <input type="text" name="login" placeholder="Username or Email" value="<%= userVal %>">
+                <input type="text" name="login" placeholder="Username or Email" value="<%= userVal%>">
             </p>
             <p class="float">
                 <label for="password"><i class="fi-lock size-12"></i>Password</label>

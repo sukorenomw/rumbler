@@ -19,6 +19,12 @@
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body class="sign-up-page">
+        <%
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Cache-Control", "no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0);
+        %>
         <div class="jarak3"></div>
         <h1 class="text-center titel size-56">rumbler.</h1>
         <div class="sign-up-desc"><p class="text-center" style="color:white;">Follow the blogs you've been hearing about.
