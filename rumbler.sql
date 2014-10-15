@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.2.9.1deb0.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 13, 2014 at 06:28 PM
--- Server version: 5.6.20
--- PHP Version: 5.5.15
+-- Generation Time: Oct 15, 2014 at 09:40 PM
+-- Server version: 5.5.38-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `rumbler`
 --
+CREATE DATABASE IF NOT EXISTS `rumbler` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `rumbler`;
 
 -- --------------------------------------------------------
 
@@ -26,13 +28,14 @@ SET time_zone = "+00:00";
 -- Table structure for table `comments`
 --
 
+DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
 `comment_id` int(30) NOT NULL,
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `created_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=131 ;
+  `content` text,
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comments`
@@ -40,130 +43,130 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 INSERT INTO `comments` (`comment_id`, `post_id`, `user_id`, `content`, `created_at`) VALUES
 (1, 1, 2, 'Bajingan Lu!', '2014-10-08 00:00:00'),
-(2, 1, 1, 'jgn kasar donk', '2014-10-08 00:00:00'),
-(3, 1, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(4, 1, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(5, 1, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(6, 2, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(7, 2, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(8, 2, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(9, 2, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(10, 2, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(11, 3, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(12, 3, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(13, 3, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(14, 3, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(15, 3, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(16, 4, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(17, 4, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(18, 4, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(19, 4, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(20, 4, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(21, 5, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(22, 5, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(23, 5, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(24, 5, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(25, 5, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(26, 6, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(27, 6, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(28, 6, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(29, 6, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(30, 6, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(31, 7, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(32, 7, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(33, 7, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(34, 7, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(35, 7, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(36, 8, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(37, 8, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(38, 8, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(39, 8, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(40, 8, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(41, 9, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(42, 9, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(43, 9, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(44, 9, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(45, 9, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(46, 10, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(47, 10, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(48, 10, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(49, 10, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(50, 10, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(51, 11, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(52, 11, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(53, 11, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(54, 11, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(55, 11, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(56, 12, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(57, 12, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(58, 12, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(59, 12, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(60, 12, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(61, 13, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(62, 13, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(63, 13, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(64, 13, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(65, 13, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(71, 14, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(72, 14, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(73, 14, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(74, 14, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(75, 14, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(76, 15, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(77, 15, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(78, 15, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(79, 15, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(80, 15, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(81, 16, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(82, 16, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(83, 16, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(84, 16, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(85, 16, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(86, 17, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(87, 17, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(88, 17, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(89, 17, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(90, 17, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(91, 18, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(92, 18, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(93, 18, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(94, 18, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(95, 18, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(96, 19, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(97, 19, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(98, 19, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(99, 19, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(100, 19, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(101, 20, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(102, 20, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(103, 20, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(104, 20, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(105, 20, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(106, 21, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(107, 21, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(108, 21, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(109, 21, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(110, 21, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(111, 22, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(112, 22, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(113, 22, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(114, 22, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(115, 22, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(116, 23, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(117, 23, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(118, 23, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(119, 23, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(120, 23, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(121, 24, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(122, 24, 1, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(123, 24, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(124, 24, 5, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(125, 24, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(126, 25, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(127, 25, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(128, 25, 3, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(129, 25, 2, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00'),
-(130, 25, 4, '"In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-13 00:00:00');
+(2, 1, 1, 'jgn kasar donk', '2014-10-09 00:00:00'),
+(3, 1, 2, 'panggil Alvaro', '2014-10-13 02:07:22'),
+(4, 1, 3, 'panggil Alvaro jg', '2014-10-13 06:14:20'),
+(5, 1, 1, 'panggil aku raiven', '2014-10-13 10:11:11'),
+(6, 2, 3, 'jessica', '2014-10-13 12:13:11'),
+(7, 2, 1, 'love you lah jessica', '2014-10-13 17:19:32'),
+(8, 2, 5, 'aisiteru', '2014-10-13 20:13:13'),
+(9, 2, 2, 'udah woi inget tugas', '2014-10-13 20:15:00'),
+(10, 2, 4, 'baru 10', '2014-10-14 00:00:00'),
+(11, 3, 1, 'panggil Alvaro1', '2014-10-14 06:49:00'),
+(12, 3, 3, 'panggil Alvaro2', '2014-10-14 11:32:00'),
+(13, 3, 3, 'panggil Alvaro3', '2014-10-14 13:00:25'),
+(14, 3, 4, 'panggil Alvaro4', '2014-10-14 14:00:34'),
+(15, 3, 1, 'otot', '2014-10-14 17:00:00'),
+(16, 4, 1, 'otot lg', '2014-10-14 20:39:00'),
+(17, 4, 3, 'KFC', '2014-10-14 21:00:00'),
+(18, 4, 2, 'KFC2', '2014-10-14 21:11:00'),
+(19, 4, 4, 'KFC4', '2014-10-15 00:09:16'),
+(20, 4, 1, 'KFC mulu', '2014-10-15 03:11:17'),
+(21, 5, 3, 'minta no jessica', '2014-10-15 06:08:00'),
+(22, 5, 1, 'ada yg cantik ga', '2014-10-15 08:39:00'),
+(23, 5, 3, 'ga tau lier ngulang muu', '2014-10-15 10:31:00'),
+(24, 5, 2, 'ciyus', '2014-10-15 11:00:00'),
+(25, 5, 3, 'miapah lah', '2014-10-15 13:09:00'),
+(26, 6, 4, 'mi kamu', '2014-10-15 15:00:21'),
+(27, 6, 1, 'najong woi', '2014-10-15 21:00:00'),
+(28, 6, 2, 'inget chen', '2014-10-16 00:51:51'),
+(29, 6, 3, 'love lah', '2014-10-16 03:00:00'),
+(30, 6, 5, 'apa woi', '2014-10-16 04:00:00'),
+(31, 7, 1, 'ganti room', '2014-10-16 06:00:00'),
+(32, 7, 3, 'gelo ih', '2014-10-16 08:00:00'),
+(33, 7, 4, 'udah stress', '2014-10-16 09:00:00'),
+(34, 7, 3, 'dimengerti', '2014-10-16 12:16:00'),
+(35, 7, 2, 'wkwkkwkwk', '2014-10-16 14:00:21'),
+(36, 8, 4, 'hit your but', '2014-10-16 15:46:00'),
+(37, 8, 2, 'fuck off', '2014-10-16 17:28:00'),
+(38, 8, 3, 'okai', '2014-10-16 20:00:00'),
+(39, 8, 1, 'sakit nampak nya', '2014-10-16 20:00:37'),
+(40, 8, 2, 'who', '2014-10-17 00:00:00'),
+(41, 9, 1, 'adelide', '2014-10-17 00:33:00'),
+(42, 9, 2, 'kalem minum', '2014-10-17 01:00:00'),
+(43, 9, 3, 'baru 43', '2014-10-17 03:00:36'),
+(44, 9, 1, '44 - "In your life you only get to do so many things and right now weve chosen to do this, so lets make it great."', '2014-10-17 05:47:38'),
+(45, 9, 2, 'keras lah', '2014-10-17 08:27:10'),
+(46, 10, 1, 'ngulang itu hoby', '2014-10-17 10:00:00'),
+(47, 10, 3, 'sakit sia', '2014-10-17 10:31:00'),
+(48, 10, 2, 'aduh ini', '2014-10-17 11:00:00'),
+(49, 10, 1, 'gmn jumat', '2014-10-17 12:00:00'),
+(50, 10, 2, 'up to you', '2014-10-17 19:24:22'),
+(51, 11, 2, 'bust room lagi', '2014-10-18 01:37:17'),
+(52, 11, 1, 'woi buat room lain bust', '2014-10-18 06:17:30'),
+(53, 11, 3, 'ini bajingan bner', '2014-10-18 06:17:40'),
+(54, 11, 1, 'gobs', '2014-10-18 07:00:28'),
+(55, 11, 3, 'damn', '2014-10-18 08:33:00'),
+(56, 12, 1, 'assshole', '2014-10-18 08:43:00'),
+(57, 12, 3, 'kunaon', '2014-10-18 09:00:00'),
+(58, 12, 2, 'galau epen', '2014-10-18 12:00:00'),
+(59, 12, 5, 'ok lah mengerti', '2014-10-18 12:13:00'),
+(60, 12, 3, '60', '2014-10-18 12:19:00'),
+(61, 13, 1, '61', '2014-10-18 13:12:20'),
+(62, 13, 2, '62', '2014-10-18 13:30:00'),
+(63, 13, 4, '63', '2014-10-18 13:37:00'),
+(64, 13, 3, '64', '2014-10-18 14:26:00'),
+(65, 13, 1, '65', '2014-10-18 15:00:00'),
+(71, 14, 2, '71', '2014-10-18 15:36:00'),
+(72, 14, 1, 'bngung ini', '2014-10-18 19:19:00'),
+(73, 14, 2, 'udah ngulang DB 3x', '2014-10-18 21:00:00'),
+(74, 14, 4, 'keras sia', '2014-10-18 21:45:26'),
+(75, 14, 3, 'hiber lah', '2014-10-18 22:24:43'),
+(76, 15, 4, 'kade ngapung', '2014-10-18 23:29:48'),
+(77, 15, 2, 'apaan', '2014-10-19 00:23:00'),
+(78, 15, 3, 'itu lu ', '2014-10-19 02:12:10'),
+(79, 15, 4, 'gobs', '2014-10-19 02:16:36'),
+(80, 15, 2, 'wkakwkawkak', '2014-10-19 05:19:29'),
+(81, 16, 2, 'begini nasib', '2014-10-19 06:00:00'),
+(82, 16, 3, 'jadi bujang naas?', '2014-10-19 06:12:00'),
+(83, 16, 1, 'jis ga enak gt', '2014-10-19 06:16:00'),
+(84, 16, 4, 'WOI SUTEI', '2014-10-19 06:31:00'),
+(85, 16, 5, 'HBD GILANG', '2014-10-19 07:00:00'),
+(86, 17, 3, 'HBD PEN', '2014-10-19 07:12:00'),
+(87, 17, 3, 'Sweetseventeen again', '2014-10-19 10:00:19'),
+(88, 17, 2, 'asik', '2014-10-19 11:17:00'),
+(89, 17, 1, 'gobs udah lewat da', '2014-10-19 13:12:00'),
+(90, 17, 3, 'kan tiap taun pen', '2014-10-19 13:23:00'),
+(91, 18, 1, 'udah 91 jg', '2014-10-19 13:40:00'),
+(92, 18, 3, 'ini ada yg ilang', '2014-10-19 13:46:00'),
+(93, 18, 4, 'di 60an gtu', '2014-10-19 19:27:00'),
+(94, 18, 3, 'bner" ilang', '2014-10-19 20:19:00'),
+(95, 18, 2, 'udah 95', '2014-10-19 21:33:11'),
+(96, 19, 1, 'aduh gila bner ini 96', '2014-10-20 00:00:00'),
+(97, 19, 5, 'ok lah 97', '2014-10-20 00:23:00'),
+(98, 19, 3, 'masih 30lg', '2014-10-20 01:29:00'),
+(99, 19, 2, 'anjeng ini bner" ngulang ngetik 130x ', '2014-10-20 01:13:38'),
+(100, 19, 1, 'kan ga 130 jg ada yg ilang', '2014-10-20 02:29:14'),
+(101, 20, 2, 'coba cek baris tengah DB', '2014-10-20 02:33:24'),
+(102, 20, 1, 'ada yg ilang bner', '2014-10-20 03:20:36'),
+(103, 20, 3, 'terlalu euy', '2014-10-20 03:39:00'),
+(104, 20, 5, 'oke lah percaya aja', '2014-10-20 06:43:26'),
+(105, 20, 4, 'udah 105', '2014-10-20 11:23:37'),
+(106, 21, 2, 'baru 106', '2014-10-20 12:30:41'),
+(107, 21, 1, 'masih 107', '2014-10-20 14:00:52'),
+(108, 21, 3, 'ganti 108', '2014-10-20 14:45:00'),
+(109, 21, 5, 'lanjut', '2014-10-20 15:00:00'),
+(110, 21, 3, 'kanjut?', '2014-10-20 18:00:00'),
+(111, 22, 2, 'oke 111', '2014-10-20 18:33:00'),
+(112, 22, 3, 'double 1 and 2', '2014-10-20 19:37:00'),
+(113, 22, 1, 'udah woi ga sanggup kalo ini ga ke save', '2014-10-20 20:00:31'),
+(114, 22, 4, 'udah woi ga sanggup kalo ini ga ke save2', '2014-10-20 22:43:27'),
+(115, 22, 5, 'udah woi ga sanggup kalo ini ga ke save3', '2014-10-21 00:00:32'),
+(116, 23, 3, 'udah woi ga sanggup kalo ini ga ke save4', '2014-10-21 03:00:00'),
+(117, 23, 2, 'udah woi ga sanggup kalo ini ga ke save5', '2014-10-21 05:27:00'),
+(118, 23, 4, 'again udah woi ga sanggup kalo ini ga ke save', '2014-10-21 09:29:00'),
+(119, 23, 5, 'again 1', '2014-10-21 10:21:00'),
+(120, 23, 1, 'again 2 udah woi ga sanggup kalo ini ga ke save', '2014-10-21 11:24:00'),
+(121, 24, 3, 'again 3 udah woi ga sanggup kalo ini ga ke save', '2014-10-21 13:31:00'),
+(122, 24, 1, 'akhir nya finish', '2014-10-21 13:44:00'),
+(123, 24, 2, 'horee', '2014-10-21 16:22:26'),
+(124, 24, 5, 'room 5 galau ah', '2014-10-21 17:33:00'),
+(125, 24, 2, 'percaya udah woi ga sanggup kalo ini ga ke save', '2014-10-21 18:26:00'),
+(126, 25, 2, 'woi ada yg pnya nomor jessica?', '2014-10-21 18:44:00'),
+(127, 25, 4, 'yang 2014 lah', '2014-10-21 20:53:16'),
+(128, 25, 3, 'jis lucu beul', '2014-10-21 21:26:00'),
+(129, 25, 2, 'oooh jessica', '2014-10-21 22:26:00'),
+(130, 25, 4, 'bner ga sih nama nya', '2014-10-21 23:26:32');
 
 -- --------------------------------------------------------
 
@@ -171,11 +174,12 @@ INSERT INTO `comments` (`comment_id`, `post_id`, `user_id`, `content`, `created_
 -- Table structure for table `followers`
 --
 
+DROP TABLE IF EXISTS `followers`;
 CREATE TABLE IF NOT EXISTS `followers` (
 `id` int(30) NOT NULL,
   `user_id` int(30) NOT NULL,
   `follower_id` int(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `followers`
@@ -204,11 +208,12 @@ INSERT INTO `followers` (`id`, `user_id`, `follower_id`) VALUES
 -- Table structure for table `likes`
 --
 
+DROP TABLE IF EXISTS `likes`;
 CREATE TABLE IF NOT EXISTS `likes` (
 `like_id` int(30) NOT NULL,
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `likes`
@@ -272,14 +277,15 @@ INSERT INTO `likes` (`like_id`, `post_id`, `user_id`) VALUES
 -- Table structure for table `notifications`
 --
 
+DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
 `notification_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `from_user_id` int(11) NOT NULL,
   `notification_type` int(11) NOT NULL,
-  `seen_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `seen_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -287,16 +293,17 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 -- Table structure for table `posts`
 --
 
+DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
 `post_id` int(10) NOT NULL,
   `user_id` int(10) NOT NULL,
-  `title` varchar(32) NOT NULL,
+  `title` varchar(32) NOT NULL DEFAULT '',
   `image` varchar(128) DEFAULT 'no image',
-  `content` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `tag` text NOT NULL,
+  `content` text,
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `tag` text,
   `isVideo` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `posts`
@@ -305,29 +312,29 @@ CREATE TABLE IF NOT EXISTS `posts` (
 INSERT INTO `posts` (`post_id`, `user_id`, `title`, `image`, `content`, `created_at`, `tag`, `isVideo`) VALUES
 (1, 1, 'TesRumbler', 'assets/img/PostPic/images.jpe', 'cek cek cek', '2014-10-04 13:27:23', '#loser #bangsat', 0),
 (2, 1, 'tes2', 'no image', 'asbcd', '2014-10-07 00:00:00', '', 0),
-(3, 1, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(4, 1, 'pbol', 'no image', '\r\n"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(5, 1, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', 0),
-(6, 2, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(7, 2, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '', 0),
-(8, 2, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(9, 2, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(10, 2, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(11, 3, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(12, 3, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(13, 3, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(14, 3, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(15, 3, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(16, 4, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(17, 4, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '', 0),
-(18, 4, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(19, 4, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(20, 4, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(21, 5, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(22, 5, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(23, 5, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(24, 5, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0),
-(25, 5, 'pbol', 'no image', '"Im not dismissing the value of higher education; Im simply saying it comes at the expense of experience."\r\n--STEVE JOBS--', '2014-10-13 00:00:00', '#test #pbol', 0);
+(3, 1, '001 - pbol', 'no image', 'pliss jessica', '2014-10-08 00:00:00', '#test #pbol', 0),
+(4, 1, '002 - pbol', 'no image', 'love you jessica', '2014-10-09 00:00:00', '#test #pbol', 0),
+(5, 1, '003 - pbol', 'no image', 'would you marry me', '2014-10-09 08:00:00', '#test #pbol', 0),
+(6, 2, '004 - pbol', 'no image', 'room baru', '2014-10-09 11:00:00', '#test #pbol', 0),
+(7, 2, '005 - pbol', 'no image', 'panggil Alvaro', '2014-10-10 04:00:00', '', 0),
+(8, 2, '006 - pbol', 'no image', 'panggil Alvaro lai', '2014-10-10 08:00:00', '#test #pbol', 0),
+(9, 2, '007 - pbol', 'no image', 'panggil Alvaro 13', '2014-10-11 00:00:00', '#test #pbol', 0),
+(10, 2, '008 - pbol', 'no image', 'panggil Raiven', '2014-10-11 03:00:00', '#test #pbol', 0),
+(11, 3, '009 - pbol', 'no image', 'Summon hans', '2014-10-12 00:00:00', '#test #pbol', 0),
+(12, 3, '11 - pbol', 'no image', 'JESSICA', '2014-10-12 06:00:00', '#test #pbol', 0),
+(13, 3, '12 - pbol', 'no image', 'kapan lagi woi', '2014-10-13 00:00:00', '#test #pbol', 0),
+(14, 3, '13 - pbol', 'no image', 'sicca wwowoii', '2014-10-14 00:00:00', '#test #pbol', 0),
+(15, 3, '15 - pbol', 'no image', 'gelo', '2014-10-15 00:00:00', '#test #pbol', 0),
+(16, 4, '16 - pbol', 'no image', 'galau mode on', '2014-10-16 00:00:00', '#test #pbol', 0),
+(17, 4, '17 - pbol', 'no image', 'galau aja ah', '2014-10-16 07:00:00', '', 0),
+(18, 4, '18 - pbol', 'no image', 'aduh galau pisan', '2014-10-16 11:00:00', '#test #pbol', 0),
+(19, 4, '19 - pbol', 'no image', 'ngulang lagi deh', '2014-10-16 17:00:00', '#test #pbol', 0),
+(20, 4, '20 - pbol', 'no image', 'hobby dong', '2014-10-16 22:00:00', '#test #pbol', 0),
+(21, 5, '21 - pbol', 'no image', 'yeah hooby', '2014-10-17 00:00:00', '#test #pbol', 0),
+(22, 5, '22 - pbol', 'no image', 'im not noob', '2014-10-17 04:00:00', '#test #pbol', 0),
+(23, 5, '23 - pbol', 'no image', 'ciyus ah', '2014-10-17 08:00:00', '#test #pbol', 0),
+(24, 5, '24 - pbol', 'no image', 'love you lah', '2014-10-17 12:00:00', '#test #pbol', 0),
+(25, 5, '25 - pbol', 'no image', 'room baru lagi guys', '2014-10-18 00:00:00', '#test #pbol', 0);
 
 -- --------------------------------------------------------
 
@@ -335,6 +342,7 @@ INSERT INTO `posts` (`post_id`, `user_id`, `title`, `image`, `content`, `created
 -- Table structure for table `settings`
 --
 
+DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `user_id` int(11) NOT NULL,
   `username` int(11) NOT NULL DEFAULT '1',
@@ -359,30 +367,32 @@ INSERT INTO `settings` (`user_id`, `username`, `realname`, `birthday`, `email`, 
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
 `user_id` int(10) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `username` varchar(32) NOT NULL,
-  `email` varchar(32) NOT NULL,
-  `birthday` datetime NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `description` text NOT NULL,
-  `blog_title` varchar(32) NOT NULL,
-  `registered_at` datetime NOT NULL,
-  `last_login` datetime NOT NULL,
-  `picture_path` text NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `username` varchar(32) NOT NULL DEFAULT '',
+  `email` varchar(32) NOT NULL DEFAULT '',
+  `birthday` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `password` varchar(32) NOT NULL DEFAULT '',
+  `description` text,
+  `blog_title` varchar(32) NOT NULL DEFAULT '',
+  `registered_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `picture_path` varchar(225) DEFAULT 'assets/img/ProfPic/default.png'
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `birthday`, `password`, `description`, `blog_title`, `registered_at`, `last_login`, `picture_path`) VALUES
-(1, 'raiven teguh', 'vayneblue', 'vayneblue@yahoo.com', '1994-09-20 00:00:00', 'vayneblue', '', '', '2014-10-04 02:04:03', '2014-10-04 10:08:09', 'assets/img/ProfPic/Ahri.jpg'),
-(2, 'sukoreno mukti', 'smwflynn', 'smwflynn@yahoo.com', '2000-10-09 00:00:00', 'adsfasdf', 'tes', 'tes', '2014-10-07 00:00:00', '2014-10-07 00:00:00', 'assets/img/PostPic/images.jpe'),
-(3, 'gilang pratama', 'gilang77', 'gilang.pratama.gilang@gmail.com', '2014-10-07 00:00:00', 'hujikopolki', 'dummy data', '', '2014-10-01 00:00:00', '2014-10-13 01:00:00', ''),
-(4, 'Gian Sebastian', 'gian', 'gian@yahoo.com', '2014-10-01 00:00:00', 'otot', 'dummy data', '', '2014-10-02 00:00:00', '2014-10-07 00:00:00', ''),
-(5, 'Jeremy', 'jeremy', 'jeremy@yahoo.com', '2014-10-10 00:00:00', 'jeremy', 'dummy data', '', '2014-10-11 00:00:00', '2014-10-12 00:00:00', '');
+(1, 'raiven teguh', 'vayneblue', 'vayneblue@yahoo.com', '1994-09-20 00:00:00', 'vayneblue', '', '', '2014-10-04 02:04:03', '2015-01-03 10:08:09', 'assets/img/ProfPic/Ahri.jpg'),
+(2, 'sukoreno mukti', 'smwflynn', 'smwflynn@yahoo.com', '2000-10-09 00:00:00', 'adsfasdf', 'tes', 'tes', '2014-10-07 00:00:00', '2015-01-02 00:00:00', 'assets/img/PostPic/images.jpe'),
+(3, 'gilang pratama', 'gilang77', 'gilang.pratama.gilang@gmail.com', '2014-10-07 00:00:00', 'hujikopolki', 'dummy data', '', '2014-10-08 00:00:00', '2015-01-03 01:00:00', ''),
+(4, 'Gian Sebastian', 'gian', 'gian@yahoo.com', '2014-10-01 00:00:00', 'otot', 'dummy data', '', '2014-10-09 00:00:00', '2015-01-02 00:00:00', ''),
+(5, 'Jeremy', 'jeremy', 'jeremy@yahoo.com', '2014-10-10 00:00:00', 'jeremy', 'dummy data', '', '2014-10-10 00:00:00', '2015-01-01 07:18:00', ''),
+(6, '', 'flynn', 'sukorenomw@windowslive.com', '0000-00-00 00:00:00', 'a1b2c3d4', NULL, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'assets/img/ProfPic/default.png');
 
 --
 -- Indexes for dumped tables
@@ -428,7 +438,7 @@ ALTER TABLE `settings`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`user_id`);
+ ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -463,7 +473,7 @@ MODIFY `post_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
