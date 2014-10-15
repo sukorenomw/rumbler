@@ -286,8 +286,7 @@
                 </aside>
             </div>
         </div>
-        <jsp:include flush="true" page="footer.jsp"></jsp:include>
-            <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
+        <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
             <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/ajaxupload.js"></script>
@@ -297,6 +296,9 @@
             var picker = new Pikaday({field: document.getElementById('datepicker')});
         </script>
         <script src="assets/js/script.js"></script>
-
+        <script src="assets/js/uploadjs/jquery.knob.js"></script>
+        <script src="assets/js/uploadjs/jquery.ui.widget.js"></script>
+        <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
+        <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
     </body>
 </html>
