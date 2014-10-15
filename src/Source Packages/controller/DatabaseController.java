@@ -121,4 +121,24 @@ public class DatabaseController {
         }
         return res;
     }
+    public void updateModelStatic(String username) {
+        SessionFactory factory;
+        Integer usrCount = 0;
+        List results;
+        try {
+            factory = util.HibernateUtil.getSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+        results = selectOperator(factory.openSession(), username);
+        try {
+            for (Iterator itr = results.iterator(); itr.hasNext();) {
+                Users usr = (Users) itr.next();
+                ModelStatic.useRumbler = usr;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

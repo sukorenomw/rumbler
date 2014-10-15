@@ -4,7 +4,15 @@
     Author     : smw
 --%>
 
+<%@page import="java.util.Set"%>
+<%@page import="model.Posts"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="org.hibernate.SessionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="controller.DatabaseController" %>
+<%@ page import="controller.ModelStatic" %>
 <!doctype html>
 <html lang="en">
     <head>
@@ -20,6 +28,18 @@
         <script src="assets/js/vendor/modernizr.js"></script>
     </head>
     <body>
+        <%
+            if (session.getAttribute("user") == null) {
+                String site = new String("login.jsp");
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", site);
+            }
+            DatabaseController dbc = new DatabaseController();
+            dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
+        %>
+        <%!
+            ArrayList<Posts> arr = new ArrayList<Posts>();
+        %>
         <div class="off-canvas-wrap">
             <div class="fixed off-canvas-fixed">
 
@@ -93,25 +113,38 @@
                     <div class="jarak">
 
                     </div>
-                    <div class="row"><h1 class="title text-center blogtitle">Untitled</h1></div>
+                    <div class="row"><h1 class="title text-center blogtitle"><%= ModelStatic.useRumbler.getBlogTitle()%></h1></div>
                     <div class="row">
                         <!-- menu profile utama -->
                         <div class="large-3 columns ">
                             <div class="panel radius">
-                                <a href="#"><img src="http://placehold.it/300x240&text=[Foto Profil]"/></a>
-                                <h5><a href="#">Nama Disni</a></h5>
+                                <a href="#"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></a>
+                                <h5><a href="#"><%= ModelStatic.useRumbler.getName()%></a></h5>
                             </div>
                         </div>
                         <!-- menu profil utama end -->
 
                         <div class="large-9 columns">
+                            <%
+                                Set<Posts> tes = ModelStatic.useRumbler.getPostses();
+                                System.out.println(tes.size());
+                                int n = tes.size() - 5 == 0 ? 0 : tes.size() - 5;
+                                for (Posts entity : tes) {
+                                    arr.add(entity);
+                                }
+                                for (int i = tes.size() - 1; i >= n; i--) {
+
+                            %>
                             <div class="row panel radius">
                                 <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div>
                                 <div class="large-10 columns">
                                     <section>
-                                        <header><h1 class="title">Judul Postingan</h1></header>
-                                        <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-                                        <p>Sukoreno Mukti</p>
+                                        <header><h1 class="title"><%= arr.get(i).getTitle()%></h1></header>
+                                        <p><%= arr.get(i).getContent()%></p>
+                                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
+                                        </span>
+                                        <hr/>
+                                        <p><%= arr.get(i).getTag()%></p>
                                         <ul class="inline-list">
                                             <li><a href=""><i class="step fi-heart size-36"></i></a></li>
                                             <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
@@ -121,64 +154,36 @@
                                     <!-- popup isi comment -->
                                     <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
 
-                                    <hr/>
-                                    <dl class="accordion" data-accordion>
-                                        <dd class="accordion-navigation">
-                                            <a href="#commentView" >View Comments</a>
-                                            <div id="commentView" class="content radius">
-                                                <h6>2 Comments</h6>
-                                                <div class="row">
-                                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                                    <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                                    <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                                </div>
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="jarak"></div>
-                            <div class="row panel radius">
-                                <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div>
-                                <div class="large-10 columns">
-                                    <section>
-                                        <header><h1 class="title">Judul Postingan</h1></header>
-                                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="http://zurb.com/university/assets/courses/foundation-sass.png" width="480" height="320" />
-                                        </span>
                                         <hr/>
-                                        <p>#photos, #gambar, #bagus, #keren, #testes</p>
-                                        <ul class="inline-list">
-                                            <li><a href=""><i class="liked step fi-heart size-36"></i></a></li>
-                                            <li><a href=""><i class="step fi-comment size-36"></i></a></li>
-                                        </ul>
-                                    </section>
+                                        <dl class="accordion" data-accordion>
+                                            <dd class="accordion-navigation">
+                                                <a href="#commentView" >View Comments</a>
+                                                <div id="commentView" class="content radius">
+                                                    <h6>2 Comments</h6>
+                                                    <div class="row">
+                                                        <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                                        <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                                        <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                                                    </div>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="jarak"></div>
-                            <div class="row panel radius">
-                                <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div>
-                                <div class="large-10 columns">
-                                    <section>
-                                        <header><h1 class="title">Judul Postingan</h1></header>
-                                        <p> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-                                        <ul class="inline-list">
-                                            <li><a href=""><i class="step fi-heart size-36"></i></a></li>
-                                            <li><a href=""><i class="step fi-comment size-36"></i></a></li>
-                                        </ul>
-                                    </section>
-                                </div>
-                            </div>
-                            <div class="jarak"></div>
+                                <div class="jarak"></div>
+                            <% }%>
                         </div>
+
                         <!-- menu timeline profile end -->
                     </div>
                 </div>
-                
+
             </div>
+
         </div>
         <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
         <script src="assets/js/vendor/jquery.js"></script>
