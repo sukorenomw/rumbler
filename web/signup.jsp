@@ -29,24 +29,34 @@
         <h1 class="text-center titel size-56">rumbler.</h1>
         <div class="sign-up-desc"><p class="text-center" style="color:white;">Follow the blogs you've been hearing about.
                 Share the things you love.</p></div>
-        <form class="form-2" method="post" action="ServSignUp" data-abide>
+        <form class="form-2" method="post" action="UploadFile" data-abide enctype="multipart/form-data">
             <h1><span class="sign-up">sign up</span></h1>
-            <div>
-                <input type="email" name="email" placeholder="Email" required pattern="email">
-                <small class="error">A valid email address is required.</small>
-            </div>
-            <div>
-                <input type="password" name="password" id="password" placeholder="Password" class="showpassword" required pattern="alpha_numeric">
-                <small class="error">Password must contain at least 8 character and Uppercase.</small>
-            </div>
-            <div>
-                <input type="password" name="cpassword" placeholder="Confirm Password" class="showpassword" required pattern="alpha_numeric" data-equalto="password">
-                <small class="error">Password doesn't match.</small>
-            </div>
-            <div>
-                <input type="text" name="username" placeholder="Username" required pattern="alpha_numeric">
-                <small class="error">You must provide a username.</small>
-            </div>
+            <input type="file" name="file1"/>
+            <br/>
+            <input type="file" name="file2"/>
+            <br/>
+            <input type="file" name="file3"/>
+            <br/>
+            <input type="text" name="text1" id="text1" value="akucinta"/>
+            <br/>
+            <input type="text" name="text2" id="text2" value="Kamu S"/>
+            <br/>
+            <!--            <div>
+                            <input type="email" name="email" placeholder="Email" required pattern="email">
+                            <small class="error">A valid email address is required.</small>
+                        </div>
+                        <div>
+                            <input type="password" name="password" id="password" placeholder="Password" class="showpassword" required pattern="alpha_numeric">
+                            <small class="error">Password must contain at least 8 character and Uppercase.</small>
+                        </div>
+                        <div>
+                            <input type="password" name="cpassword" placeholder="Confirm Password" class="showpassword" required pattern="alpha_numeric" data-equalto="password">
+                            <small class="error">Password doesn't match.</small>
+                        </div>
+                        <div>
+                            <input type="text" name="username" placeholder="Username" required pattern="alpha_numeric">
+                            <small class="error">You must provide a username.</small>
+                        </div>-->
             <p class="clearfix">
                 <input type="submit" name="submit" value="Sign Up">
             </p>
