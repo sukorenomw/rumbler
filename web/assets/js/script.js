@@ -14,6 +14,7 @@ $(document).trigger('resize');
 $(document).ready(function () {
 //    $('#generalSetting').hide();
     $('.flyout').hide();
+//    $('#post-text').hide();
     $('#privacySetting').hide();
     $('#notifSetting').hide();
     $('.totop').hide();
@@ -55,7 +56,7 @@ $(document).ready(function () {
             $(this).find(".content").stop().slideToggle("slow");
         }
     });
-    var thumb = $('img#thumb');
+//    var thumb = $('img#thumb');
 //    new AjaxUpload('imageUpload', {
 //        action: $('form#newHotnessForm').attr('action'),
 //        name: 'image',
@@ -70,6 +71,25 @@ $(document).ready(function () {
 //            thumb.attr('src', response);
 //        }
 //    });
+
+    $("#newText").click(function () {
+        $("#usr_post_menu").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '+=300px'}, 500, function () {
+                $("#post-text").stop().fadeIn();
+            });
+        });
+//        $("#user-post").stop().animate({height: '400px'}, 500);
+    });
+
+    $("#cancelBtn").click(function () {
+        $("#post-text").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '130px'}, 500, function () {
+                $("#usr_post_menu").stop().fadeIn();
+            });
+        });
+
+//        $("#user-post").stop().animate({height: '400px'}, 500);
+    });
 
     $contentLoadTriggered = false;
     $(window).scroll(function () {

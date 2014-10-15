@@ -46,11 +46,11 @@
             <div class="large-9 columns">
                 <div class="row">
                     <div class="large-2 columns profpict"><img class="radius" src="<% out.print(controller.ModelStatic.useRumbler.getPicturePath());%>"/></div>
-                    <div class="large-10 columns bubble radius small-padding">
+                    <div id="user-post" class="large-10 columns bubble radius small-padding">
                         <section>
-                            <ul class="inline-list">
+                            <ul id="usr_post_menu" class="inline-list">
                                 <li>
-                                    <a href="#"><i class="fi-text-color size-72 gray"></i></a>
+                                    <a href="#" id="newText"><i class="fi-text-color size-72 gray"></i></a>
                                     <label>Text</label>
                                 </li>
                                 <li><span class="size-72">|</span></li>
@@ -74,6 +74,24 @@
                                     <label>Video</label>
                                 </li>
                             </ul>
+                            <section id="post-text" style="display:none">
+                                <form>
+                                    <div class="row">
+                                        <input name="post-title" type="text" placeholder="Title..">
+                                        <textarea placeholder="Post here .." rows="10" style="resize:none" ></textarea>
+                                        <input name="post-tag" type="text" placeholder="hashtag..">
+                                    </div>
+                                    <div class="jarak"></div>
+                                    <div class="row">
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div id="cancelBtn" class="small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>                                                                                                                                                                                                                                                                      
                         </section>
                     </div>
                 </div>
@@ -180,7 +198,8 @@
         <jsp:include flush="true" page="footer.jsp" />
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
+        <script src="assets/js/transit.min.js"></script>
         <script src="assets/js/script.js"></script>
-        
+
     </body>
 </html>

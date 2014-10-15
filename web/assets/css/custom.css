@@ -424,6 +424,11 @@ h1.titel{
     margin-left: 10px;
 }
 
+.bubble section section{
+    margin-left: -30px;
+    padding: 20px 30px 20px 30px;
+}
+
 .bubble section ul li a i{
     transition: all 1s ease;
 }
@@ -468,6 +473,8 @@ h1.titel{
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
+
+
 
 .bubble:after{
     content: '';
@@ -704,4 +711,16 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     padding-bottom: 5px;
     margin-bottom: 12px;
     border-bottom: 1px solid #dcdbda;
+}
+
+#post-text form div input[type="text"],#post-text form div textarea{
+    margin-bottom: 0px;
+}
+
+#cancelBtn{
+    margin-right: -27px;
+}
+
+div#user-post{
+    height: 130px;
 }
