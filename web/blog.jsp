@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="model.Comments"%>
 <%@page import="java.util.Set"%>
 <%@page import="model.Posts"%>
 <%@page import="java.util.Arrays"%>
@@ -39,6 +40,16 @@
         %>
         <%!
             ArrayList<Posts> arr = new ArrayList<Posts>();
+            ArrayList<Comments> arrCom = new ArrayList<Comments>();
+            SessionFactory factory;
+        %>
+        <%
+            try {
+                factory = util.HibernateUtil.getSessionFactory();
+            } catch (Throwable ex) {
+                System.err.println("Failed to create sessionFactory object." + ex);
+                throw new ExceptionInInitializerError(ex);
+            }
         %>
         <div class="off-canvas-wrap">
             <div class="fixed off-canvas-fixed">
@@ -141,8 +152,10 @@
                                     <section>
                                         <header><h1 class="title"><%= arr.get(i).getTitle()%></h1></header>
                                         <p><%= arr.get(i).getContent()%></p>
+                                         <% if (!arr.get(i).getImage().equals("no image")) { %>
                                         <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
                                         </span>
+                                        <% } %>
                                         <hr/>
                                         <p><%= arr.get(i).getTag()%></p>
                                         <ul class="inline-list">
@@ -155,26 +168,37 @@
                                     <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
 
                                         <hr/>
-                                        <dl class="accordion" data-accordion>
+                                        <dl class="accordion radius" data-accordion>
                                             <dd class="accordion-navigation">
-                                                <a href="#commentView" >View Comments</a>
-                                                <div id="commentView" class="content radius">
-                                                    <h6>2 Comments</h6>
-                                                    <div class="row">
-                                                        <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                                        <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                                        <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                                    </div>
+                                                <a href="#commentView<%= arr.get(i).getPostId()%>" >View Comments</a>
+                                            <div id="commentView<%= arr.get(i).getPostId()%>" class="content radius">
+                                                <%
+                                                    List<Comments> res;
+                                                    res = dbc.selectComments(factory.openSession(), arr.get(i).getPostId());
+                                                    arrCom = new ArrayList<Comments>();
+                                                    for (Comments entity : res) {
+                                                        arrCom.add(entity);
+                                                    }
+                                                %>
+                                                <h6><%= arrCom.size()%> Comments</h6>
+                                                <%
+                                                    if (arrCom.size() > 0) {
+                                                        for (int j = 0; j < arrCom.size(); j++) {
+                                                %>
+                                                <div class="row">
+                                                    <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%  %>"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                                    <div class="large-10 columns"><p><%= arrCom.get(j).getContent()%></p></div>
                                                 </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+                                            </div>
+                                        </dd>
+                                    </dl>
                                 </div>
-                                <div class="jarak"></div>
+                            </div>
+                            <div class="jarak"></div>
                             <% }%>
                         </div>
 

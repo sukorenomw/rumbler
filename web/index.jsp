@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="model.Comments"%>
 <%@page import="model.Posts"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.ArrayList"%>
@@ -98,6 +99,7 @@
                 <div class="jarak"></div>
                 <%!
                     ArrayList<Posts> arr = new ArrayList<Posts>();
+                    ArrayList<Comments> arrCom = new ArrayList<Comments>();
                     DatabaseController dbc = new DatabaseController();
                     SessionFactory factory;
                 %>
@@ -145,24 +147,34 @@
                                 <dd class="accordion-navigation">
                                     <a href="#commentView<%= arr.get(i).getPostId()%>" >View Comments</a>
                                     <div id="commentView<%= arr.get(i).getPostId()%>" class="content radius">
-                                        <h6>2 Comments</h6>
+                                        <%
+                                            List<Comments> res;
+                                            res = dbc.selectComments(factory.openSession(), arr.get(i).getPostId());
+                                            arrCom = new ArrayList<Comments>();
+                                            for (Comments entity : res) {
+                                                arrCom.add(entity);
+                                            }
+                                        %>
+                                        <h6><%= arrCom.size()%> Comments</h6>
+                                        <%
+                                            if (arrCom.size() > 0) {
+                                                for (int j = 0; j < arrCom.size(); j++) {
+                                        %>
                                         <div class="row">
                                             <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%  %>"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                                            <div class="large-10 columns"><p><%= arrCom.get(j).getContent()%></p></div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Nama User"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
-                                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                                        </div>
+                                        <%
+                                                }
+                                            }
+                                        %>
                                     </div>
                                 </dd>
                             </dl>
                         </div>
                     </div>
                     <div class="jarak"></div>
-                    <%
-                        }
+                    <%                        }
                     %>
                 </div>
                 <div class="jarak"></div>
