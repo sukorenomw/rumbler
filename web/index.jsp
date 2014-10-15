@@ -56,7 +56,7 @@
                                 </li>
                                 <li><span class="size-72">|</span></li>
                                 <li>
-                                    <a href="#"><i class="fi-camera size-72 maroon"></i></a>
+                                    <a href="#" id="newPict"><i class="fi-camera size-72 maroon"></i></a>
                                     <label>Picture</label>
                                 </li>
                                 <li><span class="size-72">|</span></li>
@@ -75,11 +75,40 @@
                                     <label>Video</label>
                                 </li>
                             </ul>
-                            <section id="post-text" style="display:none">
-                                <form>
+                            <section id="post-picture" style="display:none">
+                                <form method="post" action="" enctype="multipart/form-data">
+                                    <div id="upload">
+                                        <div id="drop">
+                                            Drop Image Here<br/>
+                                            <a>Browse</a>
+                                            <input type="file" name="upl"/>
+                                        </div>
+
+                                        <ul>
+                                        </ul>
+                                    </div>
+
+                                    <div class="jarak"></div>
                                     <div class="row">
-                                        <input name="post-title" type="text" placeholder="Title..">
-                                        <textarea placeholder="Post here .." rows="10" style="resize:none" ></textarea>
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div class="cancelBtn small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </section>
+                            <section id="post-text" style="display:none">
+                                <form data-abide name="text-only-post" action="" method="POST">
+                                    <div class="row">
+                                        <div>
+                                            <input name="post-title" type="text" placeholder="Title.." required pattern="alpha_numeric">
+                                        </div>
+                                        <div>
+                                            <textarea placeholder="Post here .." rows="10" style="resize:none" required></textarea>
+                                        </div>
                                         <input name="post-tag" type="text" placeholder="hashtag..">
                                     </div>
                                     <div class="jarak"></div>
@@ -87,7 +116,7 @@
                                         <div class="small-3 left small">
                                             <input type="submit" class="button small radius" value="post" />
                                         </div>
-                                        <div id="cancelBtn" class="small-3 right columns small">
+                                        <div class="cancelBtn small-3 right columns small">
                                             <a href="#" class="button radius small alert">Cancel</a>
                                         </div>
                                     </div>
@@ -212,6 +241,13 @@
         <script src="assets/js/foundation.min.js"></script>
         <script src="assets/js/transit.min.js"></script>
         <script src="assets/js/script.js"></script>
+
+        <!--upload js-->
+        <script src="assets/js/uploadjs/jquery.knob.js"></script>
+        <script src="assets/js/uploadjs/jquery.ui.widget.js"></script>
+        <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
+        <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
+
 
     </body>
 </html>
