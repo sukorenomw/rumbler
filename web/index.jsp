@@ -168,7 +168,8 @@
                 %>
                 <div id="post-box">
                     <%
-                        for (int i = 0; i < n; i++) {
+                        if (arr.size() > 0) {
+                            for (int i = 0; i < n; i++) {
 
                     %>
 
@@ -223,6 +224,7 @@
                     </div>
                     <div class="jarak"></div>
                     <%                        }
+                        }
                     %>
                 </div>
                 <div class="jarak"></div>
