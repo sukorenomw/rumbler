@@ -20,6 +20,7 @@
         <url-pattern>/PostText</url-pattern>
         <url-pattern>/ServSignUp</url-pattern>
         <url-pattern>/UploadFile</url-pattern>
+        <url-pattern>/FriendsBlog</url-pattern>
         <url-pattern>/infiniteScroll</url-pattern>
         <url-pattern>/settingGeneral</url-pattern>
     </servlet-mapping>
