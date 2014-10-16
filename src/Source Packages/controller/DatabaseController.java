@@ -41,6 +41,53 @@ public class DatabaseController {
         }
         return res;
     }
+//    SELECT * FROM users ORDER BY RAND() LIMIT 5 
+
+    public List selectRandomUsers(Session session) {
+        Transaction tx = null;
+        List res = null;
+        String hql = "";
+        try {
+            tx = session.beginTransaction();
+            hql = "SELECT * FROM users ORDER BY RAND() LIMIT 5";
+            Query qry = session.createSQLQuery(hql).addEntity(Users.class);
+            res = qry.list();
+            for (Iterator itr = res.iterator(); itr.hasNext();) {
+                Users usr = (Users) itr.next();
+                System.out.println("name (randUser) : " + usr.getName());
+
+            }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
+
+    public List selectFollowers(Session session, int userid) {
+        Transaction tx = null;
+        List res = null;
+        String hql = "";
+        try {
+            tx = session.beginTransaction();
+            hql = "SELECT * FROM users WHERE user_id IN (SELECT follower_id FROM followers WHERE user_id = "+userid+")";
+            Query qry = session.createSQLQuery(hql).addEntity(Users.class);
+            res = qry.list();
+            for (Iterator itr = res.iterator(); itr.hasNext();) {
+                Users usr = (Users) itr.next();
+                System.out.println("name (randUser) : " + usr.getName());
+
+            }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
 
     public List selectOperator(Session session, int user) {
         Transaction tx = null;

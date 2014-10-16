@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Users"%>
 <%@page import="controller.ModelStatic"%>
@@ -38,6 +39,7 @@
         <%!
             DatabaseController dbc = new DatabaseController();
             SessionFactory factory;
+            List<Users> followers = null;
         %>
         <%
             DatabaseController dbc = new DatabaseController();
@@ -116,7 +118,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +131,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="date" id="datepicker" name="date" placeholder="<%= ModelStatic.useRumbler.getBirthday().toString() %>">
+                                                <input type="date" id="datepicker" name="date" placeholder="<%= ModelStatic.useRumbler.getBirthday().toString()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -266,34 +268,26 @@
                             <h3 class="title">Followers</h3>
                             <p class="size-12">The lists of your followers</p>
                             <hr/>
+                            <%
+                                followers = dbc.selectFollowers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                                for (Iterator itr = followers.iterator(); itr.hasNext();) {
+                                    Users flw = (Users) itr.next();
+                            %>
                             <div class="row">
                                 <div class="small-8">
                                     <div class="row">
                                         <div class="small-5 push-1 columns">
-                                            <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                                            <div class="columns profpict"><img class="radius" src="<%= flw.getPicturePath()%>"/></div>
                                         </div>
-                                        <div class="small-3 pull-5 columns">
-                                            <p><a href="#">nama orang</a></p>
+                                        <div class="small-7 columns">
+                                            <p><a href="#"><%= flw.getName()%></a></p>
                                             <a href="#" class="unfollow"><span class="label radius success medium">Following</span></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <hr/>
-                            <div class="row">
-                                <div class="small-8">
-                                    <div class="row">
-                                        <div class="small-5 push-1 columns">
-                                            <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
-                                        </div>
-                                        <div class="small-3 pull-5 columns">
-                                            <p><a href="#">nama orang</a></p>
-                                            <a href="#" class="unfollow"><span class="label radius success medium">Following</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr/>
+                            <% }%>
                         </div>
                     </div>
                 </div>

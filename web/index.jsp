@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="java.util.Iterator"%>
 <%@page import="model.Users"%>
 <%@page import="model.Comments"%>
 <%@page import="model.Posts"%>
@@ -180,6 +181,7 @@
                 <%!
                     ArrayList<Posts> arr;
                     ArrayList<Comments> arrCom;
+                    List<Users> randUser = null;
                     DatabaseController dbc;
                     SessionFactory factory;
                     String pic;
@@ -291,22 +293,16 @@
                     <div class="large-2 columns right">
                         <p>Recommended Blogs</p>
                         <hr/>
-                        <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                            <p class="left blogname">blognamehere </p>
+                        <% 
+                        randUser = dbc.selectRandomUsers(factory.openSession());
+                         for (Iterator itr = randUser.iterator(); itr.hasNext();) {
+                                Users usr = (Users) itr.next();                
+                        %>
+                        <a href="#"><img class="radius left" src="<%= usr.getPicturePath() %>" height="40" width="40"/>
+                            <p class="left blogname"><%= usr.getUsername() %> </p>
                             <span class="left"><i class="fi-plus size-28"></i></span></a>
                         <hr class="hr-child"/>
-                        <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                            <p class="left blogname">blognamehere </p>
-                            <span class="left"><i class="fi-plus size-28"></i></span></a>
-                        <hr class="hr-child"/>
-                        <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                            <p class="left blogname">blognamehere </p>
-                            <span class="left"><i class="fi-plus size-28"></i></span></a>
-                        <hr class="hr-child"/>
-                        <a href="#"><img class="radius left" src="http://placehold.it/48x48&text=[img]"/>
-                            <p class="left blogname">blognamehere </p>
-                            <span class="left"><i class="fi-plus size-28"></i></span></a>
-                        <hr class="hr-child"/>
+                        <% } %>
                     </div>
                 </aside>
             </div>
