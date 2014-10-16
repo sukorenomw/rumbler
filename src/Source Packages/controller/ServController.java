@@ -156,17 +156,21 @@ public class ServController extends HttpServlet {
                         out.print("<div class=\"large-10 columns bubble radius\">");
                         out.print("<section>");
                         out.print("<p class=\"size-14\"><a href=\"FriendsBlog?user_id=" + arr.get(i).getUsers().getUserId() + "\">" + dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId()) + "</a></p>");
-                        out.print("<header><h3 class=\"title\">" + arr.get(i).getTitle() + "</h3></header>");
                         if (arr.get(i).getTitle() != null) {
+                            out.print("<header><h3 class=\"title\">" + arr.get(i).getTitle() + "</h3></header>");
+                        }
+                        if (arr.get(i).getContent() != null) {
                             out.print("<p>" + arr.get(i).getContent() + "</p>");
 
                         }
                         if (!arr.get(i).getImage().equals("no image")) {
-                            out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\""+arr.get(i).getImage()+"\" width=\"480\" height=\"320\" /></span>");
+                            out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\"" + arr.get(i).getImage() + "\" width=\"480\" height=\"320\" /></span>");
 
                         }
                         out.print("<hr/>");
-                        out.print("<p>" + arr.get(i).getTag() + "</p>");
+                        if (arr.get(i).getTag() != null) {
+                            out.print("<p>" + arr.get(i).getTag() + "</p>");
+                        }
                         out.print("<ul class=\"inline-list\">\n"
                                 + "                                    <li><a href=\"#\"><i class=\"step fi-heart size-36\"></i></a></li>\n"
                                 + "                                    <li><a href=\"#\" data-reveal-id=\"commentModal\"><i class=\"step fi-comment size-36\"></i></a></li>\n"
