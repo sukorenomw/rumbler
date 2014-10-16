@@ -157,7 +157,7 @@
                                             </div>
                                             <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getEmail() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getEmail() %>">
+                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getEmail()==1?"checked":0 %>>
                                                 <label for="emailSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@
                                             </div>
                                             <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getName() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getRealname() %>">
+                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getRealname()==1?"checked":0 %>>
                                                 <label for="nameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -187,7 +187,7 @@
                                             </div>
                                             <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getUsername() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getUsername() %>">
+                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getUsername()==1?"checked":0 %>>
                                                 <label for="usrnameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@
                                             </div>
                                             <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getBirthday().toString() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getBirthday() %>">
+                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getBirthday()==1?"checked":0 %>>
                                                 <label for="bdSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -226,7 +226,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">Likes from followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="likesNotif" name="likesNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewLikes() %>">
+                                                <input id="likesNotif" name="likesNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewLikes()==1?"checked":0 %>>
                                                 <label for="likesNotif"></label>
                                             </div>
                                         </div>
@@ -238,7 +238,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">Comments of your posts</p>
                                             <div class="switch round tiny right">
-                                                <input id="commentsNotif" name="commentsNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewComment() %>">
+                                                <input id="commentsNotif" name="commentsNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewComment()==1?"checked":0 %>>
                                                 <label for="commentsNotif"></label>
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">New followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="followerNotif" name="followerNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewFollower() %>">
+                                                <input id="followerNotif" name="followerNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewFollower()==1?"checked":0 %>>
                                                 <label for="followerNotif"></label>
                                             </div>
                                         </div>
