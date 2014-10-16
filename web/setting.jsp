@@ -77,7 +77,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="email" placeholder="Email" value="<%= ModelStatic.useRumbler.getEmail() %>">
+                                                <input type="text" id="right-label" class="radius" name="email" placeholder="Email" value="<%= ModelStatic.useRumbler.getEmail()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
+                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -291,9 +291,17 @@
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/ajaxupload.js"></script>
         <script src="assets/js/foundation.min.js"></script>
+        <script src="assets/js/moment.js"></script>
         <script src="assets/js/datepicker.js"></script>
         <script>
-            var picker = new Pikaday({field: document.getElementById('datepicker')});
+
+            var picker = new Pikaday({
+                field: document.getElementById('datepicker'),
+                format:'MMMM DD, YYYY',
+                onSelect: function () {
+                    console.log(this.getMoment().format('MMMM DD, YYYY'));
+                }   
+            });
         </script>
         <script src="assets/js/script.js"></script>
         <script src="assets/js/uploadjs/jquery.knob.js"></script>

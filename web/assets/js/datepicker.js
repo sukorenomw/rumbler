@@ -159,7 +159,7 @@
 // ('bottom' & 'left' keywords are not used, 'top' & 'right' are modifier on the bottom/left position)
                 position: 'bottom left',
 // the default output format for `.toString()` and `field` value
-                format: 'YYYY-MM-DD',
+                format: 'DD-MM-YYYY',
 // the initial date to view when first opened
                 defaultDate: null,
 // make the `defaultDate` the initial selected value
