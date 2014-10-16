@@ -77,6 +77,7 @@ public class ServController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
+        RequestDispatcher reqDispatcher;
         switch (userPath) {
             case "/ServLogOut":
                 System.out.println(userPath);
@@ -85,6 +86,16 @@ public class ServController extends HttpServlet {
                 session.invalidate();
                 String encodedURL = response.encodeRedirectURL("login.jsp");
                 response.sendRedirect(encodedURL);
+                break;
+            case "/FriendsBlog":
+                System.out.println("bangsat friends blog :" + request.getParameter("user_id"));
+                if (request.getParameter("user_id") == null) {
+                    request.setAttribute("userId", ModelStatic.useRumbler.getUserId());
+                } else {
+                    request.setAttribute("userId", request.getParameter("user_id"));
+                }
+                reqDispatcher = request.getRequestDispatcher("blog.jsp");
+                reqDispatcher.forward(request, response);
                 break;
         }
     }
@@ -170,13 +181,13 @@ public class ServController extends HttpServlet {
             case "/ServLogin":
                 System.out.println(userPath);
                 username = request.getParameter("login");
-                 {
-                    try {
-                        password = dbc.MD5(request.getParameter("password"));
-                    } catch (NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+                password = request.getParameter("password");
+//                try {
+//                    password = dbc.MD5(request.getParameter("password"));
+//
+//                } catch (NoSuchAlgorithmException ex) {
+//                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 try {
                     factory = util.HibernateUtil.getSessionFactory();
                 } catch (Throwable ex) {

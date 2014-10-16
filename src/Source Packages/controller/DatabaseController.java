@@ -26,11 +26,32 @@ public class DatabaseController {
     public List selectOperator(Session session, String user) {
         Transaction tx = null;
         List res = null;
+        String hql = "";
         try {
             tx = session.beginTransaction();
-            String hql = "FROM Users u WHERE u.username = '" + user + "'";
+            hql = "FROM Users u WHERE u.username = '" + user + "'";
             Query qry = session.createQuery(hql);
             res = qry.list();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
+
+    public List selectOperator(Session session, int user) {
+        Transaction tx = null;
+        List res = null;
+        String hql = "";
+        try {
+            tx = session.beginTransaction();
+            hql = "FROM Users u WHERE u.userId = " + user + "";
+            Query qry = session.createQuery(hql);
+            res = qry.list();
+            System.out.println("sukses masuk");
             for (Iterator itr = res.iterator(); itr.hasNext();) {
                 Users usr = (Users) itr.next();
                 System.out.println("user id = " + usr.getUserId() + "\nname : " + usr.getName() + " ppost = " + usr.getPostses().size());

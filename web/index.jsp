@@ -202,7 +202,7 @@
                         <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
-                                <p class="size-14"><a href="#"><%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
+                                <p class="size-14"><a href="FriendsBlog<%= "?user_id="+arr.get(i).getUsers().getUserId() %>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
                                 <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
                                 <p><%= arr.get(i).getTitle()%></p>
                                 <% if (!arr.get(i).getImage().equals("no image")) { %>

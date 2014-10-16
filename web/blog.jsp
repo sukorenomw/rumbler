@@ -4,6 +4,8 @@
     Author     : smw
 --%>
 
+<%@page import="java.util.Iterator"%>
+<%@page import="model.Users"%>
 <%@page import="model.Comments"%>
 <%@page import="java.util.Set"%>
 <%@page import="model.Posts"%>
@@ -38,17 +40,25 @@
             DatabaseController dbc = new DatabaseController();
             dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
         %>
-        <%!
+        <%!            
             ArrayList<Posts> arr = new ArrayList<Posts>();
             ArrayList<Comments> arrCom = new ArrayList<Comments>();
+            Users usr;
             SessionFactory factory;
+            List<Users> results;
         %>
-        <%
+        <%    
             try {
                 factory = util.HibernateUtil.getSessionFactory();
             } catch (Throwable ex) {
                 System.err.println("Failed to create sessionFactory object." + ex);
                 throw new ExceptionInInitializerError(ex);
+            }
+            System.out.println("tes paramatert"+ request.getAttribute("userId"));
+            results = dbc.selectOperator(factory.openSession(), Integer.parseInt(request.getAttribute("userId").toString()));
+            for (Iterator itr = results.iterator(); itr.hasNext();) {
+                Users usrTemp = (Users) itr.next();
+                usr = usrTemp;
             }
         %>
         <div class="off-canvas-wrap">
@@ -124,21 +134,21 @@
                     <div class="jarak">
 
                     </div>
-                    <div class="row"><h1 class="title text-center blogtitle"><%= ModelStatic.useRumbler.getBlogTitle()%></h1></div>
+                    <div class="row"><h1 class="title text-center blogtitle"><%= usr.getBlogTitle()%></h1></div>
                     <div class="row">
                         <!-- menu profile utama -->
                         <div class="large-3 columns ">
                             <div class="panel radius">
-                                <a href="#"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></a>
-                                <h5><a href="#"><%= ModelStatic.useRumbler.getName()%></a></h5>
+                                <a href="#"><img src="<%= usr.getPicturePath()%>"/></a>
+                                <h5><a href="#"><%= usr.getName()%></a></h5>
                             </div>
                         </div>
                         <!-- menu profil utama end -->
 
                         <div class="large-9 columns">
                             <%
-                                Set<Posts> tes = ModelStatic.useRumbler.getPostses();
-                                System.out.println(tes.size());
+                                Set<Posts> tes = usr.getPostses();
+                                System.out.println("ukuran = " + tes.size());
                                 int n = tes.size() - 5 == 0 ? 0 : tes.size() - 5;
                                 for (Posts entity : tes) {
                                     arr.add(entity);
@@ -180,11 +190,11 @@
                                                     for (Comments entity : res) {
                                                         arrCom.add(entity);
                                                     }
+                                                    if (arrCom.size() > 0) {
                                                 %>
                                                 <h6><%= arrCom.size()%> Comments</h6>
                                                 <%
-                                                    if (arrCom.size() > 0) {
-                                                        for (int j = 0; j < arrCom.size(); j++) {
+                                                    for (int j = 0; j < arrCom.size(); j++) {
                                                 %>
                                                 <div class="row">
                                                     <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%  %>"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
