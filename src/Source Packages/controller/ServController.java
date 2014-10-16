@@ -244,6 +244,7 @@ public class ServController extends HttpServlet {
             case "/UploadFile":
                 System.out.println("-------");
                 UploadMultiPartVoid(request, response, "image");
+
                 break;
             case "/PostText":
                 try {
@@ -256,9 +257,8 @@ public class ServController extends HttpServlet {
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
                 dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
-                dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
-                String encodedURL1 = response.encodeRedirectURL("index.jsp");
-                response.sendRedirect(encodedURL1);
+                String encodedURL2 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(encodedURL2);
                 break;
             case "/UploadVideo":
                 UploadMultiPartVoid(request, response, "video");
@@ -319,6 +319,7 @@ public class ServController extends HttpServlet {
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
         System.out.println("--------- upload multipart void");
+        String path = "assets/img/PostPic/";
         DiskFileItemFactory factorys = new DiskFileItemFactory();
         factorys.setSizeThreshold(MAX_MEMORY_SIZE);
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -328,7 +329,14 @@ public class ServController extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factorys);
 
         upload.setSizeMax(MAX_REQUEST_SIZE);
-
+        SessionFactory factory;
+        DatabaseController dbc = new DatabaseController();
+        try {
+            factory = util.HibernateUtil.getSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
@@ -337,6 +345,11 @@ public class ServController extends HttpServlet {
                 System.out.println("masuk ke while");
                 FileItem item = (FileItem) iter.next();
                 System.out.println("Size:" + item.getSize());
+                String text1 = "";
+                if (item.isFormField() && item.getSize() > 0) {
+                    text1 = item.getString();
+                    System.out.println("Text1:" + text1);
+                }
                 if (!item.isFormField() && item.getSize() > 0) {
                     String fileName = new File(item.getName()).getName();
                     String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
@@ -348,7 +361,7 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-
+                            dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
                         }
                     }
                     if (jenis.equalsIgnoreCase("video")) {
@@ -358,18 +371,13 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-                            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                                    request, response);
                         }
                     }
                 }
-                if (item.isFormField() && item.getSize() > 0) {
-                    String text1 = item.getString();
-                    System.out.println("Text1:" + text1);
-                }
+
             }
-            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                    request, response);
+            String encodedURL1 = response.encodeRedirectURL("index.jsp");
+            response.sendRedirect(encodedURL1);
         } catch (FileUploadException ex) {
             throw new ServletException(ex);
         } catch (Exception ex) {

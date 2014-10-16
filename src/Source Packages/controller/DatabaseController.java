@@ -170,6 +170,29 @@ public class DatabaseController {
         }
     }
 
+    public void insertOperation(Session session, String tag, String path, int user) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            Date dates = Calendar.getInstance().getTime();
+            sql = "Insert into posts(user_id,image,tag,created_at,isvideo) VALUES(:user_id,:path,:hashtag,:time,:vid)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user_id", user);
+            qry.setParameter("path", path);
+            qry.setParameter("hashtag", tag);
+            qry.setTimestamp("time", dates);
+            qry.setParameter("vid", 0);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
     public String selectFriendsName(Session session, int user) {
         Transaction tx = null;
         List<String> res = null;
