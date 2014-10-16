@@ -208,17 +208,52 @@ public class DatabaseController {
 
     }
 
+    public void updateOperation(Session session,int email, int date, int username, int  name, int user) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            sql = "Update settings set realname = :name, email = :email,birthday = :birthday, username= :username where user_id = " + user;
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("name", name);
+            qry.setParameter("email", email);
+            qry.setParameter("birthday", date);
+            qry.setParameter("username", username);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+    public void updateOperation(Session session,int like, int comN, int fol, int user) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            sql = "Update settings set newFollower = :fol, newLikes = :like,newComment = :comN where user_id = " + user;
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("fol", fol);
+            qry.setParameter("like", like);
+            qry.setParameter("comN", comN);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
     public void updateOperation(Session session, String password, String email, Date date, String blog, String name, int user) {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             Query qry;
             String sql;
-            sql = "INSERT INTO users(username,email,password) VALUES (:user,:email,:password)";
-            qry = session.createSQLQuery(sql);
-            qry.setParameter("user", user);
-            qry.setParameter("email", email);
-            qry.setParameter("password", MD5(password));
             sql = "Update users set name = :name, email = :email,birthday = :birthday, blog_title = :blog, password = :password where user_id = " + user;
             qry = session.createSQLQuery(sql);
             qry.setParameter("name", name);

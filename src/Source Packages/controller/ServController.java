@@ -417,17 +417,11 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
 
-                email = request.getParameter("email");
-                date = request.getParameter("date");
-                blog = request.getParameter("blog");
-                name = request.getParameter("name");
-                Date dates1 = new Date();
-                try {
-                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
-                } catch (ParseException ex) {
-                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                dbc.updateOperation(factory.openSession(), password, email, dates1, blog, name, ModelStatic.useRumbler.getUserId());
+                int emailp = request.getParameter("emailSwitchPrivacy")==null?0:1;
+                int namep = request.getParameter("nameSwitchPrivacy")==null?0:1;
+                int usrp = request.getParameter("usrnameSwitchPrivacy")==null?0:1;
+                int datep = request.getParameter("bdSwitchPrivacy")==null?0:1;
+                dbc.updateOperation(factory.openSession(), emailp, datep, usrp, namep, ModelStatic.useRumbler.getUserId());
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
                 break;
@@ -439,27 +433,12 @@ public class ServController extends HttpServlet {
                     System.err.println("Failed to create sessionFactory object." + ex);
                     throw new ExceptionInInitializerError(ex);
                 }
-                 {
-                    try {
-                        System.out.println(request.getParameter("password"));
-                        System.out.println(request.getParameter("password").length());
-                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
-                    } catch (NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
 
-                email = request.getParameter("email");
-                date = request.getParameter("date");
-                blog = request.getParameter("blog");
-                name = request.getParameter("name");
+                int like = request.getParameter("likesNotif")==null?0:1;
+                int comN = request.getParameter("commentsNotif")==null?0:1;
+                int fol = request.getParameter("followerNotif")==null?0:1;
                 Date dates2 = new Date();
-                try {
-                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
-                } catch (ParseException ex) {
-                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                dbc.updateOperation(factory.openSession(), password, email, dates2, blog, name, ModelStatic.useRumbler.getUserId());
+                dbc.updateOperation(factory.openSession(), like, comN, fol, ModelStatic.useRumbler.getUserId());
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
                 break;
