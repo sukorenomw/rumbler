@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="model.Users"%>
 <%@page import="model.Comments"%>
 <%@page import="model.Posts"%>
 <%@page import="java.util.Arrays"%>
@@ -171,15 +172,18 @@
                 </div>
                 <div class="jarak"></div>
                 <%!
-                    ArrayList<Posts> arr = new ArrayList<Posts>();
-                    ArrayList<Comments> arrCom = new ArrayList<Comments>();
-                    DatabaseController dbc = new DatabaseController();
+                    ArrayList<Posts> arr;
+                    ArrayList<Comments> arrCom;
+                    DatabaseController dbc;
                     SessionFactory factory;
+                    String pic;
                 %>
                 <%
                     int n = 5;
                     DatabaseController dbc = new DatabaseController();
                     List<Posts> results = null;
+                    arr = new ArrayList<Posts>();
+                    arrCom = new ArrayList<Comments>();
                     try {
                         factory = util.HibernateUtil.getSessionFactory();
                     } catch (Throwable ex) {
@@ -195,18 +199,21 @@
                     <%
                         if (arr.size() > 0) {
                             for (int i = 0; i < n; i++) {
-
+                                List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
+                                for (Users entity1 : res12) {
+                                    pic = entity1.getPicturePath();
+                                }
                     %>
 
                     <div class="row">
-                        <div class="large-2 columns small-3 profpict"><img class="radius" src="http://placehold.it/80x80&text=[img]"/></div>
+                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic %>"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
-                                <p class="size-14"><a href="FriendsBlog<%= "?user_id="+arr.get(i).getUsers().getUserId() %>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
+                                <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
                                 <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
                                 <p><%= arr.get(i).getTitle()%></p>
-                                <% if (!arr.get(i).getImage().equals("no image")) { %>
-                                <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<% out.print(arr.get(i).getImage()); %>" width="480" height="320" />
+                                <% if (!arr.get(i).getImage().equals("no image")) {%>
+                                <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
                                 </span>
                                 <% }%>
                                 <hr/>
@@ -222,10 +229,10 @@
                                     <a href="#commentView<%= arr.get(i).getPostId()%>" >View Comments</a>
                                     <div id="commentView<%= arr.get(i).getPostId()%>" class="content radius">
                                         <%
-                                            List<Comments> res;
-                                            res = dbc.selectComments(factory.openSession(), arr.get(i).getPostId());
+                                            List<Comments> res3;
+                                            res3 = dbc.selectComments(factory.openSession(), arr.get(i).getPostId());
                                             arrCom = new ArrayList<Comments>();
-                                            for (Comments entity : res) {
+                                            for (Comments entity : res3) {
                                                 arrCom.add(entity);
                                             }
                                         %>

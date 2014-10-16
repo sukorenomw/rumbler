@@ -115,6 +115,7 @@ public class ServController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
+        RequestDispatcher reqDispatcher;
         SessionFactory factory;
         Integer usrCount = 0;
         DatabaseController dbc = new DatabaseController();
@@ -245,10 +246,19 @@ public class ServController extends HttpServlet {
                 UploadMultiPartVoid(request, response, "image");
                 break;
             case "/PostText":
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
                 String title = request.getParameter("post-title");
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
-                System.out.println("Title:" + title + "\nText:" + text + "\nHashTag:" + hastag);
+                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
+                dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
+                String encodedURL1 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(encodedURL1);
                 break;
             case "/UploadVideo":
                 UploadMultiPartVoid(request, response, "video");
@@ -282,7 +292,7 @@ public class ServController extends HttpServlet {
                     Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId());
-                RequestDispatcher reqDispatcher = request.getRequestDispatcher("setting.jsp");
+                reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
                 break;
 

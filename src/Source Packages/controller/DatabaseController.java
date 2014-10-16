@@ -125,6 +125,11 @@ public class DatabaseController {
             tx = session.beginTransaction();
             Query qry;
             String sql;
+            sql = "INSERT INTO users(username,email,password) VALUES (:user,:email,:password)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user", user);
+            qry.setParameter("email", email);
+            qry.setParameter("password", MD5(password));
             sql = "Update users set name = :name, email = :email,birthday = :birthday, blog_title = :blog, password = :password where user_id = " + user;
             qry = session.createSQLQuery(sql);
             qry.setParameter("name", name);
@@ -132,6 +137,30 @@ public class DatabaseController {
             qry.setParameter("password", password);
             qry.setParameter("blog", blog);
             qry.setDate("birthday", date);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void insertOperation(Session session, String title, String text, String hastag, int user) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            Date dates = Calendar.getInstance().getTime();
+            sql = "Insert into posts(user_id,title,content,tag,created_at,isvideo) VALUES(:user_id,:title,:content,:hashtag,:time,:vid)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user_id", user);
+            qry.setParameter("title", title);
+            qry.setParameter("content", text);
+            qry.setParameter("hashtag", hastag);
+            qry.setTimestamp("time", dates);
+            qry.setParameter("vid", 0);
             qry.executeUpdate();
             tx.commit();
         } catch (Exception e) {
