@@ -116,7 +116,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle()%>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="date" id="datepicker" name="date" placeholder="Pick a Date">
+                                                <input type="date" id="datepicker" name="date" placeholder="<%= ModelStatic.useRumbler.getBirthday().toString() %>">
                                             </div>
                                         </div>
                                     </div>

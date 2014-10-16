@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="controller.ModelStatic"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="jarak"></div>
 <div class="row">
@@ -43,7 +44,7 @@
                     </div>
                 </li>
                 <li>
-                    <a class="white item" href="blog.jsp"> 
+                    <a class="white item" href="FriendsBlog"> 
                         <i class="fi-torsos-male-female size-36"></i> 
                     </a>
                 </li>

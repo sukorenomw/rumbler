@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -77,6 +80,7 @@ public class ServController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
+        RequestDispatcher reqDispatcher;
         switch (userPath) {
             case "/ServLogOut":
                 System.out.println(userPath);
@@ -85,6 +89,16 @@ public class ServController extends HttpServlet {
                 session.invalidate();
                 String encodedURL = response.encodeRedirectURL("login.jsp");
                 response.sendRedirect(encodedURL);
+                break;
+            case "/FriendsBlog":
+                System.out.println("bangsat friends blog :" + request.getParameter("user_id"));
+                if (request.getParameter("user_id") == null) {
+                    request.setAttribute("userId", ModelStatic.useRumbler.getUserId());
+                } else {
+                    request.setAttribute("userId", request.getParameter("user_id"));
+                }
+                reqDispatcher = request.getRequestDispatcher("blog.jsp");
+                reqDispatcher.forward(request, response);
                 break;
         }
     }
@@ -101,6 +115,7 @@ public class ServController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
+        RequestDispatcher reqDispatcher;
         SessionFactory factory;
         Integer usrCount = 0;
         DatabaseController dbc = new DatabaseController();
@@ -170,12 +185,11 @@ public class ServController extends HttpServlet {
             case "/ServLogin":
                 System.out.println(userPath);
                 username = request.getParameter("login");
-                 {
-                    try {
-                        password = dbc.MD5(request.getParameter("password"));
-                    } catch (NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                password = request.getParameter("password");
+                try {
+                    password = dbc.MD5(request.getParameter("password"));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 try {
                     factory = util.HibernateUtil.getSessionFactory();
@@ -217,6 +231,12 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
                 dbc.inputOperation(factory.openSession(), username, password, email, "signup");
+                results = dbc.selectOperator(factory.openSession(), username);
+                Users usr = null;
+                for (Iterator itr = results.iterator(); itr.hasNext();) {
+                    usr = (Users) itr.next();
+                }
+                dbc.inputOperation(factory.openSession(), usr.getUserId());
                 String encodedURL = response.encodeRedirectURL("login.jsp");
                 response.sendRedirect(encodedURL);
 
@@ -225,10 +245,19 @@ public class ServController extends HttpServlet {
                 UploadMultiPartVoid(request, response, "image");
                 break;
             case "/PostText":
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
                 String title = request.getParameter("post-title");
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
-                System.out.println("Title:" + title + "\nText:" + text + "\nHashTag:" + hastag);
+                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
+                dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
+                String encodedURL1 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(encodedURL1);
                 break;
             case "/UploadVideo":
                 UploadMultiPartVoid(request, response, "video");
@@ -243,16 +272,27 @@ public class ServController extends HttpServlet {
                 }
                  {
                     try {
-                        password = request.getParameter("password") == null ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
+                        System.out.println(request.getParameter("password"));
+                        System.out.println(request.getParameter("password").length());
+                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
                     } catch (NoSuchAlgorithmException ex) {
                         Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+
                 email = request.getParameter("email");
                 date = request.getParameter("date");
                 blog = request.getParameter("blog");
                 name = request.getParameter("name");
-                dbc.updateOperation(factory.openSession(), password, email, date, blog, name, "settingG", ModelStatic.useRumbler.getUserId());
+                Date dates = new Date();
+                try {
+                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId());
+                reqDispatcher = request.getRequestDispatcher("setting.jsp");
+                reqDispatcher.forward(request, response);
                 break;
 
         }

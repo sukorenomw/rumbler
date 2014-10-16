@@ -26,11 +26,32 @@ public class DatabaseController {
     public List selectOperator(Session session, String user) {
         Transaction tx = null;
         List res = null;
+        String hql = "";
         try {
             tx = session.beginTransaction();
-            String hql = "FROM Users u WHERE u.username = '" + user + "'";
+            hql = "FROM Users u WHERE u.username = '" + user + "'";
             Query qry = session.createQuery(hql);
             res = qry.list();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
+
+    public List selectOperator(Session session, int user) {
+        Transaction tx = null;
+        List res = null;
+        String hql = "";
+        try {
+            tx = session.beginTransaction();
+            hql = "FROM Users u WHERE u.userId = " + user + "";
+            Query qry = session.createQuery(hql);
+            res = qry.list();
+            System.out.println("sukses masuk");
             for (Iterator itr = res.iterator(); itr.hasNext();) {
                 Users usr = (Users) itr.next();
                 System.out.println("user id = " + usr.getUserId() + "\nname : " + usr.getName() + " ppost = " + usr.getPostses().size());
@@ -64,7 +85,28 @@ public class DatabaseController {
                     qry.setParameter("password", MD5(password));
                     qry.executeUpdate();
                     break;
+
             }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void inputOperation(Session session, int user) {
+        Transaction tx = null;
+        List res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            sql = "INSERT INTO settings(user_id) VALUES (:user)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user", user);
+            qry.executeUpdate();
             tx.commit();
         } catch (Exception e) {
 
@@ -77,24 +119,49 @@ public class DatabaseController {
 
     }
 
-    public void updateOperation(Session session, String password, String email, String date, String blog, String name, String kond, int user) {
+    public void updateOperation(Session session, String password, String email, Date date, String blog, String name, int user) {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             Query qry;
             String sql;
-            switch (kond) {
-                case "settingG":
-                    sql = "Update users set name = :name, birthday = :birthday, email = :email, blog_title = :blog, password = :password, where user_id = " + user;
-                    qry = session.createSQLQuery(sql);
-                    qry.setParameter("name", name);
-                    qry.setParameter("email", email);
-                    qry.setParameter("password", password);
-                    qry.setParameter("blog_title", blog);
-                    qry.setParameter("birthday", date);
-                    qry.executeUpdate();
-                    break;
-            }
+            sql = "INSERT INTO users(username,email,password) VALUES (:user,:email,:password)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user", user);
+            qry.setParameter("email", email);
+            qry.setParameter("password", MD5(password));
+            sql = "Update users set name = :name, email = :email,birthday = :birthday, blog_title = :blog, password = :password where user_id = " + user;
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("name", name);
+            qry.setParameter("email", email);
+            qry.setParameter("password", password);
+            qry.setParameter("blog", blog);
+            qry.setDate("birthday", date);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void insertOperation(Session session, String title, String text, String hastag, int user) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            Date dates = Calendar.getInstance().getTime();
+            sql = "Insert into posts(user_id,title,content,tag,created_at,isvideo) VALUES(:user_id,:title,:content,:hashtag,:time,:vid)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user_id", user);
+            qry.setParameter("title", title);
+            qry.setParameter("content", text);
+            qry.setParameter("hashtag", hastag);
+            qry.setTimestamp("time", dates);
+            qry.setParameter("vid", 0);
+            qry.executeUpdate();
             tx.commit();
         } catch (Exception e) {
 
