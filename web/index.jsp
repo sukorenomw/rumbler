@@ -247,7 +247,11 @@
                                 <p><%= arr.get(i).getTag()%></p>
                                 <% }%>
                                 <ul class="inline-list">
-                                    <li><a href="#"><i class="step fi-heart size-36"></i></a></li>
+                                    <% if(dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1){ %>
+                                    <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId() %>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) %>"></i></a></li>
+                                    <% }else{ %>
+                                    <li><a href="#"><i class="likeBtn step fi-heart size-36" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId() %>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) %>"></i></a></li>
+                                    <% } %>
                                     <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
                                 </ul>
                             </section>

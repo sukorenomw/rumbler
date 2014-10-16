@@ -129,6 +129,25 @@ public class ServController extends HttpServlet {
         String blog = "";
         String name = "";
         switch (userPath) {
+            case "/LikeAction":
+                String act = request.getParameter("action");
+                Integer userid = Integer.valueOf(request.getParameter("userid"));
+                Integer postid = Integer.valueOf(request.getParameter("postid"));
+
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+
+                if (act.equals("like")) {
+                    System.out.println("masuk ke like");
+                    dbc.likePost(factory.openSession(), userid, postid);
+                } else {
+                    dbc.unlikePost(factory.openSession(), userid, postid);
+                }
+                break;
             case "/ReloadFollower":
                 try (PrintWriter out = response.getWriter()) {
                     out.print("<h3 class=\"title\">Followers</h3>");
@@ -417,10 +436,10 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
 
-                int emailp = request.getParameter("emailSwitchPrivacy")==null?0:1;
-                int namep = request.getParameter("nameSwitchPrivacy")==null?0:1;
-                int usrp = request.getParameter("usrnameSwitchPrivacy")==null?0:1;
-                int datep = request.getParameter("bdSwitchPrivacy")==null?0:1;
+                int emailp = request.getParameter("emailSwitchPrivacy") == null ? 0 : 1;
+                int namep = request.getParameter("nameSwitchPrivacy") == null ? 0 : 1;
+                int usrp = request.getParameter("usrnameSwitchPrivacy") == null ? 0 : 1;
+                int datep = request.getParameter("bdSwitchPrivacy") == null ? 0 : 1;
                 dbc.updateOperation(factory.openSession(), emailp, datep, usrp, namep, ModelStatic.useRumbler.getUserId());
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
@@ -434,9 +453,9 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
 
-                int like = request.getParameter("likesNotif")==null?0:1;
-                int comN = request.getParameter("commentsNotif")==null?0:1;
-                int fol = request.getParameter("followerNotif")==null?0:1;
+                int like = request.getParameter("likesNotif") == null ? 0 : 1;
+                int comN = request.getParameter("commentsNotif") == null ? 0 : 1;
+                int fol = request.getParameter("followerNotif") == null ? 0 : 1;
                 Date dates2 = new Date();
                 dbc.updateOperation(factory.openSession(), like, comN, fol, ModelStatic.useRumbler.getUserId());
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");

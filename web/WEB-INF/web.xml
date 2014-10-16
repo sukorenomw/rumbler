@@ -29,12 +29,9 @@
         <url-pattern>/PostText</url-pattern>
         <url-pattern>/settingNotif</url-pattern>
         <url-pattern>/ServSignUp</url-pattern>
-<<<<<<< HEAD
-=======
-        <url-pattern>/UploadFile</url-pattern>
->>>>>>> adb3b8379944d94fdbb04e744758131ee7246a0b
         <url-pattern>/infiniteScroll</url-pattern>
         <url-pattern>/FollowTo</url-pattern>
+        <url-pattern>/LikeAction</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -115,6 +115,48 @@ public class DatabaseController {
         return res;
     }
 
+    public void likePost(Session session, Integer userId, Integer postId) {
+        Transaction tx = null;
+        List res = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+
+            sql = "INSERT INTO likes(like_id, post_id, user_id) VALUES (NULL,:userId, :postId)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("postId", postId);
+            qry.setParameter("userId", userId);
+            qry.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void unlikePost(Session session, Integer userId, Integer postId) {
+        Transaction tx = null;
+        List res = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+
+            sql = "DELETE FROM likes WHERE user_id = " + userId + " AND post_id = " + postId;
+            qry = session.createSQLQuery(sql);
+            qry.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
     public void followTo(Session session, Integer userId, Integer followTo) {
         Transaction tx = null;
         List res = null;
@@ -145,7 +187,7 @@ public class DatabaseController {
             Query qry;
             String sql;
 
-            sql = "DELETE FROM followers WHERE user_id = "+userId+" AND follower_id = "+unfollow;
+            sql = "DELETE FROM followers WHERE user_id = " + userId + " AND follower_id = " + unfollow;
             qry = session.createSQLQuery(sql);
             qry.executeUpdate();
 
@@ -208,7 +250,7 @@ public class DatabaseController {
 
     }
 
-    public void updateOperation(Session session,int email, int date, int username, int  name, int user) {
+    public void updateOperation(Session session, int email, int date, int username, int name, int user) {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -228,7 +270,8 @@ public class DatabaseController {
             session.close();
         }
     }
-    public void updateOperation(Session session,int like, int comN, int fol, int user) {
+
+    public void updateOperation(Session session, int like, int comN, int fol, int user) {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -338,6 +381,26 @@ public class DatabaseController {
             session.close();
         }
         return name;
+    }
+
+    public Integer isLiked(Session session, int user, int postid) {
+        Transaction tx = null;
+        List res;
+        Integer ret = 0;
+        try {
+            tx = session.beginTransaction();
+            String sql = "SELECT * FROM likes WHERE user_id = " + user + " AND post_id = " + postid;
+            Query qry = session.createSQLQuery(sql);
+            res = qry.list();
+            System.out.println("ret : " + res.size());
+            ret = res.size();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return ret;
     }
 
     public List selectPosts(Session session, int user) {

@@ -12,7 +12,6 @@ $(document).on('resize', function () {
 $(document).trigger('resize');
 
 $(document).ready(function () {
-
 //    $('#generalSetting').hide();
     $('.flyout').hide();
 //    $('#post-text').hide();
@@ -175,6 +174,36 @@ $(document).ready(function () {
         console.log(unfollow + " " + myId);
         e.preventDefault();
     })
+
+    $('.likeBtn').click(function (e) {
+        var isLiked = $(this).attr("data-like");
+        var post = $(this).attr("data-post");
+        var user = $(this).attr("data-userid");
+        var item = $(this);
+        if (isLiked == 0) {
+            $.ajax({
+                type: "POST",
+                url: "LikeAction",
+                data: {postid: post, userid: user, action: "like"},
+                success: function (responseText) {
+                    item.addClass('liked');
+                    item.attr("data-like", "1");
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "LikeAction",
+                data: {postid: post, userid: user, action: "unlike"},
+                success: function (responseText) {
+                    item.removeClass('liked');
+                    item.attr("data-like", "0");
+
+                }
+            });
+        }
+        e.preventDefault();
+    });
 
     $('.followTo').click(function (e) {
         var followTo = $(this).attr("data-user");
