@@ -43,13 +43,13 @@ public class DatabaseController {
     }
 //    SELECT * FROM users ORDER BY RAND() LIMIT 5 
 
-    public List selectRandomUsers(Session session) {
+    public List selectRandomUsers(Session session, Integer userid) {
         Transaction tx = null;
         List res = null;
         String hql = "";
         try {
             tx = session.beginTransaction();
-            hql = "SELECT * FROM users ORDER BY RAND() LIMIT 5";
+            hql = "SELECT * FROM users WHERE user_id NOT IN (SELECT follower_id FROM followers WHERE user_id =" + userid + ") ORDER BY RAND() LIMIT 5";
             Query qry = session.createSQLQuery(hql).addEntity(Users.class);
             res = qry.list();
             for (Iterator itr = res.iterator(); itr.hasNext();) {
@@ -72,7 +72,7 @@ public class DatabaseController {
         String hql = "";
         try {
             tx = session.beginTransaction();
-            hql = "SELECT * FROM users WHERE user_id IN (SELECT follower_id FROM followers WHERE user_id = "+userid+")";
+            hql = "SELECT * FROM users WHERE user_id IN (SELECT follower_id FROM followers WHERE user_id = " + userid + ")";
             Query qry = session.createSQLQuery(hql).addEntity(Users.class);
             res = qry.list();
             for (Iterator itr = res.iterator(); itr.hasNext();) {
@@ -113,6 +113,48 @@ public class DatabaseController {
             session.close();
         }
         return res;
+    }
+
+    public void followTo(Session session, Integer userId, Integer followTo) {
+        Transaction tx = null;
+        List res = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+
+            sql = "INSERT INTO followers(user_id, follower_id) VALUES (:userId, :followTo)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("userId", userId);
+            qry.setParameter("followTo", followTo);
+            qry.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void unfollowUser(Session session, Integer userId, Integer unfollow) {
+        Transaction tx = null;
+        List res = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+
+            sql = "DELETE FROM followers WHERE user_id = "+userId+" AND follower_id = "+unfollow;
+            qry = session.createSQLQuery(sql);
+            qry.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
     }
 
     public void inputOperation(Session session, String user, String password, String email, String kond) {

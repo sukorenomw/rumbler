@@ -129,6 +129,97 @@ public class ServController extends HttpServlet {
         String blog = "";
         String name = "";
         switch (userPath) {
+            case "/ReloadFollower":
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("<h3 class=\"title\">Followers</h3>");
+                    out.print("<p class=\"size-12\">The lists of your followers</p>");
+                    out.print("<hr/>");
+                    try {
+                        factory = util.HibernateUtil.getSessionFactory();
+                    } catch (Throwable ex) {
+                        System.err.println("Failed to create sessionFactory object." + ex);
+                        throw new ExceptionInInitializerError(ex);
+                    }
+                    List followers = dbc.selectFollowers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                    for (Iterator itr = followers.iterator(); itr.hasNext();) {
+                        Users flw = (Users) itr.next();
+                        out.print("<div class=\"row\">");
+                        out.print("<div class=\"small-8\">");
+                        out.print("<div class=\"row\">");
+                        out.print("<div class=\"small-5 push-1 columns\">");
+                        out.print("<div class=\"columns profpict\"><img class=\"radius\" src=\"" + flw.getPicturePath() + "\"/></div>");
+                        out.print("</div>");
+                        out.print("<div class=\"small-7 columns\">");
+                        out.print("<p><a href=\"FriendsBlog?user_id=" + flw.getUserId() + "\">" + flw.getName() + "</a></p>");
+                        out.print("<a href=\"#\" class='unfollow' data-unfol=\"" + flw.getUserId() + "\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"><span class=\"label radius success medium\">Following</span></a>"
+                        );
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("<hr/>");
+                    }
+                }
+                break;
+            case "/ReloadRecommend":
+                System.out.println("reloadrecommend");
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                List randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("<p>Recommended Blogs</p>\n"
+                            + "                        <hr/>\n"
+                            + "                        <input type=\"hidden\" id=\"hidden\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"/>");
+                }
+                for (Iterator itr = randUser.iterator(); itr.hasNext();) {
+                    Users usr = (Users) itr.next();
+                    try (PrintWriter out = response.getWriter()) {
+
+                        out.print("<a href=\"FriendsBlog?user_id=" + usr.getUserId() + "\"><img class=\"radius left\" src=\"" + usr.getPicturePath() + "\" height=\"40\" width=\"40\"/>\n"
+                                + "                                <p class=\"left blogname\">" + usr.getUsername() + " </p></a>\n"
+                                + "                            <a href=\"#\"><span class=\"left\"><i class=\"fi-plus size-28 followTo\" data-user=\"" + usr.getUserId() + "\"></i></span></a>\n"
+                                + "                            <hr class=\"hr-child\"/>");
+                    }
+
+                }
+                break;
+
+            case "/FollowTo":
+                System.out.println("follow to");
+                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
+                Integer userId = Integer.valueOf(request.getParameter("userid"));
+                System.out.println(followTo + " " + userId);
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                dbc.followTo(factory.openSession(), userId, followTo);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(dbc.selectFriendsName(factory.openSession(), followTo));
+                }
+                break;
+
+            case "/Unfollow":
+                System.out.println("unfollow");
+                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
+                Integer myId = Integer.valueOf(request.getParameter("userid"));
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                dbc.unfollowUser(factory.openSession(), myId, unfollow);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(dbc.selectFriendsName(factory.openSession(), unfollow));
+                }
+                break;
             case "/infiniteScroll":
                 response.setContentType("text/html;charset=UTF-8");
 
@@ -324,15 +415,6 @@ public class ServController extends HttpServlet {
                 } catch (Throwable ex) {
                     System.err.println("Failed to create sessionFactory object." + ex);
                     throw new ExceptionInInitializerError(ex);
-                }
-                 {
-                    try {
-                        System.out.println(request.getParameter("password"));
-                        System.out.println(request.getParameter("password").length());
-                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
-                    } catch (NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                 }
 
                 email = request.getParameter("email");
