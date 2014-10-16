@@ -85,7 +85,28 @@ public class DatabaseController {
                     qry.setParameter("password", MD5(password));
                     qry.executeUpdate();
                     break;
+
             }
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
+    public void inputOperation(Session session, int user) {
+        Transaction tx = null;
+        List res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            sql = "INSERT INTO settings(user_id) VALUES (:user)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user", user);
+            qry.executeUpdate();
             tx.commit();
         } catch (Exception e) {
 

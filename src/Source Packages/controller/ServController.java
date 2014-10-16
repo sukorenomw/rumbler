@@ -228,6 +228,12 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
                 dbc.inputOperation(factory.openSession(), username, password, email, "signup");
+                results = dbc.selectOperator(factory.openSession(), username);
+                Users usr = null;
+                for (Iterator itr = results.iterator(); itr.hasNext();) {
+                    usr = (Users) itr.next();
+                }
+                dbc.inputOperation(factory.openSession(), usr.getUserId());
                 String encodedURL = response.encodeRedirectURL("login.jsp");
                 response.sendRedirect(encodedURL);
 
