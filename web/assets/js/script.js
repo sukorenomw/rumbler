@@ -217,7 +217,7 @@ $(function () {
             tpl.find('span').click(function () {
 
                 if (tpl.hasClass('working')) {
-//                    jqXHR.abort();
+                    jqXHR.abort();
                 }
 
                 tpl.fadeOut(function () {
@@ -225,13 +225,16 @@ $(function () {
                 });
 
             });
-            
+
             data.context.removeClass('working');
             data.context.find('input').val(100).change();
             // Automatically upload the file once it is added to the queue
 //            var jqXHR = data.submit();
+            $("#sbmt").click(function () {
+                var jqXHR = data.submit();
+            });
         }
-        /*,
+        ,
         progress: function (e, data) {
 
             // Calculate the completion percentage of the upload
@@ -248,7 +251,7 @@ $(function () {
         fail: function (e, data) {
             // Something has gone wrong!
             data.context.addClass('error');
-        }*/
+        }
 
     });
 

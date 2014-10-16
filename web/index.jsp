@@ -135,7 +135,7 @@
                                     <div class="jarak"></div>
                                     <div class="row">
                                         <div class="small-3 left small">
-                                            <input type="submit" class="button small radius" value="post" />
+                                            <input id="sbmt" type="submit" class="button small radius" value="post" />
                                         </div>
                                         <div class="cancelBtn small-3 right columns small">
                                             <a href="#" class="button radius small alert">Cancel</a>

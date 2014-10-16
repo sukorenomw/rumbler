@@ -292,9 +292,11 @@ public class ServController extends HttpServlet {
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
+            System.out.println("Name file:" + ((FileItem) items.get(0)).getName());
             while (iter.hasNext()) {
                 System.out.println("masuk ke while");
                 FileItem item = (FileItem) iter.next();
+                System.out.println("Size:" + item.getSize());
                 if (!item.isFormField() && item.getSize() > 0) {
                     String fileName = new File(item.getName()).getName();
                     String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
@@ -306,8 +308,7 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-                            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                                    request, response);
+
                         }
                     }
                     if (jenis.equalsIgnoreCase("video")) {
@@ -327,7 +328,8 @@ public class ServController extends HttpServlet {
                     System.out.println("Text1:" + text1);
                 }
             }
-
+            getServletContext().getRequestDispatcher("/login.jsp").forward(
+                    request, response);
         } catch (FileUploadException ex) {
             throw new ServletException(ex);
         } catch (Exception ex) {
