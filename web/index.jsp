@@ -43,6 +43,7 @@
                 response.setStatus(response.SC_MOVED_TEMPORARILY);
                 response.setHeader("Location", site);
             }
+            controller.ServController.n = 10;
         %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
