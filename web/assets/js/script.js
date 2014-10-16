@@ -16,8 +16,6 @@ $(document).ready(function () {
 //    $('#generalSetting').hide();
     $('.flyout').hide();
 //    $('#post-text').hide();
-    $('#privacySetting').hide();
-    $('#notifSetting').hide();
     $('.totop').hide();
     $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
@@ -46,17 +44,26 @@ $(document).ready(function () {
     $('#generalSettingBtn').click(function () {
         $('#privacySetting').hide();
         $('#notifSetting').hide();
+        $('#myFollower').hide();
         $('#generalSetting').show();
     });
     $('#privacySettingBtn').click(function () {
         $('#generalSetting').hide();
         $('#notifSetting').hide();
+        $('#myFollower').hide();
         $('#privacySetting').show();
     });
     $('#notifSettingBtn').click(function () {
         $('#generalSetting').hide();
         $('#privacySetting').hide();
+        $('#myFollower').hide();
         $('#notifSetting').show();
+    });
+    $('#myFollowerBtn').click(function () {
+        $('#generalSetting').hide();
+        $('#privacySetting').hide();
+        $('#notifSetting').hide();
+        $('#myFollower').show();
     });
     $('.totop').click(function () {
         $('html, body').animate({scrollTop: 0}, 800);
@@ -117,12 +124,23 @@ $(document).ready(function () {
                 $("#usr_post_menu").stop().fadeIn();
             });
         });
+
         $("#post-text").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '130px'}, 500, function () {
                 $("#usr_post_menu").stop().fadeIn();
             });
         });
 
+    });
+
+    $(".unfollow").hover(function () {
+        $(this).find('span').removeClass('success',1000,'easing');
+        $(this).find('span').addClass('alert',1000,'easing');
+        $(this).find('span').html('unfollow');
+    }, function (){
+        $(this).find('span').removeClass('alert',1000,'easing');
+        $(this).find('span').addClass('success',1000,'easing');
+        $(this).find('span').html('following');
     });
 
     $contentLoadTriggered = false;
@@ -184,7 +202,79 @@ $(document).ready(function () {
 
 $(function () {
 
-    var ul = $('#upload ul');
+    var ul_vid = $('#upload-vid ul');
+
+    $('#drop-vid a').click(function () {
+        // Simulate a click on the file input button
+        // to show the file browser dialog
+        $(this).parent().find('input').click();
+    });
+
+    // Initialize the jQuery File Upload plugin
+    $('#upload-vid').fileupload({
+        // This element will accept file drag/drop uploading
+        dropZone: $('#drop-vid'),
+        // This function is called when a file is added to the queue;
+        // either via the browse button, or via drag/drop:
+        add: function (e, data) {
+            console.log("masuk ke fileupload id upload-vid");
+
+            var tpl_vid = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
+                    ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+
+            // Append the file name and file size
+            tpl_vid.find('p').text(data.files[0].name)
+                    .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+
+            // Add the HTML to the UL element
+            data.context = tpl_vid.appendTo(ul_vid);
+
+            // Initialize the knob plugin
+            tpl_vid.find('input').knob();
+
+            // Listen for clicks on the cancel icon
+            tpl_vid.find('span').click(function () {
+
+                if (tpl_vid.hasClass('working')) {
+                    jqXHR.abort();
+                }
+
+                tpl_vid.fadeOut(function () {
+                    tpl_vid.remove();
+                });
+
+            });
+
+            data.context.removeClass('working');
+            data.context.find('input').val(100).change();
+            // Automatically upload the file once it is added to the queue
+//            var jqXHR = data.submit();
+            $("#sbmtVid").click(function () {
+                var jqXHR = data.submit();
+            });
+        }
+        ,
+        progress: function (e, data) {
+
+            // Calculate the completion percentage of the upload
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+
+            // Update the hidden input field and trigger a change
+            // so that the jQuery knob plugin knows to update the dial
+            data.context.find('input').val(progress).change();
+
+            if (progress == 100) {
+                data.context.removeClass('working');
+            }
+        },
+        fail: function (e, data) {
+            // Something has gone wrong!
+            data.context.addClass('error');
+        }
+
+    });
+
+    var ul_pict = $('#upload ul');
 
     $('#drop a').click(function () {
         // Simulate a click on the file input button
@@ -199,7 +289,8 @@ $(function () {
         // This function is called when a file is added to the queue;
         // either via the browse button, or via drag/drop:
         add: function (e, data) {
-
+            console.log("masuk ke fileupload id upload");
+            $('#sbmtPict').show();
             var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
                     ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
 
@@ -208,7 +299,7 @@ $(function () {
                     .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
 
             // Add the HTML to the UL element
-            data.context = tpl.appendTo(ul);
+            data.context = tpl.appendTo(ul_pict);
 
             // Initialize the knob plugin
             tpl.find('input').knob();
@@ -230,9 +321,10 @@ $(function () {
             data.context.find('input').val(100).change();
             // Automatically upload the file once it is added to the queue
 //            var jqXHR = data.submit();
-            $("#sbmt").click(function () {
+            $("#sbmtPict").click(function () {
                 var jqXHR = data.submit();
             });
+
         }
         ,
         progress: function (e, data) {
@@ -251,6 +343,7 @@ $(function () {
         fail: function (e, data) {
             // Something has gone wrong!
             data.context.addClass('error');
+            console.log("failed nih kaks");
         }
 
     });

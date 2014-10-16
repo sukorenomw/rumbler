@@ -242,7 +242,6 @@ public class ServController extends HttpServlet {
 
                 break;
             case "/UploadFile":
-                System.out.println("-------");
                 UploadMultiPartVoid(request, response, "image");
 
                 break;
@@ -320,6 +319,10 @@ public class ServController extends HttpServlet {
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
         System.out.println("--------- upload multipart void");
         String path = "assets/img/PostPic/";
+        String text1 = "";
+        String fileName = "";
+        
+        System.out.println("--------- upload multipart void " + jenis);
         DiskFileItemFactory factorys = new DiskFileItemFactory();
         factorys.setSizeThreshold(MAX_MEMORY_SIZE);
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -345,13 +348,8 @@ public class ServController extends HttpServlet {
                 System.out.println("masuk ke while");
                 FileItem item = (FileItem) iter.next();
                 System.out.println("Size:" + item.getSize());
-                String text1 = "";
-                if (item.isFormField() && item.getSize() > 0) {
-                    text1 = item.getString();
-                    System.out.println("Text1:" + text1);
-                }
                 if (!item.isFormField() && item.getSize() > 0) {
-                    String fileName = new File(item.getName()).getName();
+                    fileName = new File(item.getName()).getName();
                     String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
                     System.out.println("masuk ke if pertama");
                     if (jenis.equalsIgnoreCase("image")) {
@@ -361,10 +359,9 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-                            dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
+                            
                         }
-                    }
-                    if (jenis.equalsIgnoreCase("video")) {
+                    } else if (jenis.equalsIgnoreCase("video")) {
                         if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
@@ -372,10 +369,15 @@ public class ServController extends HttpServlet {
                             System.out.println(filePath);
                             item.write(uploadedFile);
                         }
+                    } else if (item.isFormField() && item.getSize() > 0) {
+                        text1 = item.getString();
+                        System.out.println("Text1:" + text1);
                     }
                 }
 
             }
+            System.out.println(text1+" ajnk");
+            dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
             String encodedURL1 = response.encodeRedirectURL("index.jsp");
             response.sendRedirect(encodedURL1);
         } catch (FileUploadException ex) {

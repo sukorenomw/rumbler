@@ -142,7 +142,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div id='privacySetting'>
+                        <div id='privacySetting' style="display: none;">
                             <h3 class="title">Privacy</h3>
                             <p class="size-12">This setting let people see or not your detail</p>
                             <hr/>
@@ -214,7 +214,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div id='notifSetting'>
+                        <div id='notifSetting' style="display: none;">
                             <h3 class="title">Notification</h3>
                             <p class="size-12">This setting set your notification on or off</p>
                             <hr/>
@@ -262,6 +262,39 @@
                                 </div>
                             </form>
                         </div>
+                        <div id='myFollower' style="display: none;">
+                            <h3 class="title">Followers</h3>
+                            <p class="size-12">The lists of your followers</p>
+                            <hr/>
+                            <div class="row">
+                                <div class="small-8">
+                                    <div class="row">
+                                        <div class="small-5 push-1 columns">
+                                            <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                                        </div>
+                                        <div class="small-3 pull-5 columns">
+                                            <p><a href="#">nama orang</a></p>
+                                            <a href="#" class="unfollow"><span class="label radius success medium">Following</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="small-8">
+                                    <div class="row">
+                                        <div class="small-5 push-1 columns">
+                                            <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                                        </div>
+                                        <div class="small-3 pull-5 columns">
+                                            <p><a href="#">nama orang</a></p>
+                                            <a href="#" class="unfollow"><span class="label radius success medium">Following</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -271,16 +304,20 @@
                         <p>Settings</p>
                         <hr/>
                         <a href="#" id='generalSettingBtn'>
-                            <p class="left blogname">General Settings </p>
                             <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <p class="left blogname">General Settings </p>
                         <hr class="hr-child"/>
                         <a href="#" id='privacySettingBtn'>
-                            <p class="left blogname">Privacy Settings </p>
                             <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <p class="left blogname">Privacy Settings </p>
                         <hr class="hr-child"/>
                         <a href="#" id='notifSettingBtn'>
-                            <p class="left blogname">Notification Settings </p>
                             <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <p class="left blogname">Notification Settings </p>
+                        <hr class="hr-child"/>
+                        <a href="#" id='myFollowerBtn'>
+                            <span class="left"><i class="fi-widget size-28"></i></span></a>
+                        <p class="left blogname">My Followers </p>
                         <hr class="hr-child"/>
                     </div>
                 </aside>
@@ -297,10 +334,10 @@
 
             var picker = new Pikaday({
                 field: document.getElementById('datepicker'),
-                format:'MMMM DD, YYYY',
+                format: 'MMMM DD, YYYY',
                 onSelect: function () {
                     console.log(this.getMoment().format('MMMM DD, YYYY'));
-                }   
+                }
             });
         </script>
         <script src="assets/js/script.js"></script>
