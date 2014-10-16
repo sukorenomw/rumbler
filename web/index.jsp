@@ -44,6 +44,7 @@
                 response.setStatus(response.SC_MOVED_TEMPORARILY);
                 response.setHeader("Location", site);
             }
+            controller.ServController.n = 10;
         %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
@@ -218,10 +219,12 @@
                         <div class="large-10 columns bubble radius">
                             <section>
                                 <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
-                                <% if(arr.get(i).getContent() != null ){ %>
-                                <header><h3 class="title"><%= arr.get(i).getContent() %></h3></header>
+                                <% if (arr.get(i).getContent() != null) {%>
+                                <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
+                                    <% } %>
+                                    <% if (arr.get(i).getTitle() != null) {%>
+                                <p><%= arr.get(i).getTitle()%></p>
                                 <% } %>
-                                <p><%= arr.get(i).getTitle() %></p>
                                 <% if (arr.get(i).getIsVideo() == 1) {%>
                                 <video width="480" height="320" controls>
                                     <source src="<%= arr.get(i).getImage()%>" type="video/avi">
@@ -237,7 +240,9 @@
                                     }
                                 %>
                                 <hr/>
+                                <% if (arr.get(i).getTag() != null) {%>
                                 <p><%= arr.get(i).getTag()%></p>
+                                <% }%>
                                 <ul class="inline-list">
                                     <li><a href="#"><i class="step fi-heart size-36"></i></a></li>
                                     <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>

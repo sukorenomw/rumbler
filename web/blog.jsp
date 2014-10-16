@@ -154,39 +154,44 @@
                                     arr.add(entity);
                                 }
                                 if (arr.size() > 0) {
-                                    for (int i = tes.size() - 1; i >= n; i--) {
+                                    for (int i = tes.size() - 1; i >= 0; i--) {
 
                             %>
                             <div class="row panel radius">
                                 <div class="large-2 columns small-3"><img src="<%= arr.get(i).getUsers().getPicturePath() %>"/></div>
                                 <div class="large-10 columns">
                                     <section>
-                                        <% if (arr.get(i).getContent() != null) {%>
-                                        <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
-                                            <% }%>
-                                        <p><%= arr.get(i).getTitle()%></p>
-                                        <% if (arr.get(i).getIsVideo() == 1) {%>
-                                        <video width="480" height="320" controls>
-                                            <source src="<%= arr.get(i).getImage()%>" type="video/avi">
-                                            <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
-                                            <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
-                                            <source src="<%= arr.get(i).getImage()%>" type="video/webm">
-                                        </video>
+                                <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
+                                <% if (arr.get(i).getContent() != null) {%>
+                                <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
+                                    <% } %>
+                                    <% if (arr.get(i).getTitle() != null) {%>
+                                <p><%= arr.get(i).getTitle()%></p>
+                                <% } %>
+                                <% if (arr.get(i).getIsVideo() == 1) {%>
+                                <video width="480" height="320" controls>
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/avi">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/webm">
+                                </video>
 
-                                        <% } else if (!arr.get(i).getImage().equals("no image")) {%>
-                                        <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
-                                        </span>
-                                        <%
-                                            }
-                                        %>
-                                        <hr/>
-                                        <p><%= arr.get(i).getTag()%></p>
-                                        <ul class="inline-list">
-                                            <li><a href=""><i class="step fi-heart size-36"></i></a></li>
-                                            <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
-                                        </ul>
-                                    </section>
-
+                                <% } else if (!arr.get(i).getImage().equals("no image")) {%>
+                                <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
+                                </span>
+                                <%
+                                    }
+                                %>
+                                <hr/>
+                                <% if (arr.get(i).getTag() != null) {%>
+                                <p><%= arr.get(i).getTag()%></p>
+                                <% }%>
+                                <ul class="inline-list">
+                                    <li><a href="#"><i class="step fi-heart size-36"></i></a></li>
+                                    <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
+                                </ul>
+                            </section>
+                            
                                     <!-- popup isi comment -->
                                     <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
 

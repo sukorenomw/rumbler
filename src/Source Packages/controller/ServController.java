@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ServController extends HttpServlet {
     private static final String DATA_DIRECTORY = "web/assets/img/PostPic";
     private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2048;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
+    public static int n = 10;
 
     //ModelStatic ms = new ModelStatic();
     /**
@@ -138,48 +140,66 @@ public class ServController extends HttpServlet {
                     throw new ExceptionInInitializerError(ex);
                 }
                 res = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                ArrayList<Posts> arr = new ArrayList<Posts>();
+                String pic = "";
                 try (PrintWriter out = response.getWriter()) {
-//                    for (Posts entity : res) {
-//                        out.print("data = " + entity.getContent());
-//                    }
-                    out.print("<div class=\"row\" style=\"display:none;\">");
-                    out.print("<div class=\"large-2 columns small-3 profpict\"><img class=\"radius\" src=\"http://placehold.it/80x80&text=[img]\"/></div>");
-                    out.print("<div class=\"large-10 columns bubble radius\">");
-                    out.print("<section>");
-                    out.print("<p class=\"size-14\"><a href=\"#\">username</a></p>");
-                    out.print("<header><h3 class=\"title\">content Post</h3></header>");
-                    out.print("<p>title</p>");
-                    out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\"\" width=\"480\" height=\"320\" /></span>");
-                    out.print("<hr/>");
-                    out.print("<p>#tag,#tagdisini</p>");
-                    out.print("<ul class=\"inline-list\">\n"
-                            + "                                    <li><a href=\"#\"><i class=\"step fi-heart size-36\"></i></a></li>\n"
-                            + "                                    <li><a href=\"#\" data-reveal-id=\"commentModal\"><i class=\"step fi-comment size-36\"></i></a></li>\n"
-                            + "                                </ul>");
-                    out.print("</section>");
-                    out.print("<dl class=\"accordion radius\" data-accordion>");
-                    out.print("<dd class=\"accordion-navigation\">");
-                    out.print("<a href=\"#commentView\" >View Comments</a>");
-                    out.print("<div id=\"commentView\" class=\"content radius\">");
-                    out.print("<h6>2 Comments</h6>");
-                    out.print("<div class=\"row\">");
-                    out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
-                    out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
-                    out.print("</div>");
+                    for (Posts entity : res) {
+                        arr.add(entity);
+                    }
+                    for (int i = n; i < n + 3; i++) {
+                        List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
+                        for (Users entity1 : res12) {
+                            pic = entity1.getPicturePath();
+                        }
+                        out.print("<div class=\"row\" style=\"display:none;\">");
+                        out.print("<div class=\"large-2 columns small-3 profpict\"><img class=\"radius\" src=\"" + pic + "\"/></div>");
+                        out.print("<div class=\"large-10 columns bubble radius\">");
+                        out.print("<section>");
+                        out.print("<p class=\"size-14\"><a href=\"FriendsBlog?user_id=" + arr.get(i).getUsers().getUserId() + "\">" + dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId()) + "</a></p>");
+                        if (arr.get(i).getTitle() != null) {
+                            out.print("<header><h3 class=\"title\">" + arr.get(i).getTitle() + "</h3></header>");
+                        }
+                        if (arr.get(i).getContent() != null) {
+                            out.print("<p>" + arr.get(i).getContent() + "</p>");
 
-                    out.print("<div class=\"row\">");
-                    out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Nama User\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
-                    out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
+                        }
+                        if (!arr.get(i).getImage().equals("no image")) {
+                            out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\"" + arr.get(i).getImage() + "\" width=\"480\" height=\"320\" /></span>");
 
-                    out.print("</div>");
-                    out.print("</div>");
-                    out.print("</dd>");
-                    out.print("</dl>");
-                    out.print("</div>");
-                    out.print("</div>");
-                    out.print("<div class=\"jarak\"></div>");
+                        }
+                        out.print("<hr/>");
+                        if (arr.get(i).getTag() != null) {
+                            out.print("<p>" + arr.get(i).getTag() + "</p>");
+                        }
+                        out.print("<ul class=\"inline-list\">\n"
+                                + "                                    <li><a href=\"#\"><i class=\"step fi-heart size-36\"></i></a></li>\n"
+                                + "                                    <li><a href=\"#\" data-reveal-id=\"commentModal\"><i class=\"step fi-comment size-36\"></i></a></li>\n"
+                                + "                                </ul>");
+                        out.print("</section>");
+                        out.print("<dl class=\"accordion radius\" data-accordion>");
+                        out.print("<dd class=\"accordion-navigation\">");
+                        out.print("<a href=\"#commentView\" >View Comments</a>");
+                        out.print("<div id=\"commentView\" class=\"content radius\">");
+                        out.print("<h6>2 Comments</h6>");
+                        out.print("<div class=\"row\">");
+                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
+                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
+                        out.print("</div>");
+
+                        out.print("<div class=\"row\">");
+                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Nama User\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
+                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
+
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</dd>");
+                        out.print("</dl>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("<div class=\"jarak\"></div>");
+                    }
                 }
-
+                n += 3;
                 break;
 
             case "/ServLogin":
@@ -378,6 +398,7 @@ public class ServController extends HttpServlet {
                 }
 
             }
+
             dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
 
         } catch (FileUploadException ex) {
