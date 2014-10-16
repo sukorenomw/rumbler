@@ -15,7 +15,7 @@
         <div class="large-4 five-up columns icon-bar push-2" role="navigation">
             <ul class="inline-list">
                 <li>
-                    <a href="index.jsp"class="white item"> 
+                    <a href="index.jsp" class="white item"> 
                         <i class="fi-home size-36"></i> 
                     </a>
                 </li>

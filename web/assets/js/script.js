@@ -31,7 +31,7 @@ $(document).ready(function () {
 //        $(".flyout").stop().fadeOut();
 //    });
     $notifShow = false;
-    $('.notif, .notif_badge').click(function () {
+    $('.notif, .notif_badge').click(function (e) {
         if ($notifShow == false) {
             $(".flyout").stop().fadeIn();
             $(".notif_badge").hide();
@@ -40,30 +40,35 @@ $(document).ready(function () {
             $(".flyout").stop().fadeOut();
             $notifShow = false;
         }
+        e.preventDefault();
     });
-    $('#generalSettingBtn').click(function () {
+    $('#generalSettingBtn').click(function (e) {
         $('#privacySetting').hide();
         $('#notifSetting').hide();
         $('#myFollower').hide();
         $('#generalSetting').show();
+        e.preventDefault();
     });
-    $('#privacySettingBtn').click(function () {
+    $('#privacySettingBtn').click(function (e) {
         $('#generalSetting').hide();
         $('#notifSetting').hide();
         $('#myFollower').hide();
         $('#privacySetting').show();
+        e.preventDefault();
     });
-    $('#notifSettingBtn').click(function () {
+    $('#notifSettingBtn').click(function (e) {
         $('#generalSetting').hide();
         $('#privacySetting').hide();
         $('#myFollower').hide();
         $('#notifSetting').show();
+        e.preventDefault();
     });
-    $('#myFollowerBtn').click(function () {
+    $('#myFollowerBtn').click(function (e) {
         $('#generalSetting').hide();
         $('#privacySetting').hide();
         $('#notifSetting').hide();
         $('#myFollower').show();
+        e.preventDefault();
     });
     $('.totop').click(function () {
         $('html, body').animate({scrollTop: 0}, 800);
@@ -76,39 +81,43 @@ $(document).ready(function () {
         }
     });
 
-    $("#newQuote, #newLink").click(function () {
+    $("#newQuote, #newLink").click(function (e) {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '+=300px'}, 500, function () {
                 $("#post-quote").stop().fadeIn();
             });
         });
+        e.preventDefault();
     });
 
-    $("#newText").click(function () {
+    $("#newText").click(function (e) {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '+=300px'}, 500, function () {
                 $("#post-text").stop().fadeIn();
             });
         });
+        e.preventDefault();
     });
 
-    $("#newVideo").click(function () {
+    $("#newVideo").click(function (e) {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '+=350px'}, 500, function () {
                 $("#post-video").stop().fadeIn();
             });
         });
+        e.preventDefault();
     });
 
-    $("#newPict").click(function () {
+    $("#newPict").click(function (e) {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '+=350px'}, 500, function () {
                 $("#post-picture").stop().fadeIn();
             });
         });
+        e.preventDefault();
     });
 
-    $(".cancelBtn").click(function () {
+    $(".cancelBtn").click(function (e) {
         $("#post-quote").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '130px'}, 500, function () {
                 $("#usr_post_menu").stop().fadeIn();
@@ -130,18 +139,74 @@ $(document).ready(function () {
                 $("#usr_post_menu").stop().fadeIn();
             });
         });
+        e.preventDefault();
 
     });
 
     $(".unfollow").hover(function () {
-        $(this).find('span').removeClass('success',1000,'easing');
-        $(this).find('span').addClass('alert',1000,'easing');
+        $(this).find('span').removeClass('success', 1000, 'easing');
+        $(this).find('span').addClass('alert', 1000, 'easing');
         $(this).find('span').html('unfollow');
-    }, function (){
-        $(this).find('span').removeClass('alert',1000,'easing');
-        $(this).find('span').addClass('success',1000,'easing');
+    }, function () {
+        $(this).find('span').removeClass('alert', 1000, 'easing');
+        $(this).find('span').addClass('success', 1000, 'easing');
         $(this).find('span').html('following');
     });
+
+    $('.unfollow').click(function (e) {
+        var unfollow = $(this).attr("data-unfol");
+        var myId = $(this).attr("data-user");
+        $.ajax({
+            type: "POST",
+            url: "Unfollow",
+            data: {unfollow: unfollow, userid: myId},
+            success: function (responseText) {
+                alert("you are not longer following " + responseText);
+                $.post("ReloadFollower", function (data) {
+                    setTimeout(function () {
+//                        $("#post-box").append(data);
+//                        $(data).html("#changeAjax").fadeIn('slow');
+                        $("#myFollower").html(data).fadeIn('slow');
+                    }, 500);
+
+                });
+            }
+        });
+        console.log(unfollow + " " + myId);
+        e.preventDefault();
+    })
+
+    $('.followTo').click(function (e) {
+        var followTo = $(this).attr("data-user");
+        var myId = $("#hidden").attr("data-user");
+        $.ajax({
+            type: "POST",
+            url: "FollowTo",
+            data: {followTo: followTo, userid: myId},
+            success: function (responseText) {
+                alert("you are now following " + responseText);
+                $.post("infiniteScroll", function (data) {
+                    setTimeout(function () {
+//                        $("#post-box").append(data);
+                        $(data).prependTo("#post-box").fadeIn('slow');
+                    });
+
+                });
+                $.post("ReloadRecommend", function (data) {
+                    setTimeout(function () {
+//                        $("#post-box").append(data);
+//                        $(data).html("#changeAjax").fadeIn('slow');
+                        $("#changeAjax").html(data).fadeIn('slow');
+                        $contentLoadTriggered = false;
+                    }, 1500);
+
+                });
+            }
+        });
+
+        console.log(followTo + " " + myId);
+        e.preventDefault();
+    })
 
     $contentLoadTriggered = false;
     $(window).scroll(function () {

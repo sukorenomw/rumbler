@@ -105,7 +105,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName()%>">
+                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle()%>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -280,8 +280,8 @@
                                             <div class="columns profpict"><img class="radius" src="<%= flw.getPicturePath()%>"/></div>
                                         </div>
                                         <div class="small-7 columns">
-                                            <p><a href="#"><%= flw.getName()%></a></p>
-                                            <a href="#" class="unfollow"><span class="label radius success medium">Following</span></a>
+                                            <p><a href="FriendsBlog<%= "?user_id=" + flw.getUserId()%>"><%= flw.getName()%></a></p>
+                                            <a href="#" class="unfollow" data-unfol="<%= flw.getUserId() %>" data-user="<%= ModelStatic.useRumbler.getUserId() %>"><span class="label radius success medium">Following</span></a>
                                         </div>
                                     </div>
                                 </div>

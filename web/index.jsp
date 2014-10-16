@@ -207,7 +207,7 @@
                 <div id="post-box">
                     <%
                         if (arr.size() > 0) {
-                            if(arr.size() < 10){
+                            if (arr.size() < 10) {
                                 n = arr.size();
                             }
                             for (int i = 0; i < n; i++) {
@@ -298,19 +298,20 @@
             </div>
             <div class="large-3 columns">
                 <aside>
-                    <div class="large-2 columns right">
+                    <div id="changeAjax" class="large-2 columns right">
                         <p>Recommended Blogs</p>
                         <hr/>
-                        <% 
-                        randUser = dbc.selectRandomUsers(factory.openSession());
-                         for (Iterator itr = randUser.iterator(); itr.hasNext();) {
-                                Users usr = (Users) itr.next();                
-                        %>
-                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId() %>"><img class="radius left" src="<%= usr.getPicturePath() %>" height="40" width="40"/>
-                            <p class="left blogname"><%= usr.getUsername() %> </p></a>
-                            <span class="left"><i class="fi-plus size-28"></i></span>
-                        <hr class="hr-child"/>
-                        <% } %>
+                        <input type="hidden" id="hidden" data-user="<%= ModelStatic.useRumbler.getUserId()%>"/>
+                            <%
+                                randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                                for (Iterator itr = randUser.iterator(); itr.hasNext();) {
+                                    Users usr = (Users) itr.next();
+                            %>
+                            <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
+                                <p class="left blogname"><%= usr.getUsername()%> </p></a>
+                            <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>
+                            <hr class="hr-child"/>
+                            <% }%>
                     </div>
                 </aside>
             </div>
