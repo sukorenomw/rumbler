@@ -186,7 +186,7 @@
                     String pic;
                 %>
                 <%
-                    int n = 5;
+                    int n = 10;
                     DatabaseController dbc = new DatabaseController();
                     List<Posts> results = null;
                     arr = new ArrayList<Posts>();
@@ -213,19 +213,27 @@
                     %>
 
                     <div class="row">
-                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic %>"/></div>
+                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%>"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
                                 <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
-                                <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
-                                <p><%= arr.get(i).getTitle()%></p>
-                                <% if (!arr.get(i).getImage().equals("no image")) {%>
+                                <% if(arr.get(i).getContent() != null ){ %>
+                                <header><h3 class="title"><%= arr.get(i).getContent() %></h3></header>
+                                <% } %>
+                                <p><%= arr.get(i).getTitle() %></p>
+                                <% if (arr.get(i).getIsVideo() == 1) {%>
+                                <video width="480" height="320" controls>
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/avi">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
+                                    <source src="<%= arr.get(i).getImage()%>" type="video/webm">
+                                </video>
+
+                                <% } else if (!arr.get(i).getImage().equals("no image")) {%>
                                 <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
                                 </span>
-                                <% }else if(arr.get(i).getIsVideo() == 1){ %>
-                                    
                                 <%
-                                }
+                                    }
                                 %>
                                 <hr/>
                                 <p><%= arr.get(i).getTag()%></p>

@@ -258,8 +258,11 @@ public class ServController extends HttpServlet {
 
                 break;
             case "/UploadFile":
-                UploadMultiPartVoid(request, response, "image");
-
+                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                    UploadMultiPartVoid(request, response, "image");
+                }
+                String encodedURL1 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(encodedURL1);
                 break;
             case "/PostText":
                 try {
@@ -333,7 +336,6 @@ public class ServController extends HttpServlet {
     }// </editor-fold>
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
-        System.out.println("--------- upload multipart void");
         String path = "assets/img/PostPic/";
         String text1 = "";
         String fileName = "";
@@ -378,24 +380,23 @@ public class ServController extends HttpServlet {
 
                         }
                     } else if (jenis.equalsIgnoreCase("video")) {
-                        if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4")) {
+                        if (time.equalsIgnoreCase("webm") || time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
                         }
-                    } else if (item.isFormField() && item.getSize() > 0) {
-                        text1 = item.getString();
-                        System.out.println("Text1:" + text1);
                     }
+                } else if (item.isFormField() && item.getSize() > 0) {
+                    text1 = item.getString();
+                    System.out.println("hashtag:" + text1);
                 }
 
             }
-            System.out.println(text1 + " ajnk");
+
             dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
-            String encodedURL1 = response.encodeRedirectURL("index.jsp");
-            response.sendRedirect(encodedURL1);
+
         } catch (FileUploadException ex) {
             throw new ServletException(ex);
         } catch (Exception ex) {

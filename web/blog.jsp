@@ -40,21 +40,21 @@
             DatabaseController dbc = new DatabaseController();
             dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
         %>
-        <%!            
+        <%!
             ArrayList<Posts> arr = new ArrayList<Posts>();
             ArrayList<Comments> arrCom = new ArrayList<Comments>();
             Users usr;
             SessionFactory factory;
             List<Users> results;
         %>
-        <%    
+        <%
             try {
                 factory = util.HibernateUtil.getSessionFactory();
             } catch (Throwable ex) {
                 System.err.println("Failed to create sessionFactory object." + ex);
                 throw new ExceptionInInitializerError(ex);
             }
-            System.out.println("tes paramatert"+ request.getAttribute("userId"));
+            System.out.println("tes paramatert" + request.getAttribute("userId"));
             results = dbc.selectOperator(factory.openSession(), Integer.parseInt(request.getAttribute("userId").toString()));
             for (Iterator itr = results.iterator(); itr.hasNext();) {
                 Users usrTemp = (Users) itr.next();
@@ -158,15 +158,27 @@
 
                             %>
                             <div class="row panel radius">
-                                <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div>
+                                <div class="large-2 columns small-3"><img src="<%= arr.get(i).getUsers().getPicturePath() %>"/></div>
                                 <div class="large-10 columns">
                                     <section>
-                                        <header><h1 class="title"><%= arr.get(i).getTitle()%></h1></header>
-                                        <p><%= arr.get(i).getContent()%></p>
-                                        <% if (!arr.get(i).getImage().equals("no image")) {%>
+                                        <% if (arr.get(i).getContent() != null) {%>
+                                        <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
+                                            <% }%>
+                                        <p><%= arr.get(i).getTitle()%></p>
+                                        <% if (arr.get(i).getIsVideo() == 1) {%>
+                                        <video width="480" height="320" controls>
+                                            <source src="<%= arr.get(i).getImage()%>" type="video/avi">
+                                            <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
+                                            <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
+                                            <source src="<%= arr.get(i).getImage()%>" type="video/webm">
+                                        </video>
+
+                                        <% } else if (!arr.get(i).getImage().equals("no image")) {%>
                                         <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
                                         </span>
-                                        <% }%>
+                                        <%
+                                            }
+                                        %>
                                         <hr/>
                                         <p><%= arr.get(i).getTag()%></p>
                                         <ul class="inline-list">
