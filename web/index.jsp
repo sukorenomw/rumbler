@@ -207,6 +207,9 @@
                 <div id="post-box">
                     <%
                         if (arr.size() > 0) {
+                            if(arr.size() < 10){
+                                n = arr.size();
+                            }
                             for (int i = 0; i < n; i++) {
                                 List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
                                 for (Users entity1 : res12) {

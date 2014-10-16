@@ -148,7 +148,7 @@
                             <h3 class="title">Privacy</h3>
                             <p class="size-12">This setting let people see or not your detail</p>
                             <hr/>
-                            <form>
+                            <form action="settingPrivacy" method="post">
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">
@@ -220,13 +220,13 @@
                             <h3 class="title">Notification</h3>
                             <p class="size-12">This setting set your notification on or off</p>
                             <hr/>
-                            <form>
+                            <form action="settingNotif" method="post">
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">
                                             <p class="left size-14 push-1">Likes from followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="likesNotif" name="likesNotif" type="checkbox">
+                                                <input id="likesNotif" name="likesNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewLikes() %>">
                                                 <label for="likesNotif"></label>
                                             </div>
                                         </div>
@@ -238,7 +238,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">Comments of your posts</p>
                                             <div class="switch round tiny right">
-                                                <input id="commentsNotif" name="commentsNotif" type="checkbox">
+                                                <input id="commentsNotif" name="commentsNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewComment() %>">
                                                 <label for="commentsNotif"></label>
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">New followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="followerNotif" name="followerNotif" type="checkbox">
+                                                <input id="followerNotif" name="followerNotif" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getNewFollower() %>">
                                                 <label for="followerNotif"></label>
                                             </div>
                                         </div>
