@@ -153,9 +153,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
-                                            <p class="left size-14 push-1">example@example.com</p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getEmail() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox">
+                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getEmail() %>">
                                                 <label for="emailSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -168,9 +168,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
-                                            <p class="left size-14 push-1">Sukoreno Mukti</p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getName() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox">
+                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getRealname() %>">
                                                 <label for="nameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -183,9 +183,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Username</label>
                                             </div>
-                                            <p class="left size-14 push-1">smw94flynn</p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getUsername() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox">
+                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getUsername() %>">
                                                 <label for="usrnameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -198,9 +198,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
                                             </div>
-                                            <p class="left size-14 push-1">26 February 1994</p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getBirthday().toString() %></p>
                                             <div class="switch round tiny right">
-                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox">
+                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox" checked="<%= ModelStatic.useRumbler.getSettings().getBirthday() %>">
                                                 <label for="bdSwitchPrivacy"></label>
                                             </div>
                                         </div>
