@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Posts;
 import model.Users;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.SessionFactory;
 
 /**
@@ -27,6 +32,10 @@ import org.hibernate.SessionFactory;
  * @author Epen
  */
 public class ServController extends HttpServlet {
+
+    private static final String DATA_DIRECTORY = "assets/img/PostPic";
+    private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2048;
+    private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
 
     //ModelStatic ms = new ModelStatic();
     /**
@@ -224,7 +233,7 @@ public class ServController extends HttpServlet {
                 date = request.getParameter("date");
                 blog = request.getParameter("blog");
                 name = request.getParameter("name");
-                dbc.updateOperation(factory.openSession(), password, email, date, blog, name,"settingG",ModelStatic.useRumbler.getUserId());
+                dbc.updateOperation(factory.openSession(), password, email, date, blog, name, "settingG", ModelStatic.useRumbler.getUserId());
                 break;
 
         }
@@ -247,6 +256,79 @@ public class ServController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
+        System.out.println("---------");
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factorys = new DiskFileItemFactory();
+
+//        // Sets the size threshold beyond which files are written directly to
+//                // disk.
+        factorys.setSizeThreshold(MAX_MEMORY_SIZE);
+
+//        // Sets the directory used to temporarily store files that are larger
+//                // than the configured size threshold. We use temporary directory for
+//                // java
+        factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
+
+//                // constructs the folder where uploaded file will be stored
+        String uploadFolder = getServletContext().getRealPath("") + File.separator + DATA_DIRECTORY;
+        // Create a new file upload handler
+        System.out.println("uploadFolder:" + uploadFolder);
+        ServletFileUpload upload = new ServletFileUpload(factorys);
+
+//                // Set overall request size constraint
+        upload.setSizeMax(MAX_REQUEST_SIZE);
+
+        try {
+            // Parse the request
+            List items = upload.parseRequest(request);
+            Iterator iter = items.iterator();
+            //SAMPE SINI
+            while (iter.hasNext()) {
+                FileItem item = (FileItem) iter.next();
+                if (!item.isFormField() && item.getSize() > 0) {
+                    String fileName = new File(item.getName()).getName();
+                    String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
+                    if (jenis.equalsIgnoreCase("image")) {
+                        if (time.equalsIgnoreCase("jpg") || time.equalsIgnoreCase("png") || time.equalsIgnoreCase("jpeg") || time.equalsIgnoreCase("gif")) {
+                            System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
+                            //String filePath = uploadFolder + File.separator + fileName;
+                            String filePath = uploadFolder + File.separator + fileName;
+                            File uploadedFile = new File(filePath);
+                            System.out.println(filePath);
+                            // saves the file to upload directory
+                            item.write(uploadedFile);
+                        }
+                    }
+                    if (jenis.equalsIgnoreCase("video")) {
+                        if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4") || time.equalsIgnoreCase("mp3")) {
+                            System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
+                            //String filePath = uploadFolder + File.separator + fileName;
+                            String filePath = uploadFolder + File.separator + fileName;
+                            File uploadedFile = new File(filePath);
+                            System.out.println(filePath);
+                            // saves the file to upload directory
+                            item.write(uploadedFile);
+                        }
+                    }
+                }
+                if (item.isFormField() && item.getSize() > 0) {
+                    String text1 = item.getString();
+                    System.out.println("Text1:" + text1);
+                }
+            }
+
+//                    // displays login.jsp page after upload finished
+            getServletContext().getRequestDispatcher("/login.jsp").forward(
+                    request, response);
+
+        } catch (FileUploadException ex) {
+            throw new ServletException(ex);
+        } catch (Exception ex) {
+            throw new ServletException(ex);
+        } //To change body of generated methods, choose Tools | Templates.
+    }
 
     protected void errorLogin(HttpServletRequest request, HttpServletResponse response, String username)
             throws ServletException, IOException {

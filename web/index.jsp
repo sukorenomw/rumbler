@@ -95,7 +95,7 @@
                                 </div>
                             </section>
                             <section id="post-picture" style="display:none">
-                                <form method="post" action="" enctype="multipart/form-data">
+                                <form method="post" action="UploadFile" enctype="multipart/form-data">
                                     <div id="upload">
                                         <div id="drop">
                                             Drop Image Here<br/>
