@@ -317,6 +317,70 @@ public class ServController extends HttpServlet {
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
                 break;
+            case "/settingPrivacy":
+                System.out.println(userPath);
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                 {
+                    try {
+                        System.out.println(request.getParameter("password"));
+                        System.out.println(request.getParameter("password").length());
+                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
+                    } catch (NoSuchAlgorithmException ex) {
+                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                email = request.getParameter("email");
+                date = request.getParameter("date");
+                blog = request.getParameter("blog");
+                name = request.getParameter("name");
+                Date dates1 = new Date();
+                try {
+                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dbc.updateOperation(factory.openSession(), password, email, dates1, blog, name, ModelStatic.useRumbler.getUserId());
+                reqDispatcher = request.getRequestDispatcher("setting.jsp");
+                reqDispatcher.forward(request, response);
+                break;
+            case "/settingNotif":
+                System.out.println(userPath);
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                 {
+                    try {
+                        System.out.println(request.getParameter("password"));
+                        System.out.println(request.getParameter("password").length());
+                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
+                    } catch (NoSuchAlgorithmException ex) {
+                        Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                email = request.getParameter("email");
+                date = request.getParameter("date");
+                blog = request.getParameter("blog");
+                name = request.getParameter("name");
+                Date dates2 = new Date();
+                try {
+                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dbc.updateOperation(factory.openSession(), password, email, dates2, blog, name, ModelStatic.useRumbler.getUserId());
+                reqDispatcher = request.getRequestDispatcher("setting.jsp");
+                reqDispatcher.forward(request, response);
+                break;
 
         }
         /* // use RequestDispatcher to forward request internally
