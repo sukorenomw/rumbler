@@ -57,6 +57,11 @@
         <a href="signup.jsp" class="button transparan radius">SIGN UP</a>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
+
+        <script src="assets/js/uploadjs/jquery.knob.js"></script>
+        <script src="assets/js/uploadjs/jquery.ui.widget.js"></script>
+        <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
+        <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
         <script src="assets/js/script.js"></script>
     </body>
 </html>

@@ -120,15 +120,15 @@
                                 </form>
                             </section>
                             <section id="post-text" style="display:none">
-                                <form data-abide name="text-only-post" action="" method="POST">
+                                <form data-abide name="text-only-post" action="PostText" method="POST">
                                     <div class="row">
                                         <div>
                                             <input name="post-title" type="text" placeholder="Title.." required pattern="alpha_numeric">
                                         </div>
                                         <div>
-                                            <textarea placeholder="Post here .." rows="10" style="resize:none" required></textarea>
+                                            <textarea name="post-content" placeholder="Post here .." rows="10" style="resize:none" required></textarea>
                                         </div>
-                                        <input name="post-tag" type="text" placeholder="hashtag..">
+                                        <input name="post-tag" type="text" placeholder="hashtag.." required >
                                     </div>
                                     <div class="jarak"></div>
                                     <div class="row">
@@ -267,15 +267,14 @@
         <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
-        <script src="assets/js/transit.min.js"></script>
-        <script src="assets/js/script.js"></script>
+        
 
         <!--upload js-->
         <script src="assets/js/uploadjs/jquery.knob.js"></script>
         <script src="assets/js/uploadjs/jquery.ui.widget.js"></script>
         <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
         <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
-
-
+        <script src="assets/js/script.js"></script>
+        
     </body>
 </html>

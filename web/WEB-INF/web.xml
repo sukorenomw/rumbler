@@ -17,6 +17,7 @@
         <servlet-name>ServController</servlet-name>
         <url-pattern>/ServLogOut</url-pattern>
         <url-pattern>/ServLogin</url-pattern>
+        <url-pattern>/PostText</url-pattern>
         <url-pattern>/ServSignUp</url-pattern>
         <url-pattern>/UploadFile</url-pattern>
         <url-pattern>/infiniteScroll</url-pattern>

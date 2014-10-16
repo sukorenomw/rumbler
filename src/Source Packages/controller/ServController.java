@@ -33,7 +33,7 @@ import org.hibernate.SessionFactory;
  */
 public class ServController extends HttpServlet {
 
-    private static final String DATA_DIRECTORY = "assets/img/PostPic";
+    private static final String DATA_DIRECTORY = "web/assets/img/PostPic";
     private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2048;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
 
@@ -214,6 +214,20 @@ public class ServController extends HttpServlet {
                 }
                 dbc.inputOperation(factory.openSession(), username, password, email, "signup");
                 break;
+            case "/UploadFile":
+                System.out.println("-------");
+                UploadMultiPartVoid(request, response, "image");
+                break;
+            case "/PostText":
+                String title = request.getParameter("post-title");
+                String text = request.getParameter("post-content");
+                String hastag = request.getParameter("post-tag");
+                System.out.println("Title:" + title + "\nText:" + text + "\nHashTag:" + hastag);
+                break;
+            case "/UploadVideo":
+
+                UploadMultiPartVoid(request, response, "video");
+                break;
             case "/settingGeneral":
                 System.out.println(userPath);
                 try {
@@ -258,7 +272,7 @@ public class ServController extends HttpServlet {
     }// </editor-fold>
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
-        System.out.println("---------");
+        System.out.println("--------- upload multipart void");
         // Create a factory for disk-based file items
         DiskFileItemFactory factorys = new DiskFileItemFactory();
 
@@ -272,7 +286,8 @@ public class ServController extends HttpServlet {
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
 
 //                // constructs the folder where uploaded file will be stored
-        String uploadFolder = getServletContext().getRealPath("") + File.separator + DATA_DIRECTORY;
+        String urlPath = getServletContext().getRealPath("").substring(0, getServletContext().getRealPath("").indexOf("build"));
+        String uploadFolder = urlPath + DATA_DIRECTORY;
         // Create a new file upload handler
         System.out.println("uploadFolder:" + uploadFolder);
         ServletFileUpload upload = new ServletFileUpload(factorys);

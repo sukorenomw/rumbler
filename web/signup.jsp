@@ -57,6 +57,10 @@
         <script>
             $(document).foundation();
         </script>
+        <script src="assets/js/uploadjs/jquery.knob.js"></script>
+        <script src="assets/js/uploadjs/jquery.ui.widget.js"></script>
+        <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
+        <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
     </body>
 </html>
 

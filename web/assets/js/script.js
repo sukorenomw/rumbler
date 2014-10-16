@@ -4,13 +4,6 @@
  * and open the template in the editor.
  */
 
-$(document).foundation();
-var menu = $('.left-off-canvas-menu');
-$(document).on('resize', function () {
-    menu.height($(this).height());
-});
-$(document).trigger('resize');
-
 $(function () {
 
     var ul = $('#upload ul');
@@ -103,7 +96,15 @@ $(function () {
 
 });
 
+$(document).foundation();
+var menu = $('.left-off-canvas-menu');
+$(document).on('resize', function () {
+    menu.height($(this).height());
+});
+$(document).trigger('resize');
+
 $(document).ready(function () {
+
 //    $('#generalSetting').hide();
     $('.flyout').hide();
 //    $('#post-text').hide();
