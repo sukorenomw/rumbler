@@ -278,7 +278,7 @@ public class ServController extends HttpServlet {
     }// </editor-fold>
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
-//        System.out.println("--------- upload multipart void");
+        System.out.println("--------- upload multipart void");
         DiskFileItemFactory factorys = new DiskFileItemFactory();
         factorys.setSizeThreshold(MAX_MEMORY_SIZE);
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -293,10 +293,12 @@ public class ServController extends HttpServlet {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
             while (iter.hasNext()) {
+                System.out.println("masuk ke while");
                 FileItem item = (FileItem) iter.next();
                 if (!item.isFormField() && item.getSize() > 0) {
                     String fileName = new File(item.getName()).getName();
                     String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
+                    System.out.println("masuk ke if pertama");
                     if (jenis.equalsIgnoreCase("image")) {
                         if (time.equalsIgnoreCase("jpg") || time.equalsIgnoreCase("png") || time.equalsIgnoreCase("jpeg") || time.equalsIgnoreCase("gif")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
@@ -304,6 +306,8 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
+                            getServletContext().getRequestDispatcher("/login.jsp").forward(
+                                    request, response);
                         }
                     }
                     if (jenis.equalsIgnoreCase("video")) {
@@ -313,6 +317,8 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
+                            getServletContext().getRequestDispatcher("/login.jsp").forward(
+                                    request, response);
                         }
                     }
                 }
@@ -321,9 +327,6 @@ public class ServController extends HttpServlet {
                     System.out.println("Text1:" + text1);
                 }
             }
-
-            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                    request, response);
 
         } catch (FileUploadException ex) {
             throw new ServletException(ex);

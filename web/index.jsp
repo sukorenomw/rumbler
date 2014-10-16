@@ -77,8 +77,8 @@
 
                             </ul>
                             <section id="post-link" style="display:none">
-                                <div id="upload">
-                                    <div id="drop">
+                                <div class="cooming-soon1">
+                                    <div class="cooming-soon">
                                         Cooming Soon<br/>
                                         <a class="cancelBtn">Cancel</a>
 
@@ -86,8 +86,8 @@
                                 </div>
                             </section>
                             <section id="post-quote" style="display:none">
-                                <div id="upload">
-                                    <div id="drop">
+                                <div class="cooming-soon1">
+                                    <div class="cooming-soon">
                                         Cooming Soon<br/>
                                         <a class="cancelBtn">Cancel</a>
 
@@ -96,8 +96,8 @@
                             </section>
                             <section id="post-video" style="display:none">
                                 <form method="post" action="UploadVideo" enctype="multipart/form-data">
-                                    <div id="upload">
-                                        <div id="drop">
+                                    <div id="upload-vid">
+                                        <div id="drop-vid">
                                             Drop Video Here<br/>
                                             <a>Browse</a>
                                             <input type="file" name="upl"/>

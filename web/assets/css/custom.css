@@ -67,7 +67,7 @@
     }
 }
 
-#upload{
+#upload, .cooming-soon1, #upload-vid{
     font-family:'PT Sans Narrow', sans-serif;
     background-color:#373a3d;
 
@@ -81,7 +81,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-#drop{
+#drop, .cooming-soon, #drop-vid{
     background-color: #2E3134;
     padding: 40px 50px;
     margin-bottom: 30px;
@@ -96,7 +96,7 @@
     color:#7f858a;
 }
 
-#drop a{
+#drop a, .cooming-soon a, #drop-vid a{
     background-color:#007a96;
     padding:12px 26px;
     color:#fff;
@@ -108,30 +108,30 @@
     line-height:1;
 }
 
-#drop a:hover{
+#drop-vid a:hover,#drop a:hover, .cooming-soon a:hover{
     background-color:#0986a3;
 }
 
-#drop input{
+#drop-vid input, #drop input, .cooming-soon input{
     display:none;
 }
 
-#upload ul{
+#upload ul, #upload-vid ul{
     list-style:none;
     margin-top: -25px;
 }
 
-#upload ul li{
+#upload ul li, #upload-vid ul li{
     padding:15px;
     height: 52px;
     position: relative;
 }
 
-#upload ul li input{
+#upload ul li input, #upload-vid ul li input{
     display: none;
 }
 
-#upload ul li p{
+#upload ul li p, #upload-vid ul li p{
     width: 144px;
     overflow: hidden;
     white-space: nowrap;
@@ -143,20 +143,20 @@
     left: 100px;
 }
 
-#upload ul li i{
+#upload ul li i, #upload-vid ul li i{
     font-weight: normal;
     font-style:normal;
     color:#7f7f7f;
     display:block;
 }
 
-#upload ul li canvas{
+#upload ul li canvas, #upload-vid ul li canvas{
     top: 15px;
     left: 32px;
     position: absolute;
 }
 
-#upload ul li span{
+#upload ul li span, #upload-vid ul li span{
     width: 15px;
     height: 12px;
     background: url('../img/icons.png') no-repeat;
@@ -166,12 +166,12 @@
     cursor:pointer;
 }
 
-#upload ul li.working span{
+#upload ul li.working span, #upload-vid ul li.working span{
     height: 16px;
     /*background-position: 0 -12px;*/
 }
 
-#upload ul li.error p{
+#upload ul li.error p, #upload-vid ul li.error p{
     color:red;
 }
 
