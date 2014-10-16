@@ -222,7 +222,6 @@ public class ServController extends HttpServlet {
 
                 break;
             case "/UploadFile":
-                System.out.println("-------");
                 UploadMultiPartVoid(request, response, "image");
                 break;
             case "/PostText":
@@ -278,7 +277,8 @@ public class ServController extends HttpServlet {
     }// </editor-fold>
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
-        System.out.println("--------- upload multipart void");
+
+        System.out.println("--------- upload multipart void " + jenis);
         DiskFileItemFactory factorys = new DiskFileItemFactory();
         factorys.setSizeThreshold(MAX_MEMORY_SIZE);
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -308,28 +308,22 @@ public class ServController extends HttpServlet {
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-
                         }
-                    }
-                    if (jenis.equalsIgnoreCase("video")) {
+                    } else if (jenis.equalsIgnoreCase("video")) {
                         if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
                             File uploadedFile = new File(filePath);
                             System.out.println(filePath);
                             item.write(uploadedFile);
-                            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                                    request, response);
                         }
                     }
-                }
-                if (item.isFormField() && item.getSize() > 0) {
+                } else if (item.isFormField() && item.getSize() > 0) {
                     String text1 = item.getString();
                     System.out.println("Text1:" + text1);
                 }
             }
-            getServletContext().getRequestDispatcher("/login.jsp").forward(
-                    request, response);
+            response.sendRedirect("index.jsp");
         } catch (FileUploadException ex) {
             throw new ServletException(ex);
         } catch (Exception ex) {

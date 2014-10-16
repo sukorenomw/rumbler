@@ -110,7 +110,7 @@
                                     <div class="jarak"></div>
                                     <div class="row">
                                         <div class="small-3 left small">
-                                            <input type="submit" class="button small radius" value="post" />
+                                            <input type="submit" id="sbmtVid" class="button small radius" value="post" />
                                         </div>
                                         <div class="cancelBtn small-3 right columns small">
                                             <a href="#" class="button radius small alert">Cancel</a>
@@ -135,7 +135,7 @@
                                     <div class="jarak"></div>
                                     <div class="row">
                                         <div class="small-3 left small">
-                                            <input id="sbmt" type="submit" class="button small radius" value="post" />
+                                            <input type="submit" id="sbmtPict" class="button small radius" value="post" style="display: none;"/>
                                         </div>
                                         <div class="cancelBtn small-3 right columns small">
                                             <a href="#" class="button radius small alert">Cancel</a>
@@ -169,6 +169,12 @@
                         </section>
                     </div>
                 </div>
+                <% if (request.getAttribute("uploadFile") != null && request.getAttribute("uploadFile").equals("failed")) { %>
+                <div data-alert class="row alert-box alert radius large-3">
+                    Upload photo / video failed!
+                    <a href="#" class="close">&times;</a>
+                </div>
+                <% }%>
                 <div class="jarak"></div>
                 <%!
                     ArrayList<Posts> arr = new ArrayList<Posts>();
