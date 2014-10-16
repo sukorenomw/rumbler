@@ -94,6 +94,31 @@
                                     </div>
                                 </div>
                             </section>
+                            <section id="post-video" style="display:none">
+                                <form method="post" action="UploadVideo" enctype="multipart/form-data">
+                                    <div id="upload">
+                                        <div id="drop">
+                                            Drop Video Here<br/>
+                                            <a>Browse</a>
+                                            <input type="file" name="upl"/>
+                                        </div>
+
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                    <input name="post-tag" class='radius' type="text" placeholder="hashtag..">    
+                                    <div class="jarak"></div>
+                                    <div class="row">
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div class="cancelBtn small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </section>
                             <section id="post-picture" style="display:none">
                                 <form method="post" action="UploadFile" enctype="multipart/form-data">
                                     <div id="upload">
@@ -267,7 +292,7 @@
         <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
-        
+
 
         <!--upload js-->
         <script src="assets/js/uploadjs/jquery.knob.js"></script>
@@ -275,6 +300,6 @@
         <script src="assets/js/uploadjs/jquery.iframe-transport.js"></script>
         <script src="assets/js/uploadjs/jquery.fileupload.js"></script>
         <script src="assets/js/script.js"></script>
-        
+
     </body>
 </html>

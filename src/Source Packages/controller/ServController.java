@@ -232,7 +232,6 @@ public class ServController extends HttpServlet {
                 System.out.println("Title:" + title + "\nText:" + text + "\nHashTag:" + hastag);
                 break;
             case "/UploadVideo":
-
                 UploadMultiPartVoid(request, response, "video");
                 break;
             case "/settingGeneral":
@@ -308,7 +307,7 @@ public class ServController extends HttpServlet {
                         }
                     }
                     if (jenis.equalsIgnoreCase("video")) {
-                        if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4") || time.equalsIgnoreCase("mp3")) {
+                        if (time.equalsIgnoreCase("avi") || time.equalsIgnoreCase("mkv") || time.equalsIgnoreCase("mp4")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
                             File uploadedFile = new File(filePath);
