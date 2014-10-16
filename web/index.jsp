@@ -214,7 +214,11 @@
                                 <% if (!arr.get(i).getImage().equals("no image")) { %>
                                 <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<% out.print(arr.get(i).getImage()); %>" width="480" height="320" />
                                 </span>
-                                <% }%>
+                                <% }else if(arr.get(i).getIsVideo() == 1){ %>
+                                    
+                                <%
+                                }
+                                %>
                                 <hr/>
                                 <p><%= arr.get(i).getTag()%></p>
                                 <ul class="inline-list">
