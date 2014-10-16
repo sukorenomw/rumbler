@@ -119,24 +119,20 @@ public class DatabaseController {
 
     }
 
-    public void updateOperation(Session session, String password, String email, String date, String blog, String name, String kond, int user) {
+    public void updateOperation(Session session, String password, String email, Date date, String blog, String name, int user) {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             Query qry;
             String sql;
-            switch (kond) {
-                case "settingG":
-                    sql = "Update users set name = :name, birthday = :birthday, email = :email, blog_title = :blog, password = :password, where user_id = " + user;
-                    qry = session.createSQLQuery(sql);
-                    qry.setParameter("name", name);
-                    qry.setParameter("email", email);
-                    qry.setParameter("password", password);
-                    qry.setParameter("blog_title", blog);
-                    qry.setParameter("birthday", date);
-                    qry.executeUpdate();
-                    break;
-            }
+            sql = "Update users set name = :name, email = :email,birthday = :birthday, blog_title = :blog, password = :password where user_id = " + user;
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("name", name);
+            qry.setParameter("email", email);
+            qry.setParameter("password", password);
+            qry.setParameter("blog", blog);
+            qry.setDate("birthday", date);
+            qry.executeUpdate();
             tx.commit();
         } catch (Exception e) {
 

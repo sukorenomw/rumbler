@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -182,12 +185,11 @@ public class ServController extends HttpServlet {
                 System.out.println(userPath);
                 username = request.getParameter("login");
                 password = request.getParameter("password");
-//                try {
-//                    password = dbc.MD5(request.getParameter("password"));
-//
-//                } catch (NoSuchAlgorithmException ex) {
-//                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    password = dbc.MD5(request.getParameter("password"));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try {
                     factory = util.HibernateUtil.getSessionFactory();
                 } catch (Throwable ex) {
@@ -261,16 +263,27 @@ public class ServController extends HttpServlet {
                 }
                  {
                     try {
-                        password = request.getParameter("password") == null ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
+                        System.out.println(request.getParameter("password"));
+                        System.out.println(request.getParameter("password").length());
+                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
                     } catch (NoSuchAlgorithmException ex) {
                         Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+
                 email = request.getParameter("email");
                 date = request.getParameter("date");
                 blog = request.getParameter("blog");
                 name = request.getParameter("name");
-                dbc.updateOperation(factory.openSession(), password, email, date, blog, name, "settingG", ModelStatic.useRumbler.getUserId());
+                Date dates = new Date();
+                try {
+                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId());
+                RequestDispatcher reqDispatcher = request.getRequestDispatcher("setting.jsp");
+                reqDispatcher.forward(request, response);
                 break;
 
         }
