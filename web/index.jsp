@@ -48,8 +48,9 @@
         %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
+                <% if (request.getParameter("search") == null) {%>
                 <div class="row">
-                    <div class="large-2 columns profpict"><img class="radius" src="<% out.print(controller.ModelStatic.useRumbler.getPicturePath());%>"/></div>
+                    <div class="large-2 columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
                     <div id="user-post" class="large-10 columns bubble radius small-padding">
                         <section>
                             <ul id="usr_post_menu" class="inline-list">
@@ -172,16 +173,12 @@
                         </section>
                     </div>
                 </div>
-                <% if (request.getAttribute("uploadFile") != null && request.getAttribute("uploadFile").equals("failed")) { %>
-                <div data-alert class="row alert-box alert radius large-3">
-                    Upload photo / video failed!
-                    <a href="#" class="close">&times;</a>
-                </div>
-                <% }%>
                 <div class="jarak"></div>
+                <% } %>
                 <%!
                     ArrayList<Posts> arr;
                     ArrayList<Comments> arrCom;
+                    ArrayList<Users> userr = new ArrayList<Users>();
                     List<Users> randUser = null;
                     DatabaseController dbc;
                     SessionFactory factory;
@@ -204,6 +201,9 @@
                         arr.add(entity);
                     }
                 %>
+
+                <% if (request.getParameter("search") == null) { %>
+
                 <div id="post-box">
                     <%
                         if (arr.size() > 0) {
@@ -216,7 +216,25 @@
                                     pic = entity1.getPicturePath();
                                 }
                     %>
+                    <div id="commentModal<%= arr.get(i).getPostId()%>" class="reveal-modal small" data-reveal>
+                        <h2>Post a comment</h2>
+                        <div class="row">
+                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
+                            <form id="postComment" name="postComment" method="POST" action="commentHandle">
+                                <div class="large-8 columns">
+                                    <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" />
+                                    <input type="hidden" name="user_id" value="<%= ModelStatic.useRumbler.getUserId()%>" />
+                                    <textarea name="commentContent" placeholder="Write a comment..." style="resize: none;"></textarea>
 
+                                </div>
+                                <div class="large-2 columns small-3">
+                                    <!--<a href="#" class="button" style="margin-left: -30px; height: 3.15rem; width: 4rem; padding: 15px 5px 15px 5px;">Submit</a>-->
+                                    <input type="submit" class="button" style="margin-left: -30px; height: 3.15rem; width: 4rem; padding: 15px 5px 15px 5px;" value="submit"/>
+                                </div>
+                            </form>
+                        </div>
+                        <a class="close-reveal-modal">&#215;</a>
+                    </div>
                     <div class="row">
                         <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%>"/></div>
                         <div class="large-10 columns bubble radius">
@@ -247,12 +265,13 @@
                                 <p><%= arr.get(i).getTag()%></p>
                                 <% }%>
                                 <ul class="inline-list">
-                                    <% if(dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1){ %>
-                                    <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId() %>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) %>"></i></a></li>
-                                    <% }else{ %>
-                                    <li><a href="#"><i class="likeBtn step fi-heart size-36" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId() %>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) %>"></i></a></li>
-                                    <% } %>
-                                    <li><a href="#" data-reveal-id="commentModal"><i class="step fi-comment size-36"></i></a></li>
+                                    <% if (dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1) {%>
+                                    <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
+                                            <% } else {%>
+                                    <li><a href="#"><i class="likeBtn step fi-heart size-36" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" 
+                                                       data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
+                                            <% }%>
+                                    <li><a href="#" data-reveal-id="commentModal<%= arr.get(i).getPostId()%>"><i class="step fi-comment size-36"></i></a></li>
                                 </ul>
                             </section>
                             <hr/>
@@ -274,9 +293,10 @@
                                                 for (int j = 0; j < arrCom.size(); j++) {
                                         %>
                                         <div class="row">
-                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%  %>"><img src="http://placehold.it/50x50&text=[img]"/></span></div>
+                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= dbc.selectFriendsName(factory.openSession(), arrCom.get(j).getUsers().getUserId())%>"><img src="<%= dbc.selectPicturePath(factory.openSession(), arrCom.get(j).getUsers().getUserId())%>"/></span></div>
                                             <div class="large-10 columns"><p><%= arrCom.get(j).getContent()%></p></div>
                                         </div>
+                                        <hr/>
                                         <%
                                                 }
                                             }
@@ -291,6 +311,7 @@
                         }
                     %>
                 </div>
+
                 <div class="jarak"></div>
                 <div class="spinner">
                     <div class="rect1"></div>
@@ -299,6 +320,48 @@
                     <div class="rect4"></div>
                     <div class="rect5"></div>
                 </div>
+                <% } else { %>
+                <%!
+                    List<Users> res;
+
+                %>
+                <div class="large-11 panel radius">
+                    <%
+
+                        res = dbc.selectUsers(factory.openSession(), request.getParameter("search"));
+                        userr = new ArrayList<Users>();
+                        for (Users entity : res) {
+                            userr.add(entity);
+                        }
+                        if (userr.size() > 0) {
+                            for (int i = 0; i < userr.size(); i++) {
+                    %>
+                    <div id="searchUser<%= userr.get(i).getUserId()%>">
+                        <div class="row">
+                            <div class="small-8">
+                                <div class="row">
+                                    <div class="small-5 push-1 columns">
+                                        <div class="columns profpict"><img class="radius" src="<%= userr.get(i).getPicturePath()%>"/></div>
+                                    </div>
+                                    <div class="large-7 columns">
+                                        <p><a href="FriendsBlog<%= "?user_id=" + userr.get(i).getUserId()%>"><%= userr.get(i).getName()%></a></p>
+                                            <% if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) {%>
+                                        <a href="#" class="unfollow" data-unfol="<%= userr.get(i).getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
+                                        <% } else {%>
+                                        <a href="#" class="followToSearch" data-user="<%= userr.get(i).getUserId()%>" "><span class="label radius success medium">Follow User</span></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <%
+                            }
+
+                        } %>
+                </div>
+                <% }%>
             </div>
             <div class="large-3 columns">
                 <aside>
@@ -306,16 +369,16 @@
                         <p>Recommended Blogs</p>
                         <hr/>
                         <input type="hidden" id="hidden" data-user="<%= ModelStatic.useRumbler.getUserId()%>"/>
-                            <%
-                                randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
-                                for (Iterator itr = randUser.iterator(); itr.hasNext();) {
-                                    Users usr = (Users) itr.next();
-                            %>
-                            <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
-                                <p class="left blogname"><%= usr.getUsername()%> </p></a>
-                            <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>
-                            <hr class="hr-child"/>
-                            <% }%>
+                        <%
+                            randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                            for (Iterator itr = randUser.iterator(); itr.hasNext();) {
+                                Users usr = (Users) itr.next();
+                        %>
+                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
+                            <p class="left blogname"><%= usr.getUsername()%> </p></a>
+                        <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>
+                        <hr class="hr-child"/>
+                        <% }%>
                     </div>
                 </aside>
             </div>
@@ -323,7 +386,7 @@
 
         <a href="#" class="button totop radius"><i class="fi-arrow-up size-48"></i></a>
 
-        <jsp:include flush="true" page="function/addComment.jsp"></jsp:include>
+        <%--<jsp:include flush="true" page="function/addComment.jsp"></jsp:include>--%>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/foundation.min.js"></script>
 

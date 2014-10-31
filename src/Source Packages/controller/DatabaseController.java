@@ -115,6 +115,56 @@ public class DatabaseController {
         return res;
     }
 
+    public List selectUsers(Session session, String user) {
+        Transaction tx = null;
+        List<Users> res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            System.out.println("test " + user);
+            String sql = "Select * from users WHERE name LIKE '%" + user + "%' OR email LIKE '%" + user + "%' OR username LIKE '%" + user + "%'";
+            Query qry = session.createSQLQuery(sql).addEntity(Users.class);
+            res = qry.list();
+            for (Users entity : res) {
+                System.out.println("data 2= " + entity.getName().toString());
+            }
+//            for (String entity : res) {
+//                System.out.println("data = " + entity);
+//                name = entity;
+//            }
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return res;
+    }
+
+    public void updateOperation(Session session, String password, String email, Date date, String blog, String name, int user, String path) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            sql = "Update users set name = :name, email = :email,birthday = :birthday, blog_title = :blog, password = :password ,picture_path= :path where user_id = " + user;
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("name", name);
+            qry.setParameter("email", email);
+            qry.setParameter("password", password);
+            qry.setParameter("blog", blog);
+            qry.setDate("birthday", date);
+            qry.setParameter("path", path);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
     public void likePost(Session session, Integer userId, Integer postId) {
         Transaction tx = null;
         List res = null;
@@ -123,7 +173,7 @@ public class DatabaseController {
             Query qry;
             String sql;
 
-            sql = "INSERT INTO likes(like_id, post_id, user_id) VALUES (NULL,:userId, :postId)";
+            sql = "INSERT INTO likes(post_id, user_id) VALUES (:userId, :postId)";
             qry = session.createSQLQuery(sql);
             qry.setParameter("postId", postId);
             qry.setParameter("userId", userId);
@@ -337,6 +387,28 @@ public class DatabaseController {
         }
     }
 
+    public void insertOperation(Session session, int post, int user, String content) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query qry;
+            String sql;
+            Date dates = Calendar.getInstance().getTime();
+            sql = "Insert into comments(user_id,post_id,content,created_at) VALUES(:user,:post,:content,:time)";
+            qry = session.createSQLQuery(sql);
+            qry.setParameter("user", user);
+            qry.setParameter("post", post);
+            qry.setParameter("content", content);
+            qry.setTimestamp("time", dates);
+            qry.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+    }
+
     public void insertOperation(Session session, String tag, String path, int user) {
         Transaction tx = null;
         try {
@@ -381,6 +453,49 @@ public class DatabaseController {
             session.close();
         }
         return name;
+    }
+
+    public String selectPicturePath(Session session, int user) {
+        Transaction tx = null;
+        List<String> res = null;
+        String name = "";
+        try {
+            tx = session.beginTransaction();
+            String sql = "Select picture_path from users WHERE user_id = " + user;
+            Query qry = session.createSQLQuery(sql);
+            res = qry.list();
+            for (String entity : res) {
+                System.out.println("data = " + entity);
+                name = entity;
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return name;
+    }
+    
+    public Integer isFollowing(Session session, int user1, int user2) {
+        Transaction tx = null;
+        List res;
+        Integer ret = 0;
+        try {
+            tx = session.beginTransaction();
+            String sql = "SELECT * FROM followers WHERE user_id = " + user1 + " AND follower_id = " + user2;
+            Query qry = session.createSQLQuery(sql);
+            res = qry.list();
+            System.out.println("ret : " + res.size());
+            ret = res.size();
+            tx.commit();
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
+        return ret;
     }
 
     public Integer isLiked(Session session, int user, int postid) {
@@ -453,7 +568,14 @@ public class DatabaseController {
             Query qry = session.createSQLQuery(sql).addEntity(Comments.class);
             res = qry.list();
 //            for (Comments entity : res) {
-//                System.out.println("data = " + entity.getContent());
+//                System.out.println("data comment= " + entity.getUsers().getName());
+//            }
+//            ArrayList<Comments> arrCom = new ArrayList<Comments>();
+//            for (Comments entity : res) {
+//                arrCom.add(entity);
+//            }
+//            for (int i = 0; i < arrCom.size(); i++) {
+//                System.out.println("data comment : "+arrCom.get(i).getUsers().getName());
 //            }
             tx.commit();
         } catch (Exception e) {

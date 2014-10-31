@@ -65,7 +65,7 @@
                 <div class="large-3 columns"> 
                     <div class="row collapse postfix-round"> 
                         <div class="small-9 columns"> 
-                            <input type="text" placeholder="Search something.." style="background: rgba(255,255,255,0.5);border: 0px;color: #6d6d6d;"> 
+                            <input name="search" type="text" placeholder="Search something.." style="background: rgba(255,255,255,0.5);border: 0px;color: #6d6d6d;"> 
                         </div> 
                         <div class="small-3 columns"> 
                             <a href="#" class="postfix" style="background: rgba(255,255,255,0.5); border: 0px;"><i class="fi-magnifying-glass size-16"></i></a> 

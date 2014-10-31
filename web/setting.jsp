@@ -58,7 +58,7 @@
                         <div id='generalSetting'>
                             <h3 class="title">Account</h3>
                             <hr/>
-                            <form action="settingGeneral" method="post">
+                            <form action="settingGeneral" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="small-8">
                                         <div class="row">
@@ -66,7 +66,8 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Profil Picture</label>
                                             </div>
                                             <div class="small-5 pull-3 columns">
-                                                <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                                                <div class="columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/>
+                                                    <input type="file" name="ProfPic"/></div>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +106,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName() %>">
+                                                <input type="text" id="right-label" class="radius" name="name" placeholder="Your Name Here" value="<%= ModelStatic.useRumbler.getName()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +119,7 @@
                                                 <label for="right-label" class="right" style="font-weight: bold;">Blog Title</label>
                                             </div>
                                             <div class="small-9 push-1 columns">
-                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle() %>">
+                                                <input type="text" id="right-label" class="radius" name="blog" placeholder="Blog name" value="<%= ModelStatic.useRumbler.getBlogTitle()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -155,9 +156,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Email</label>
                                             </div>
-                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getEmail() %></p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getEmail()%></p>
                                             <div class="switch round tiny right">
-                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getEmail()==1?"checked":0 %>>
+                                                <input id="emailSwitchPrivacy" name="emailSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getEmail() == 1 ? "checked" : 0%>>
                                                 <label for="emailSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -170,9 +171,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Real Name</label>
                                             </div>
-                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getName() %></p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getName()%></p>
                                             <div class="switch round tiny right">
-                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getRealname()==1?"checked":0 %>>
+                                                <input id="nameSwitchPrivacy" name="nameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getRealname() == 1 ? "checked" : 0%>>
                                                 <label for="nameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -185,9 +186,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Username</label>
                                             </div>
-                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getUsername() %></p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getUsername()%></p>
                                             <div class="switch round tiny right">
-                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getUsername()==1?"checked":0 %>>
+                                                <input id="usrnameSwitchPrivacy" name="usrnameSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getUsername() == 1 ? "checked" : 0%>>
                                                 <label for="usrnameSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -200,9 +201,9 @@
                                             <div class="small-3 columns">
                                                 <label for="right-label" class="right" style="font-weight: bold;">Birthday</label>
                                             </div>
-                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getBirthday().toString() %></p>
+                                            <p class="left size-14 push-1"><%= ModelStatic.useRumbler.getBirthday().toString()%></p>
                                             <div class="switch round tiny right">
-                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getBirthday()==1?"checked":0 %>>
+                                                <input id="bdSwitchPrivacy" name="bdSwitchPrivacy" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getBirthday() == 1 ? "checked" : 0%>>
                                                 <label for="bdSwitchPrivacy"></label>
                                             </div>
                                         </div>
@@ -226,7 +227,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">Likes from followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="likesNotif" name="likesNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewLikes()==1?"checked":0 %>>
+                                                <input id="likesNotif" name="likesNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewLikes() == 1 ? "checked" : 0%>>
                                                 <label for="likesNotif"></label>
                                             </div>
                                         </div>
@@ -238,7 +239,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">Comments of your posts</p>
                                             <div class="switch round tiny right">
-                                                <input id="commentsNotif" name="commentsNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewComment()==1?"checked":0 %>>
+                                                <input id="commentsNotif" name="commentsNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewComment() == 1 ? "checked" : 0%>>
                                                 <label for="commentsNotif"></label>
                                             </div>
                                         </div>
@@ -250,7 +251,7 @@
                                         <div class="row">
                                             <p class="left size-14 push-1">New followers</p>
                                             <div class="switch round tiny right">
-                                                <input id="followerNotif" name="followerNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewFollower()==1?"checked":0 %>>
+                                                <input id="followerNotif" name="followerNotif" type="checkbox" <%= ModelStatic.useRumbler.getSettings().getNewFollower() == 1 ? "checked" : 0%>>
                                                 <label for="followerNotif"></label>
                                             </div>
                                         </div>
@@ -273,20 +274,22 @@
                                 for (Iterator itr = followers.iterator(); itr.hasNext();) {
                                     Users flw = (Users) itr.next();
                             %>
-                            <div class="row">
-                                <div class="small-8">
-                                    <div class="row">
-                                        <div class="small-5 push-1 columns">
-                                            <div class="columns profpict"><img class="radius" src="<%= flw.getPicturePath()%>"/></div>
-                                        </div>
-                                        <div class="small-7 columns">
-                                            <p><a href="FriendsBlog<%= "?user_id=" + flw.getUserId()%>"><%= flw.getName()%></a></p>
-                                            <a href="#" class="unfollow" data-unfol="<%= flw.getUserId() %>" data-user="<%= ModelStatic.useRumbler.getUserId() %>"><span class="label radius success medium">Following</span></a>
+                            <div id="followerId<%= flw.getUserId()%>" >
+                                <div class="row">
+                                    <div class="small-8">
+                                        <div class="row">
+                                            <div class="small-5 push-1 columns">
+                                                <div class="columns profpict"><img class="radius" src="<%= flw.getPicturePath()%>"/></div>
+                                            </div>
+                                            <div class="small-7 columns">
+                                                <p><a href="FriendsBlog<%= "?user_id=" + flw.getUserId()%>"><%= flw.getName()%></a></p>
+                                                <a href="#" class="unfollow" data-unfol="<%= flw.getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <% }%>
                         </div>
                     </div>

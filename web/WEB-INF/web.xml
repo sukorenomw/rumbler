@@ -22,6 +22,7 @@
         <url-pattern>/ServLogin</url-pattern>
         <url-pattern>/settingNotif</url-pattern>
         <url-pattern>/UploadFile</url-pattern>
+        <url-pattern>/UploadVideo</url-pattern>
         <url-pattern>/Unfollow</url-pattern>
         <url-pattern>/ReloadRecommend</url-pattern>
         <url-pattern>/settingGeneral</url-pattern>
@@ -32,6 +33,7 @@
         <url-pattern>/infiniteScroll</url-pattern>
         <url-pattern>/FollowTo</url-pattern>
         <url-pattern>/LikeAction</url-pattern>
+        <url-pattern>/commentHandle</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

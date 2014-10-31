@@ -41,6 +41,7 @@ public class ServController extends HttpServlet {
     private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2048;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
     public static int n = 10;
+    public static List listz;
 
     //ModelStatic ms = new ModelStatic();
     /**
@@ -113,6 +114,13 @@ public class ServController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    public static String blog = "";
+    public static String password = "";
+    public static String email = "";
+    public static String date = "";
+    public static String name = "";
+    public static String pathDB = "";
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -288,8 +296,8 @@ public class ServController extends HttpServlet {
                         out.print("</section>");
                         out.print("<dl class=\"accordion radius\" data-accordion>");
                         out.print("<dd class=\"accordion-navigation\">");
-                        out.print("<a href=\"#commentView\" >View Comments</a>");
-                        out.print("<div id=\"commentView\" class=\"content radius\">");
+                        out.print("<a href=\"#commentView" + arr.get(i).getPostId() + "\" >View Comments</a>");
+                        out.print("<div id=\"commentView" + arr.get(i).getPostId() + "\" class=\"content radius\">");
                         out.print("<h6>2 Comments</h6>");
                         out.print("<div class=\"row\">");
                         out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
@@ -375,6 +383,13 @@ public class ServController extends HttpServlet {
                 if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
                     UploadMultiPartVoid(request, response, "image");
                 }
+                synchronized (this) {
+                    try {
+                        wait(1000);
+                    } catch (InterruptedException e) {
+
+                    }
+                }
                 String encodedURL1 = response.encodeRedirectURL("index.jsp");
                 response.sendRedirect(encodedURL1);
                 break;
@@ -394,56 +409,48 @@ public class ServController extends HttpServlet {
                 break;
             case "/UploadVideo":
                 UploadMultiPartVoid(request, response, "video");
+                response.sendRedirect("index.jsp");
                 break;
-            case "/settingGeneral":
-                System.out.println(userPath);
+            case "/settingGeneral": {
                 try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                 {
+
+                    String text1 = "";
+                    String fileName = "";
+                    int count = 0;
+                    UploadSeting(request, response);
+                    System.out.println(listz.size());
+                    System.out.println(userPath);
                     try {
-                        System.out.println(request.getParameter("password"));
-                        System.out.println(request.getParameter("password").length());
-                        password = request.getParameter("password").length() == 0 ? ModelStatic.useRumbler.getPassword() : dbc.MD5(request.getParameter("password"));
-                    } catch (NoSuchAlgorithmException ex) {
+                        factory = util.HibernateUtil.getSessionFactory();
+                    } catch (Throwable ex) {
+                        System.err.println("Failed to create sessionFactory object." + ex);
+                        throw new ExceptionInInitializerError(ex);
+                    }
+
+                    email = this.email;
+                    date = this.date;
+                    blog = this.blog;
+                    name = this.name;
+                    password = this.password == "" ? ModelStatic.useRumbler.getPassword() : dbc.MD5(this.password);
+                    Date dates = new Date();
+                    System.out.println(email + date + blog + name + dates);
+                    try {
+                        dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+                        System.out.println(dates);
+                    } catch (ParseException ex) {
                         Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-
-                email = request.getParameter("email");
-                date = request.getParameter("date");
-                blog = request.getParameter("blog");
-                name = request.getParameter("name");
-                Date dates = new Date();
-                try {
-                    dates = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
-                } catch (ParseException ex) {
+                    System.out.println("beres");
+                    String path = this.pathDB == "" ? "assets/img/ProfPic/default.png" : this.pathDB;
+                    dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId(), path);
+                    response.sendRedirect("setting.jsp");
+                } catch (FileUploadException ex) {
+                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId());
-                reqDispatcher = request.getRequestDispatcher("setting.jsp");
-                reqDispatcher.forward(request, response);
-                break;
-            case "/settingPrivacy":
-                System.out.println(userPath);
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-
-                int emailp = request.getParameter("emailSwitchPrivacy") == null ? 0 : 1;
-                int namep = request.getParameter("nameSwitchPrivacy") == null ? 0 : 1;
-                int usrp = request.getParameter("usrnameSwitchPrivacy") == null ? 0 : 1;
-                int datep = request.getParameter("bdSwitchPrivacy") == null ? 0 : 1;
-                dbc.updateOperation(factory.openSession(), emailp, datep, usrp, namep, ModelStatic.useRumbler.getUserId());
-                reqDispatcher = request.getRequestDispatcher("setting.jsp");
-                reqDispatcher.forward(request, response);
-                break;
+            }
+            break;
             case "/settingNotif":
                 System.out.println(userPath);
                 try {
@@ -460,6 +467,19 @@ public class ServController extends HttpServlet {
                 dbc.updateOperation(factory.openSession(), like, comN, fol, ModelStatic.useRumbler.getUserId());
                 reqDispatcher = request.getRequestDispatcher("setting.jsp");
                 reqDispatcher.forward(request, response);
+                break;
+            case "/commentHandle":
+                int post_id = Integer.parseInt(request.getParameter("post_id"));
+                int userPost = Integer.parseInt(request.getParameter("user_id"));
+                String content = request.getParameter("commentContent");
+                try {
+                    factory = util.HibernateUtil.getSessionFactory();
+                } catch (Throwable ex) {
+                    System.err.println("Failed to create sessionFactory object." + ex);
+                    throw new ExceptionInInitializerError(ex);
+                }
+                dbc.insertOperation(factory.openSession(), post_id, userPost, content);
+                response.sendRedirect("index.jsp");
                 break;
 
         }
@@ -549,6 +569,82 @@ public class ServController extends HttpServlet {
             throw new ServletException(ex);
         } catch (Exception ex) {
             throw new ServletException(ex);
+        }
+    }
+
+    private void UploadSeting(HttpServletRequest request, HttpServletResponse response) throws ServletException, FileUploadException, Exception {
+        String path = "web/assets/img/ProfPic";
+        String text1 = "";
+        String fileName = "";
+        String path1 = "assets/img/ProfPic";
+        System.out.println("--------- upload multipart void Setting");
+        DiskFileItemFactory factorys = new DiskFileItemFactory();
+        factorys.setSizeThreshold(MAX_MEMORY_SIZE);
+        factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
+        String urlPath = getServletContext().getRealPath("").substring(0, getServletContext().getRealPath("").indexOf("build"));
+        String uploadFolder = urlPath + path;
+//        System.out.println("uploadFolder:" + uploadFolder);
+        ServletFileUpload upload = new ServletFileUpload(factorys);
+
+        upload.setSizeMax(MAX_REQUEST_SIZE);
+//        SessionFactory factory;
+//        DatabaseController dbc = new DatabaseController();
+//        try {
+//            factory = util.HibernateUtil.getSessionFactory();
+//        } catch (Throwable ex) {
+//            System.err.println("Failed to create sessionFactory object." + ex);
+//            throw new ExceptionInInitializerError(ex);
+//        }
+        List items = upload.parseRequest(request);
+        this.listz = items;
+        int count = 0;
+        Iterator iters = listz.iterator();
+        while (iters.hasNext()) {
+            System.out.println("masuk ke while");
+            FileItem item = (FileItem) iters.next();
+            System.out.println("Size:" + item.getSize());
+            if (item.isFormField() && item.getSize() > 0) {
+                text1 = item.getString();
+                switch (count) {
+                    case 0:
+                        this.email = text1;
+                        System.out.println("Email:" + this.email);
+                        break;
+                    case 1:
+                        this.password = text1;
+                        System.out.println("Password:" + this.password);
+                        break;
+                    case 2:
+                        this.name = text1;
+                        System.out.println("Name:" + this.name);
+                        break;
+                    case 3:
+                        this.blog = text1;
+                        System.out.println("Blog:" + this.blog);
+                        break;
+                    case 4:
+                        this.date = text1;
+                        System.out.println("Date:" + this.date);
+                        break;
+                }
+                count++;
+//                System.out.println("hashtag:" + text1);
+            } else if (!item.isFormField() && item.getSize() > 0) {
+                fileName = new File(item.getName()).getName();
+                String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
+                System.out.println("masuk ke if pertama");
+                if (time.equalsIgnoreCase("jpg") || time.equalsIgnoreCase("png") || time.equalsIgnoreCase("jpeg") || time.equalsIgnoreCase("gif")) {
+                    System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
+                    this.pathDB = path1 + File.separator + fileName;
+                    System.out.println("Path DB:" + this.pathDB);
+                    String filePath = uploadFolder + File.separator + fileName;
+                    File uploadedFile = new File(filePath);
+                    System.out.println(filePath);
+                    item.write(uploadedFile);
+                }
+            } else if (item.isFormField() && item.getSize() == 0) {
+                count++;
+            }
         }
     }
 

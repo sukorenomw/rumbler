@@ -155,20 +155,22 @@ $(document).ready(function () {
     $('.unfollow').click(function (e) {
         var unfollow = $(this).attr("data-unfol");
         var myId = $(this).attr("data-user");
+        var divId = "#followerId" + unfollow;
         $.ajax({
             type: "POST",
             url: "Unfollow",
             data: {unfollow: unfollow, userid: myId},
             success: function (responseText) {
                 alert("you are not longer following " + responseText);
-                $.post("ReloadFollower", function (data) {
-                    setTimeout(function () {
-//                        $("#post-box").append(data);
-//                        $(data).html("#changeAjax").fadeIn('slow');
-                        $("#myFollower").html(data).fadeIn('slow');
-                    }, 500);
-
-                });
+                $(divId).remove();
+//                $.post("ReloadFollower", function (data) {
+//                    setTimeout(function () {
+////                        $("#post-box").append(data);
+////                        $(data).html("#changeAjax").fadeIn('slow');
+//                        $("#myFollower").html(data).fadeIn('slow');
+//                    }, 500);
+//
+//                });
             }
         });
         console.log(unfollow + " " + myId);
@@ -232,6 +234,28 @@ $(document).ready(function () {
                 });
             }
         });
+
+
+
+        console.log(followTo + " " + myId);
+        e.preventDefault();
+    });
+
+    $('.followToSearch').click(function (e) {
+        var followTo = $(this).attr("data-user");
+        var myId = $("#hidden").attr("data-user");
+        var divId = "#searchUser" + followTo;
+        $.ajax({
+            type: "POST",
+            url: "FollowTo",
+            data: {followTo: followTo, userid: myId},
+            success: function (responseText) {
+                alert("you are now following " + responseText);
+                $(divId).remove();
+            }
+        });
+
+
 
         console.log(followTo + " " + myId);
         e.preventDefault();
