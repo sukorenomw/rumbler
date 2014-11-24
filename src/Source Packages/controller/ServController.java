@@ -42,6 +42,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.hibernate.SessionFactory;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -412,7 +413,12 @@ public class ServController extends HttpServlet {
                 }
 
                 if (respon.get("status").equals("failed")) {
-                    request.setAttribute("reason", respon.get("reason"));
+                    JSONArray reason = respon.getJSONArray("reason");
+                    String realReason = "";
+                    for(int i = 0; i < reason.length(); i++){
+                        realReason += reason.get(i)+"<br>";
+                    }
+                    request.setAttribute("reason", realReason);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
                     dispatcher.forward(request, response);
                 } else {
