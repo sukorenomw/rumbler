@@ -5,9 +5,16 @@
  */
 package controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +36,13 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.hibernate.SessionFactory;
+import org.json.JSONObject;
 
 /**
  *
@@ -362,21 +375,56 @@ public class ServController extends HttpServlet {
                 username = request.getParameter("username");
                 password = request.getParameter("password");
                 email = request.getParameter("email");
+
+                InputStream inputStream = null;
+                String result = "";
+                JSONObject respon = new JSONObject();
                 try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost("http://localhost:8000/api/users/");
+                    String json = "";
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.accumulate("username", username);
+                    jsonObject.accumulate("password", password);
+                    jsonObject.accumulate("email", email);
+
+                    json = jsonObject.toString();
+                    StringEntity se = new StringEntity(json);
+                    httpPost.setEntity(se);
+
+                    httpPost.setHeader("Accept", "application/json");
+                    httpPost.setHeader("Content-type", "application/json");
+
+                    HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                    inputStream = httpResponse.getEntity().getContent();
+
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
+                    }
+
+                    respon = new JSONObject(result);
+
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
                 }
-                dbc.inputOperation(factory.openSession(), username, password, email, "signup");
-                results = dbc.selectOperator(factory.openSession(), username);
-                Users usr = null;
-                for (Iterator itr = results.iterator(); itr.hasNext();) {
-                    usr = (Users) itr.next();
+
+                if (respon.get("status").equals("failed")) {
+                    request.setAttribute("reason", respon.get("reason"));
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    String encodedURL = response.encodeRedirectURL("login.jsp");
+                    response.sendRedirect(encodedURL);
                 }
-                dbc.inputOperation(factory.openSession(), usr.getUserId());
-                String encodedURL = response.encodeRedirectURL("login.jsp");
-                response.sendRedirect(encodedURL);
+                //print response from json
+//                try (PrintWriter out = response.getWriter()) {
+//                    out.print("status : "+respon.get("status")+"\nreason : "+respon.get("reason"));
+//                }
+//                String encodedURL = response.encodeRedirectURL("login.jsp");
+//                response.sendRedirect(encodedURL);
 
                 break;
             case "/UploadFile":
@@ -491,6 +539,19 @@ public class ServController extends HttpServlet {
          } catch (Exception ex) {
          ex.printStackTrace();
          }*/
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result += line;
+        }
+
+        inputStream.close();
+        return result;
+
     }
 
     /**
