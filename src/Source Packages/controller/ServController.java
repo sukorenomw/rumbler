@@ -55,6 +55,8 @@ public class ServController extends HttpServlet {
     private static final String DATA_DIRECTORY = "web/assets/img/PostPic";
     private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2048;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
+//    public static HttpClient httpclient = new DefaultHttpClient();
+//    public static ControllerDB controllerDB=new ControllerDB(httpclient);
     public static int n = 10;
     public static List listz;
     public InputStream inputStream = null;
@@ -138,7 +140,7 @@ public class ServController extends HttpServlet {
     public static String date = "";
     public static String name = "";
     public static String pathDB = "";
-
+    public static ModelStatic modelstatic =new ModelStatic();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -375,7 +377,6 @@ public class ServController extends HttpServlet {
 //                    e.printStackTrace();
 //                }
                 try {
-                    HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost("http://localhost:8000/api/auth/");
                     String json = "";
                     JSONObject jsonObject = new JSONObject();
@@ -390,7 +391,7 @@ public class ServController extends HttpServlet {
                     httpPost.setHeader("Accept", "application/json");
                     httpPost.setHeader("Content-type", "application/json");
 
-                    HttpResponse httpResponse = httpclient.execute(httpPost);
+                    HttpResponse httpResponse = ControllerDB.httpClient.execute(httpPost);
 
                     inputStream = httpResponse.getEntity().getContent();
 
@@ -405,7 +406,7 @@ public class ServController extends HttpServlet {
                 } catch (Exception e) {
                     System.err.println(e.getLocalizedMessage());
                 }
-
+                System.out.println("masuk\n\n\n aa");
                 if (respon.get("status").equals("failed")) {
                     request.setAttribute("userVal", username);
                     request.setAttribute("reason", respon.get("reason"));
@@ -428,7 +429,8 @@ public class ServController extends HttpServlet {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(), 
+                    
+                    ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(),
                             user.get("email").toString(), birthdate, user.get("password").toString(), user.get("description").toString(),
                             user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString());
                     String encodedURL = response.encodeRedirectURL("index.jsp");
@@ -706,6 +708,8 @@ public class ServController extends HttpServlet {
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
+        
+        
     }
 
     private void UploadSeting(HttpServletRequest request, HttpServletResponse response) throws ServletException, FileUploadException, Exception {

@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="controller.ControllerDB"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="model.Users"%>
 <%@page import="model.Comments"%>
@@ -197,6 +198,7 @@
                         throw new ExceptionInInitializerError(ex);
                     }
                     results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                    results=ControllerDB.homePost();
                     for (Posts entity : results) {
                         arr.add(entity);
                     }
