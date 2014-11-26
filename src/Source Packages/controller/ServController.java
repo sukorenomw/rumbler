@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,9 @@ public class ServController extends HttpServlet {
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2048;
     public static int n = 10;
     public static List listz;
+    public InputStream inputStream = null;
+    public String result = "";
+    public JSONObject respon = new JSONObject();
 
     //ModelStatic ms = new ModelStatic();
     /**
@@ -338,48 +342,113 @@ public class ServController extends HttpServlet {
                 System.out.println(userPath);
                 username = request.getParameter("login");
                 password = request.getParameter("password");
+//                try {
+//                    password = dbc.MD5(request.getParameter("password"));
+//                } catch (NoSuchAlgorithmException ex) {
+//                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                results = dbc.selectOperator(factory.openSession(), username);
+//                try {
+//                    for (Iterator itr = results.iterator(); itr.hasNext();) {
+//                        Users usr = (Users) itr.next();
+//                        ModelStatic.useRumbler = usr;
+//                        if (username.equals(usr.getUsername()) && password.equals(usr.getPassword())) {
+//                            HttpSession session = request.getSession();
+//                            session.setAttribute("user", usr.getName());
+//                            String encodedURL = response.encodeRedirectURL("index.jsp");
+//                            response.sendRedirect(encodedURL);
+//                        } else {
+//                            errorLogin(request, response, username);
+//                        }
+//                        usrCount++;
+//                    }
+//                    if (usrCount <= 0) {
+//                        errorLogin(request, response, username);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 try {
-                    password = dbc.MD5(request.getParameter("password"));
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                results = dbc.selectOperator(factory.openSession(), username);
-                try {
-                    for (Iterator itr = results.iterator(); itr.hasNext();) {
-                        Users usr = (Users) itr.next();
-                        ModelStatic.useRumbler = usr;
-                        if (username.equals(usr.getUsername()) && password.equals(usr.getPassword())) {
-                            HttpSession session = request.getSession();
-                            session.setAttribute("user", usr.getName());
-                            String encodedURL = response.encodeRedirectURL("index.jsp");
-                            response.sendRedirect(encodedURL);
-                        } else {
-                            errorLogin(request, response, username);
-                        }
-                        usrCount++;
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost("http://localhost:8000/api/auth/");
+                    String json = "";
+                    JSONObject jsonObject = new JSONObject();
+
+                    jsonObject.accumulate("email", username);
+                    jsonObject.accumulate("password", password);
+
+                    json = jsonObject.toString();
+                    StringEntity se = new StringEntity(json);
+                    httpPost.setEntity(se);
+
+                    httpPost.setHeader("Accept", "application/json");
+                    httpPost.setHeader("Content-type", "application/json");
+
+                    HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                    inputStream = httpResponse.getEntity().getContent();
+
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
                     }
-                    if (usrCount <= 0) {
-                        errorLogin(request, response, username);
-                    }
+
+                    respon = new JSONObject(result);
+
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println(e.getLocalizedMessage());
                 }
+
+                if (respon.get("status").equals("failed")) {
+                    request.setAttribute("userVal", username);
+                    request.setAttribute("reason", respon.get("reason"));
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    JSONObject user = respon.getJSONObject("user");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String dateInString = user.get("birthday").toString();
+                    String regisDateStr = user.get("created_at").toString();
+                    Date birthdate = new Date();
+                    Date regisDate = new Date();
+                    try {
+
+                        birthdate = formatter.parse(dateInString);
+                        regisDate = formatter.parse(regisDateStr);
+//                        System.out.println(datess);
+//                        System.out.println(formatter.format(datess));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(), 
+                            user.get("email").toString(), birthdate, user.get("password").toString(), user.get("description").toString(),
+                            user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString());
+                    String encodedURL = response.encodeRedirectURL("index.jsp");
+                    response.sendRedirect(encodedURL);
+//                    try (PrintWriter out = response.getWriter()) {
+//                        out.print(respon.getJSONObject("user"));
+//                        out.println(ModelStatic.useRumbler.getName());
+//                    }
+//                    ModelStatic.useRumbler = gson.fromJson(respon.getJSONObject("user").toString(), ModelStatic.useRumbler.getClass());
+
+                }
+
                 break;
+
             case "/ServSignUp":
                 System.out.println(userPath);
                 username = request.getParameter("username");
                 password = request.getParameter("password");
                 email = request.getParameter("email");
 
-                InputStream inputStream = null;
-                String result = "";
-                JSONObject respon = new JSONObject();
                 try {
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost("http://localhost:8000/api/users/");
@@ -415,8 +484,8 @@ public class ServController extends HttpServlet {
                 if (respon.get("status").equals("failed")) {
                     JSONArray reason = respon.getJSONArray("reason");
                     String realReason = "";
-                    for(int i = 0; i < reason.length(); i++){
-                        realReason += reason.get(i)+"<br>";
+                    for (int i = 0; i < reason.length(); i++) {
+                        realReason += reason.get(i) + "<br>";
                     }
                     request.setAttribute("reason", realReason);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
