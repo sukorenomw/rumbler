@@ -183,7 +183,7 @@
                     ArrayList<Posts> arr = new ArrayList<Posts>();
                     ArrayList<Comments> arrCom = new ArrayList<Comments>();
                     ArrayList<Users> userr = new ArrayList<Users>();
-                    List<Users> randUser;
+                    ArrayList<Users> randUser;
 //                    DatabaseController dbc;
 //                    SessionFactory factory;
                     String pic;
@@ -222,10 +222,10 @@
                     <div id="commentModal<%= arr.get(i).getPostId()%>" class="reveal-modal small" data-reveal>
                         <h2>Post a comment</h2>
                         <div class="row">
-                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%><%ControllerDB.printpich(ModelStatic.useRumbler.getPicturePath());%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
+                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
                             <form id="postComment" name="postComment" method="POST" action="commentHandle">
                                 <div class="large-8 columns">
-                                    <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" <%ControllerDB.printInt(arr.get(i).getPostId());%>/>
+                                    <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" />
                                     <input type="hidden" name="user_id" value="<%= ModelStatic.useRumbler.getUserId()%>" />
                                     <textarea name="commentContent" placeholder="Write a comment..." style="resize: none;"></textarea>
 
@@ -239,7 +239,7 @@
                         <a class="close-reveal-modal">&#215;</a>
                     </div>
                     <div class="row">
-                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%><%ControllerDB.printpich(pic);;%>"/></div>
+                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%>"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
                                 <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= arr.get(i).getUsers().getName()%></a></p>
@@ -352,7 +352,7 @@
                                     </div>
                                     <div class="large-7 columns">
                                         <p><a href="FriendsBlog<%= "?user_id=" + userr.get(i).getUserId()%>"><%= userr.get(i).getName()%></a></p>
-                                            <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
+                                        <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
                                                 if (i > 0) {%>
                                         <a href="#" class="unfollow" data-unfol="<%= userr.get(i).getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
                                         <% } else {%>
@@ -378,15 +378,15 @@
                         <hr/>
                         <input type="hidden" id="hidden" data-user="<%= ModelStatic.useRumbler.getUserId()%>"/>
                         <%
-                        ControllerDB.printpich("MASUK RAND USER");
+                        //ControllerDB.printpich("MASUK RAND USER");
 //                            randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
                             randUser = ControllerDB.randUsrs();
-                            for (Iterator itr = randUser.iterator(); itr.hasNext();) {
-                                Users usr = (Users) itr.next();
+                            for (int itr = 0;itr<randUser.size(); itr++) {
+                                Users usr = randUser.get(itr);
                                 //ControllerDB.printpich("userId random"+usr.getUserId());
                         %>
-                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
-                            <p class="left blogname"><%= usr.getUsername()%> </p></a>
+                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()+usr.getName() %>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
+                            <p class="left blogname"> <%= usr.getName() %> </p></a>
                         <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>
                         <hr class="hr-child"/>
                         <% }%>

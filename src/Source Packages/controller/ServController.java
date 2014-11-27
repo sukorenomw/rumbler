@@ -41,6 +41,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
@@ -113,9 +114,31 @@ public class ServController extends HttpServlet {
         switch (userPath) {
             case "/ServLogOut":
                 System.out.println(userPath);
-                HttpSession session = request.getSession();
-                session.removeAttribute("user");
-                session.invalidate();
+                HttpPost del = new HttpPost(ControllerDB.urlstatic + "auth/logout");
+                System.out.println("testse logout");
+                JSONObject jsonObject = new JSONObject();
+//                jsonObject.accumulate("email", "sukorenomukti");
+//                jsonObject.accumulate("password", password);
+
+                String json = jsonObject.toString();
+                StringEntity se = new StringEntity(json);
+                del.setEntity(se);
+                System.out.println("masuk log out");
+                del.setHeader("Accept", "application/json");
+                del.setHeader("Content-type", "application/json");
+                HttpResponse httpResponse = ControllerDB.httpClient.execute(del);
+                InputStream inputStream = httpResponse.getEntity().getContent();
+                String result = "";
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+                System.out.println("masa sih");
+                //System.out.println(result);
+                JSONObject responz = new JSONObject(result);
+                System.out.println(responz.toString());
+                System.out.println("masuk servlogout");
                 String encodedURL = response.encodeRedirectURL("login.jsp");
                 response.sendRedirect(encodedURL);
                 break;
@@ -384,7 +407,7 @@ public class ServController extends HttpServlet {
 //                    e.printStackTrace();
 //                }
                 try {
-                    HttpPost httpPost = new HttpPost(ControllerDB.urlstatic+"auth/");
+                    HttpPost httpPost = new HttpPost(ControllerDB.urlstatic + "auth/");
                     String json = "";
                     JSONObject jsonObject = new JSONObject();
 
@@ -440,7 +463,7 @@ public class ServController extends HttpServlet {
                     System.out.println("ayo ke index");
                     ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(),
                             user.get("email").toString(), birthdate, user.get("password").toString(), user.get("description").toString(),
-                            user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString(),user.getInt("id"));
+                            user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString(), user.getInt("id"));
 
                     String encodedURL = response.encodeRedirectURL("index.jsp");
                     response.sendRedirect(encodedURL);
@@ -461,7 +484,7 @@ public class ServController extends HttpServlet {
                 email = request.getParameter("email");
 
                 try {
-                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpClient httpclient = ControllerDB.httpClient;
                     HttpPost httpPost = new HttpPost("http://localhost:8000/api/users/");
                     String json = "";
                     JSONObject jsonObject = new JSONObject();
@@ -528,23 +551,23 @@ public class ServController extends HttpServlet {
                 response.sendRedirect(encodedURL1);
                 break;
             case "/PostText":
-<<<<<<< HEAD
-//                try {
-//                    factory = util.HibernateUtil.getSessionFactory();
-//                } catch (Throwable ex) {
-//                    System.err.println("Failed to create sessionFactory object." + ex);
-//                    throw new ExceptionInInitializerError(ex);
-//                }
+//<<<<<<< HEAD
+////                try {
+////                    factory = util.HibernateUtil.getSessionFactory();
+////                } catch (Throwable ex) {
+////                    System.err.println("Failed to create sessionFactory object." + ex);
+////                    throw new ExceptionInInitializerError(ex);
+////                }
+//                String title = request.getParameter("post-title");
+//                String text = request.getParameter("post-content");
+//                String hastag = request.getParameter("post-tag");
+////                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
+//=======
                 String title = request.getParameter("post-title");
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
-//                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
-=======
-                String title = request.getParameter("post-title");
-                String text = request.getParameter("post-content");
-                String hastag = request.getParameter("post-tag");
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://localhost:8000/api/posts/");
+                //HttpPost httpPost = new HttpPost("http://localhost:8000/api/posts/");
+                HttpPost httpPost = new HttpPost(ControllerDB.urlstatic + "posts/");
                 String json = "";
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate("content", text);
@@ -558,7 +581,7 @@ public class ServController extends HttpServlet {
                 httpPost.setHeader("Accept", "application/json");
                 httpPost.setHeader("Content-type", "application/json");
 
-                HttpResponse httpResponse = httpclient.execute(httpPost);
+                HttpResponse httpResponse = ControllerDB.httpClient.execute(httpPost);
                 inputStream = httpResponse.getEntity().getContent();
 
                 if (inputStream != null) {
@@ -568,8 +591,9 @@ public class ServController extends HttpServlet {
                 }
 
                 respon = new JSONObject(result);
+                System.out.println(respon);
 
->>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
+//>>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
                 String encodedURL2 = response.encodeRedirectURL("index.jsp");
                 response.sendRedirect(encodedURL2);
                 break;
@@ -697,17 +721,17 @@ public class ServController extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factorys);
 
         upload.setSizeMax(MAX_REQUEST_SIZE);
-<<<<<<< HEAD
-//        SessionFactory factory;
-//        DatabaseController dbc = new DatabaseController();
-//        try {
-//            factory = util.HibernateUtil.getSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-=======
->>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
+//<<<<<<< HEAD
+////        SessionFactory factory;
+////        DatabaseController dbc = new DatabaseController();
+////        try {
+////            factory = util.HibernateUtil.getSessionFactory();
+////        } catch (Throwable ex) {
+////            System.err.println("Failed to create sessionFactory object." + ex);
+////            throw new ExceptionInInitializerError(ex);
+////        }
+//=======
+//>>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
@@ -743,12 +767,11 @@ public class ServController extends HttpServlet {
 //                    System.out.println("hashtag:" + text1);
                 }
             }
-            HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost;
             if (jenis.equals("image")) {
-                httppost = new HttpPost("http://localhost:8000/api/post/image/");
+                httppost = new HttpPost(ControllerDB.urlstatic + "post/image/");
             } else {
-                httppost = new HttpPost("http://localhost:8000/api/post/video/");
+                httppost = new HttpPost(ControllerDB.urlstatic + "post/video/");
             }
             FileBody fileContent = new FileBody(new File(uploadFolder + File.separator + fileName));
             MultipartEntity reqEntity = new MultipartEntity();
@@ -756,7 +779,7 @@ public class ServController extends HttpServlet {
             httppost.setEntity(reqEntity);
             StringBody comment = new StringBody(text1);
             reqEntity.addPart("hashtag", comment);
-            HttpResponse responses = httpclient.execute(httppost);
+            HttpResponse responses = ControllerDB.httpClient.execute(httppost);
             HttpEntity resEntity = responses.getEntity();
             InputStream inputStream = resEntity.getContent();
             if (inputStream == null) {

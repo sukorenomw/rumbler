@@ -4,6 +4,7 @@
     Author     : smw
 --%>
 
+<%@page import="controller.ControllerDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +42,7 @@
         </div>
         <% }%>
         <form class="form-2" action="ServLogin" method="post">
-            <h1><span class="log-in">Log in</span> or <span class="sign-up">sign up</span></h1> &nbsp; <img src="assets/img/login-button.png" alt="Sign in with Facebook"/>
+            <h1><span class="log-in">Log in</span> or <span class="sign-up">sign up</span></h1> &nbsp; <a href="<%= ControllerDB.urlstatic %>auth/facebook" target="_blank"><img src="assets/img/login-button.png" alt="Sign in with Facebook"/></a>
             <p class="float">
                 <label for="login"><i class="fi-mail size-12"></i>email</label>
                 <input type="text" name="login" placeholder="Username or Email" value="<%= userVal%>">

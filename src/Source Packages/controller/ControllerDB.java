@@ -206,25 +206,25 @@ public class ControllerDB {
 
     }
 
-    public static void print(List a) {
-        System.out.println(((Posts) a.get(0)).getContent());
-    }
-
-    public static void printarr(ArrayList a) {
-        System.out.println(((Posts) a.get(0)).getContent());
-    }
-
+//    public static void print(List a) {
+//        System.out.println(((Posts) a.get(0)).getContent());
+//    }
+//
+//    public static void printarr(ArrayList a) {
+//        System.out.println(((Posts) a.get(0)).getContent());
+//    }
+//
     public static void printpich(String a) {
         System.out.println(a);
     }
 
-    public static void printInt(int a) {
-        System.out.println(a);
-    }
-
-    public static void prints(List a) {
-        System.out.println(((Comments) a.get(0)).getContent());
-    }
+//    public static void printInt(int a) {
+//        System.out.println(a);
+//    }
+//
+//    public static void prints(List a) {
+//        System.out.println(((Comments) a.get(0)).getContent());
+//    }
 
     public static ArrayList selectUsers(String user) throws IOException {
         JSONArray respons;
@@ -247,19 +247,19 @@ public class ControllerDB {
         JSONObject respon = new JSONObject(result);
         respons = new JSONArray();
         respons = respon.getJSONArray("users");
-        System.out.println(((JSONObject) respons.get(0)).get("name"));
+       // System.out.println(((JSONObject) respons.get(0)).get("name"));
         for (int b = 0; b < respons.length(); b++) {
             Users usr = new Users();
             usr.setPicturePath(((JSONObject) respons.get(0)).getString("picture_path"));
             usr.setName(((JSONObject) respons.get(0)).getString("name"));
             usr.setUserId(((JSONObject) respons.get(0)).getInt("id"));
-            System.out.println("ISI ARRAY:" + usr);
+           // System.out.println("ISI ARRAY:" + usr);
             users.add(usr);
         }
         return users;
     }
-    public static List randUsrs() throws IOException{
-        List randuser=new ArrayList();
+    public static ArrayList randUsrs() throws IOException{
+        ArrayList<Users> randuser=new ArrayList();
         
         HttpGet get = new HttpGet(ControllerDB.urlstatic + "users/random");
         HttpClient httpClients = new DefaultHttpClient();
@@ -279,15 +279,22 @@ public class ControllerDB {
         JSONObject respon = new JSONObject(result);
         JSONArray respons = new JSONArray();
         respons = respon.getJSONArray("users");
-        System.out.println(((JSONObject) respons.get(0)).get("name"));
+       // System.out.println(((JSONObject) respons.get(0)).get("name"));
         for (int b = 0; b < respons.length(); b++) {
             Users usr = new Users();
-            usr.setPicturePath(((JSONObject) respons.get(b)).getString("picture_path"));
-            usr.setName(((JSONObject) respons.get(b)).getString("name"));
-            usr.setUserId(((JSONObject) respons.get(b)).getInt("id"));
-            System.out.println("ISI ARRAY:" + usr.getName());
+            String picpath=((JSONObject) respons.get(b)).getString("picture_path");
+            usr.setPicturePath(picpath);
+            String name=((JSONObject) respons.get(b)).getString("name");
+            usr.setName(name);
+            int useridn=((JSONObject) respons.get(b)).getInt("id");
+            usr.setUserId(useridn);
+            System.out.println("ISI name:"+name);
+            System.out.println("ISI picturepath:"+picpath);
+            System.out.println("ISI id:"+useridn);
+            
             randuser.add(usr);
         }
+        System.out.println(randuser.get(0).getName()+"hahaha");
         return randuser;
     }
     public static void printUser(Users u) {
