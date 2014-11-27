@@ -12,9 +12,7 @@
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="org.hibernate.SessionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="controller.DatabaseController" %>
 <%@ page import="controller.ModelStatic" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,12 +44,17 @@
                 response.setHeader("Location", site);
             }
             controller.ServController.n = 10;
+
         %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
-                <% if (request.getParameter("search") == null) {%>
+                <% if (request.getParameter("search") == null) {
+
+                %>
                 <div class="row">
-                    <div class="large-2 columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/></div>
+                    <div class="large-2 columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/><%
+
+                        %></div>
                     <div id="user-post" class="large-10 columns bubble radius small-padding">
                         <section>
                             <ul id="usr_post_menu" class="inline-list">
@@ -177,31 +180,31 @@
                 <div class="jarak"></div>
                 <% } %>
                 <%!
-                    ArrayList<Posts> arr;
-                    ArrayList<Comments> arrCom;
+                    ArrayList<Posts> arr = new ArrayList<Posts>();
+                    ArrayList<Comments> arrCom = new ArrayList<Comments>();
                     ArrayList<Users> userr = new ArrayList<Users>();
-                    List<Users> randUser = null;
-                    DatabaseController dbc;
-                    SessionFactory factory;
+                    List<Users> randUser;
+//                    DatabaseController dbc;
+//                    SessionFactory factory;
                     String pic;
                 %>
                 <%
                     int n = 10;
-                    DatabaseController dbc = new DatabaseController();
+//                    DatabaseController dbc = new DatabaseController();
                     List<Posts> results = null;
-                    arr = new ArrayList<Posts>();
-                    arrCom = new ArrayList<Comments>();
-                    try {
-                        factory = util.HibernateUtil.getSessionFactory();
-                    } catch (Throwable ex) {
-                        System.err.println("Failed to create sessionFactory object." + ex);
-                        throw new ExceptionInInitializerError(ex);
-                    }
-                    results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
-                    results=ControllerDB.homePost();
-                    for (Posts entity : results) {
-                        arr.add(entity);
-                    }
+
+//                    try {
+//                        factory = util.HibernateUtil.getSessionFactory();
+//                    } catch (Throwable ex) {
+//                        System.err.println("Failed to create sessionFactory object." + ex);
+//                        throw new ExceptionInInitializerError(ex);
+//                    }
+//                    results = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                    arr = ControllerDB.homePost();
+//                    //ControllerDB.print(results);
+//                    for (Posts entity : results) {
+//                        arr.add(entity);
+//                    }
                 %>
 
                 <% if (request.getParameter("search") == null) { %>
@@ -213,18 +216,16 @@
                                 n = arr.size();
                             }
                             for (int i = 0; i < n; i++) {
-                                List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
-                                for (Users entity1 : res12) {
-                                    pic = entity1.getPicturePath();
-                                }
+//                                List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
+                                pic = arr.get(i).getUsers().getPicturePath();
                     %>
                     <div id="commentModal<%= arr.get(i).getPostId()%>" class="reveal-modal small" data-reveal>
                         <h2>Post a comment</h2>
                         <div class="row">
-                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
+                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%><%ControllerDB.printpich(ModelStatic.useRumbler.getPicturePath());%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
                             <form id="postComment" name="postComment" method="POST" action="commentHandle">
                                 <div class="large-8 columns">
-                                    <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" />
+                                    <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" <%ControllerDB.printInt(arr.get(i).getPostId());%>/>
                                     <input type="hidden" name="user_id" value="<%= ModelStatic.useRumbler.getUserId()%>" />
                                     <textarea name="commentContent" placeholder="Write a comment..." style="resize: none;"></textarea>
 
@@ -238,10 +239,10 @@
                         <a class="close-reveal-modal">&#215;</a>
                     </div>
                     <div class="row">
-                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%>"/></div>
+                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%><%ControllerDB.printpich(pic);;%>"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
-                                <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId())%></a></p>
+                                <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= arr.get(i).getUsers().getName()%></a></p>
                                 <% if (arr.get(i).getContent() != null) {%>
                                 <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
                                     <% } %>
@@ -250,7 +251,7 @@
                                 <% } %>
                                 <% if (arr.get(i).getIsVideo() == 1) {%>
                                 <video width="480" height="320" controls>
-                                    <source src="<%= arr.get(i).getImage()%>" type="video/avi">
+                                    <source src="<%= arr.get(i).getImage()%>%>" type="video/avi">
                                     <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
                                     <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
                                     <source src="<%= arr.get(i).getImage()%>" type="video/webm">
@@ -263,15 +264,18 @@
                                     }
                                 %>
                                 <hr/>
-                                <% if (arr.get(i).getTag() != null) {%>
+                                <% if (arr.get(i).getTag() != null) {
+                                       %>
                                 <p><%= arr.get(i).getTag()%></p>
                                 <% }%>
                                 <ul class="inline-list">
-                                    <% if (dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1) {%>
-                                    <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
-                                            <% } else {%>
+                                    <% if (ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1) {
+                                           %>
+                                    <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" data-like="<%= ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
+                                            <% 
+                                            } else {%>
                                     <li><a href="#"><i class="likeBtn step fi-heart size-36" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" 
-                                                       data-like="<%= dbc.isLiked(factory.openSession(), ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
+                                                       data-like="<%= ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
                                             <% }%>
                                     <li><a href="#" data-reveal-id="commentModal<%= arr.get(i).getPostId()%>"><i class="step fi-comment size-36"></i></a></li>
                                 </ul>
@@ -282,12 +286,13 @@
                                     <a href="#commentView<%= arr.get(i).getPostId()%>" >View Comments</a>
                                     <div id="commentView<%= arr.get(i).getPostId()%>" class="content radius">
                                         <%
-                                            List<Comments> res3;
-                                            res3 = dbc.selectComments(factory.openSession(), arr.get(i).getPostId());
-                                            arrCom = new ArrayList<Comments>();
-                                            for (Comments entity : res3) {
-                                                arrCom.add(entity);
-                                            }
+//                                            List<Comments> res3=new ArrayList<Comments>();
+//                                            res3 = ControllerDB.arryComent(arr.get(i).getPostId());
+//                                            ControllerDB.prints(res3);
+//                                            for (Comments entity : res3) {
+//                                                arrCom.add(entity);
+//                                            }
+                                            arrCom = arr.get(i).getCommentses();
                                         %>
                                         <h6><%= arrCom.size()%> Comments</h6>
                                         <%
@@ -295,7 +300,7 @@
                                                 for (int j = 0; j < arrCom.size(); j++) {
                                         %>
                                         <div class="row">
-                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= dbc.selectFriendsName(factory.openSession(), arrCom.get(j).getUsers().getUserId())%>"><img src="<%= dbc.selectPicturePath(factory.openSession(), arrCom.get(j).getUsers().getUserId())%>"/></span></div>
+                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= arrCom.get(j).getUsers().getName()%>"><img src="<%= arrCom.get(j).getUsers().getPicturePath()%>"/></span></div>
                                             <div class="large-10 columns"><p><%= arrCom.get(j).getContent()%></p></div>
                                         </div>
                                         <hr/>
@@ -330,11 +335,11 @@
                 <div class="large-11 panel radius">
                     <%
 
-                        res = dbc.selectUsers(factory.openSession(), request.getParameter("search"));
-                        userr = new ArrayList<Users>();
-                        for (Users entity : res) {
-                            userr.add(entity);
-                        }
+                        //res = ControllerDB.selectUsers(request.getParameter("search"));
+//                        for (Users entity : res) {
+//                            userr.add(entity);
+//                        }
+                        userr = ControllerDB.selectUsers(request.getParameter("search"));
                         if (userr.size() > 0) {
                             for (int i = 0; i < userr.size(); i++) {
                     %>
@@ -347,7 +352,8 @@
                                     </div>
                                     <div class="large-7 columns">
                                         <p><a href="FriendsBlog<%= "?user_id=" + userr.get(i).getUserId()%>"><%= userr.get(i).getName()%></a></p>
-                                            <% if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) {%>
+                                            <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
+                                                if (i > 0) {%>
                                         <a href="#" class="unfollow" data-unfol="<%= userr.get(i).getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
                                         <% } else {%>
                                         <a href="#" class="followToSearch" data-user="<%= userr.get(i).getUserId()%>" "><span class="label radius success medium">Follow User</span></a>
@@ -372,9 +378,12 @@
                         <hr/>
                         <input type="hidden" id="hidden" data-user="<%= ModelStatic.useRumbler.getUserId()%>"/>
                         <%
-                            randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                        ControllerDB.printpich("MASUK RAND USER");
+//                            randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+                            randUser = ControllerDB.randUsrs();
                             for (Iterator itr = randUser.iterator(); itr.hasNext();) {
                                 Users usr = (Users) itr.next();
+                                //ControllerDB.printpich("userId random"+usr.getUserId());
                         %>
                         <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
                             <p class="left blogname"><%= usr.getUsername()%> </p></a>
