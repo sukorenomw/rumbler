@@ -5,7 +5,6 @@
  */
 package controller;
 
-import com.sun.media.jai.remote.JAIServerConfigurationSpi;
 import static controller.ServController.convertInputStreamToString;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +45,7 @@ public class ControllerDB {
     public static HttpClient httpClient = new DefaultHttpClient();
     public static ArrayList<Posts> postclient = new ArrayList<>();
     public static String urlstatic = "http://192.168.1.11:8000/api/";
+    public static String serverStorage = "http://192.168.1.11:8000";
 
     public static ArrayList homePost() {
         JSONObject obj = controllPost();
@@ -284,8 +284,8 @@ public class ControllerDB {
             Users usr = new Users();
             String picpath=((JSONObject) respons.get(b)).getString("picture_path");
             usr.setPicturePath(picpath);
-            String name=((JSONObject) respons.get(b)).getString("name");
-            usr.setName(name);
+            String name=((JSONObject) respons.get(b)).getString("username");
+            usr.setUsername(name);
             int useridn=((JSONObject) respons.get(b)).getInt("id");
             usr.setUserId(useridn);
             System.out.println("ISI name:"+name);

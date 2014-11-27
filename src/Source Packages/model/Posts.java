@@ -166,4 +166,22 @@ public class Posts implements java.io.Serializable {
         this.likeses = likeses;
     }
 
+    public int getIsLink() {
+        return isLink;
+    }
+
+    public void setIsLink(int isLink) {
+        this.isLink = isLink;
+    }
+
+    public int getIsQuote() {
+        return isQuote;
+    }
+
+    public void setIsQuote(int isQuote) {
+        this.isQuote = isQuote;
+    }
+    
+    
+
 }

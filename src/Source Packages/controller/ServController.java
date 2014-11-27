@@ -550,19 +550,42 @@ public class ServController extends HttpServlet {
                 String encodedURL1 = response.encodeRedirectURL("index.jsp");
                 response.sendRedirect(encodedURL1);
                 break;
+            case "/PostQuote":
+                String qtitle = request.getParameter("post-title");
+                String qtext = request.getParameter("post-content");
+                String qfrom = request.getParameter("post-tag");
+                //HttpPost httpPost = new HttpPost("http://localhost:8000/api/posts/");
+                HttpPost qhttpPost = new HttpPost(ControllerDB.urlstatic + "post/quote");
+                String qjson = "";
+                JSONObject qjsonObject = new JSONObject();
+                qjsonObject.accumulate("content", qtext);
+                qjsonObject.accumulate("title", qtitle);
+                qjsonObject.accumulate("from", qfrom);
+
+                qjson = qjsonObject.toString();
+                StringEntity qse = new StringEntity(qjson);
+                qhttpPost.setEntity(qse);
+
+                qhttpPost.setHeader("Accept", "application/json");
+                qhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse qhttpResponse = ControllerDB.httpClient.execute(qhttpPost);
+                inputStream = qhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
+
+                String encodedURL2 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(encodedURL2);
+                break;
             case "/PostText":
-//<<<<<<< HEAD
-////                try {
-////                    factory = util.HibernateUtil.getSessionFactory();
-////                } catch (Throwable ex) {
-////                    System.err.println("Failed to create sessionFactory object." + ex);
-////                    throw new ExceptionInInitializerError(ex);
-////                }
-//                String title = request.getParameter("post-title");
-//                String text = request.getParameter("post-content");
-//                String hastag = request.getParameter("post-tag");
-////                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
-//=======
+
                 String title = request.getParameter("post-title");
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
@@ -593,9 +616,8 @@ public class ServController extends HttpServlet {
                 respon = new JSONObject(result);
                 System.out.println(respon);
 
-//>>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
-                String encodedURL2 = response.encodeRedirectURL("index.jsp");
-                response.sendRedirect(encodedURL2);
+                String qencodedURL2 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(qencodedURL2);
                 break;
             case "/UploadVideo":
                 UploadMultiPartVoid(request, response, "video");
@@ -707,7 +729,7 @@ public class ServController extends HttpServlet {
     }// </editor-fold>
 
     private void UploadMultiPartVoid(HttpServletRequest request, HttpServletResponse response, String jenis) throws ServletException {
-        String path = "assets/img/PostPic/";
+        String path = "\\assets\\img\\PostPic\\";
         String text1 = "";
         String fileName = "";
 
@@ -717,19 +739,19 @@ public class ServController extends HttpServlet {
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
         String urlPath = getServletContext().getRealPath("").substring(0, getServletContext().getRealPath("").indexOf("build"));
         String uploadFolder = urlPath + DATA_DIRECTORY;
-//        System.out.println("uploadFolder:" + uploadFolder);
+// System.out.println("uploadFolder:" + uploadFolder);
         ServletFileUpload upload = new ServletFileUpload(factorys);
 
         upload.setSizeMax(MAX_REQUEST_SIZE);
 //<<<<<<< HEAD
-////        SessionFactory factory;
-////        DatabaseController dbc = new DatabaseController();
-////        try {
-////            factory = util.HibernateUtil.getSessionFactory();
-////        } catch (Throwable ex) {
-////            System.err.println("Failed to create sessionFactory object." + ex);
-////            throw new ExceptionInInitializerError(ex);
-////        }
+//// SessionFactory factory;
+//// DatabaseController dbc = new DatabaseController();
+//// try {
+//// factory = util.HibernateUtil.getSessionFactory();
+//// } catch (Throwable ex) {
+//// System.err.println("Failed to create sessionFactory object." + ex);
+//// throw new ExceptionInInitializerError(ex);
+//// }
 //=======
 //>>>>>>> 888f570e36592a6aa6e5486d5edeff1096f18758
         try {
@@ -743,14 +765,14 @@ public class ServController extends HttpServlet {
                 if (!item.isFormField() && item.getSize() > 0) {
                     fileName = new File(item.getName()).getName();
                     String time = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
-//                    System.out.println("masuk ke if pertama");
+// System.out.println("masuk ke if pertama");
                     if (jenis.equalsIgnoreCase("image")) {
                         if (time.equalsIgnoreCase("jpg") || time.equalsIgnoreCase("png") || time.equalsIgnoreCase("jpeg") || time.equalsIgnoreCase("gif")) {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
                             File uploadedFile = new File(filePath);
-//                            System.out.println(filePath);
-//                            item.write(uploadedFile);
+                            System.out.println(filePath);
+                            item.write(uploadedFile);
 
                         }
                     } else if (jenis.equalsIgnoreCase("video")) {
@@ -758,13 +780,13 @@ public class ServController extends HttpServlet {
                             System.out.println("FileName:" + fileName + "\nuploadFolder:" + uploadFolder);
                             String filePath = uploadFolder + File.separator + fileName;
                             File uploadedFile = new File(filePath);
-//                            System.out.println(filePath);
-//                            item.write(uploadedFile);
+                            System.out.println(filePath);
+                            item.write(uploadedFile);
                         }
                     }
                 } else if (item.isFormField() && item.getSize() > 0) {
                     text1 = item.getString();
-//                    System.out.println("hashtag:" + text1);
+                    System.out.println("hashtag:" + text1);
                 }
             }
             HttpPost httppost;
@@ -776,9 +798,10 @@ public class ServController extends HttpServlet {
             FileBody fileContent = new FileBody(new File(uploadFolder + File.separator + fileName));
             MultipartEntity reqEntity = new MultipartEntity();
             reqEntity.addPart("file", fileContent);
-            httppost.setEntity(reqEntity);
+
             StringBody comment = new StringBody(text1);
             reqEntity.addPart("hashtag", comment);
+            httppost.setEntity(reqEntity);
             HttpResponse responses = ControllerDB.httpClient.execute(httppost);
             HttpEntity resEntity = responses.getEntity();
             InputStream inputStream = resEntity.getContent();

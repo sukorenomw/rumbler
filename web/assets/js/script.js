@@ -80,10 +80,19 @@ $(document).ready(function () {
         }
     });
 
-    $("#newQuote, #newLink").click(function (e) {
+    $("#newQuote").click(function (e) {
         $("#usr_post_menu").stop().fadeOut("slow", function () {
-            $("#user-post").stop().animate({height: '+=300px'}, 500, function () {
+            $("#user-post").stop().animate({height: '+=200px'}, 500, function () {
                 $("#post-quote").stop().fadeIn();
+            });
+        });
+        e.preventDefault();
+    });
+
+    $("#newLink").click(function (e) {
+        $("#usr_post_menu").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '+=50px'}, 500, function () {
+                $("#post-link").stop().fadeIn();
             });
         });
         e.preventDefault();
@@ -134,6 +143,12 @@ $(document).ready(function () {
         });
 
         $("#post-text").stop().fadeOut("slow", function () {
+            $("#user-post").stop().animate({height: '130px'}, 500, function () {
+                $("#usr_post_menu").stop().fadeIn();
+            });
+        });
+
+        $("#post-link").stop().fadeOut("slow", function () {
             $("#user-post").stop().animate({height: '130px'}, 500, function () {
                 $("#usr_post_menu").stop().fadeIn();
             });

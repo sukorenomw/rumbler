@@ -52,7 +52,7 @@
 
                 %>
                 <div class="row">
-                    <div class="large-2 columns profpict"><img class="radius" src="<%= controller.ModelStatic.useRumbler.getPicturePath()%>"/><%
+                    <div class="large-2 columns profpict"><img class="radius" src="<%= ControllerDB.serverStorage%><%= controller.ModelStatic.useRumbler.getPicturePath()%>"/><%
 
                         %></div>
                     <div id="user-post" class="large-10 columns bubble radius small-padding">
@@ -85,22 +85,44 @@
 
                             </ul>
                             <section id="post-link" style="display:none">
-                                <div class="cooming-soon1">
-                                    <div class="cooming-soon">
-                                        Cooming Soon<br/>
-                                        <a class="cancelBtn">Cancel</a>
-
+                                <form data-abide name="text-only-post" action="PostLink" method="POST">
+                                    <div class="row">
+                                        <div>
+                                            <input name="post-title" type="text" placeholder="Link .." required pattern="alpha_numeric">
+                                        </div>   
                                     </div>
-                                </div>
+                                    <div class="jarak"></div>
+                                    <div class="row">
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div class="cancelBtn small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
                             </section>
                             <section id="post-quote" style="display:none">
-                                <div class="cooming-soon1">
-                                    <div class="cooming-soon">
-                                        Cooming Soon<br/>
-                                        <a class="cancelBtn">Cancel</a>
-
+                                <form data-abide name="text-only-post" action="PostQuote" method="POST">
+                                    <div class="row">
+                                        <div>
+                                            <input name="post-title" type="text" placeholder="Title..">
+                                        </div>
+                                        <div>
+                                            <textarea name="post-content" placeholder="Quote here .." rows="4" style="resize:none" required></textarea>
+                                        </div>
+                                        <input name="post-tag" type="text" placeholder="From .." required >
                                     </div>
-                                </div>
+                                    <div class="jarak"></div>
+                                    <div class="row">
+                                        <div class="small-3 left small">
+                                            <input type="submit" class="button small radius" value="post" />
+                                        </div>
+                                        <div class="cancelBtn small-3 right columns small">
+                                            <a href="#" class="button radius small alert">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
                             </section>
                             <section id="post-video" style="display:none">
                                 <form method="post" action="UploadVideo" enctype="multipart/form-data">
@@ -163,6 +185,8 @@
                                         </div>
                                         <input name="post-tag" type="text" placeholder="hashtag.." required >
                                     </div>
+                                    <div class="checkbox"><label><input type="checkbox"><span class="custom checkbox"></span>Upload to Facebook</label>
+                                    </div>
                                     <div class="jarak"></div>
                                     <div class="row">
                                         <div class="small-3 left small">
@@ -173,8 +197,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </section>                                                                                                                                                                                                                                                                      
-                        </section>
+                            </section> 
                     </div>
                 </div>
                 <div class="jarak"></div>
@@ -222,7 +245,7 @@
                     <div id="commentModal<%= arr.get(i).getPostId()%>" class="reveal-modal small" data-reveal>
                         <h2>Post a comment</h2>
                         <div class="row">
-                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%>"><img src="<%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
+                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= ModelStatic.useRumbler.getName()%>"><img src="<%= ControllerDB.serverStorage%><%= ModelStatic.useRumbler.getPicturePath()%>"/></span></div>
                             <form id="postComment" name="postComment" method="POST" action="commentHandle">
                                 <div class="large-8 columns">
                                     <input type="hidden" name="post_id" value="<%= arr.get(i).getPostId()%>" />
@@ -239,11 +262,11 @@
                         <a class="close-reveal-modal">&#215;</a>
                     </div>
                     <div class="row">
-                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= pic%>"/></div>
+                        <div class="large-2 columns small-3 profpict"><img class="radius" src="<%= ControllerDB.serverStorage%><%= pic%>"/></div>
                         <div class="large-10 columns bubble radius">
                             <section>
                                 <p class="size-14"><a href="FriendsBlog<%= "?user_id=" + arr.get(i).getUsers().getUserId()%>"> <%= arr.get(i).getUsers().getName()%></a></p>
-                                <% if (arr.get(i).getContent() != null) {%>
+                                <% if ((arr.get(i).getContent() != null || arr.get(i).getIsQuote() == 1) && arr.get(i).getIsLink() != 1) {%>
                                 <header><h3 class="title"><%= arr.get(i).getContent()%></h3></header>
                                     <% } %>
                                     <% if (arr.get(i).getTitle() != null) {%>
@@ -251,28 +274,30 @@
                                 <% } %>
                                 <% if (arr.get(i).getIsVideo() == 1) {%>
                                 <video width="480" height="320" controls>
-                                    <source src="<%= arr.get(i).getImage()%>%>" type="video/avi">
-                                    <source src="<%= arr.get(i).getImage()%>" type="video/mp4">
-                                    <source src="<%= arr.get(i).getImage()%>" type="video/mkv">
-                                    <source src="<%= arr.get(i).getImage()%>" type="video/webm">
+                                    <source src="<%= ControllerDB.serverStorage%><%= arr.get(i).getImage()%>%>" type="video/avi">
+                                    <source src="<%= ControllerDB.serverStorage%><%= arr.get(i).getImage()%>" type="video/mp4">
+                                    <source src="<%= ControllerDB.serverStorage%><%= arr.get(i).getImage()%>" type="video/mkv">
+                                    <source src="<%= ControllerDB.serverStorage%><%= arr.get(i).getImage()%>" type="video/webm">
                                 </video>
 
-                                <% } else if (!arr.get(i).getImage().equals("no image")) {%>
-                                <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= arr.get(i).getImage()%>" width="480" height="320" />
+                                <% } else if (!arr.get(i).getImage().equals("")) {%>
+                                <span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="Gambar"><img src="<%= ControllerDB.serverStorage%><%= arr.get(i).getImage()%>" width="480" height="320" />
                                 </span>
-                                <%
-                                    }
-                                %>
+                                <% } else if (arr.get(i).getIsLink() == 1) {
+                                %>       <% if (arr.get(i).getContent() != null) {%>
+                                <a href="<%= arr.get(i).getContent()%>" target="_blank"><h3 class="title" style="color:#014387;font-style: italic"><%= arr.get(i).getContent()%></h3></a>
+                                    <% } %>
+                                    <% } %>
                                 <hr/>
                                 <% if (arr.get(i).getTag() != null) {
-                                       %>
+                                %>
                                 <p><%= arr.get(i).getTag()%></p>
                                 <% }%>
                                 <ul class="inline-list">
                                     <% if (ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId()) == 1) {
-                                           %>
+                                    %>
                                     <li><a href="#"><i class="likeBtn step fi-heart size-36 liked" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" data-like="<%= ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
-                                            <% 
+                                            <%
                                             } else {%>
                                     <li><a href="#"><i class="likeBtn step fi-heart size-36" data-post="<%= arr.get(i).getPostId()%>" data-userid="<%= ModelStatic.useRumbler.getUserId()%>" 
                                                        data-like="<%= ControllerDB.isLiked(ModelStatic.useRumbler.getUserId(), arr.get(i).getPostId())%>"></i></a></li>
@@ -292,7 +317,10 @@
 //                                            for (Comments entity : res3) {
 //                                                arrCom.add(entity);
 //                                            }
-                                            arrCom = arr.get(i).getCommentses();
+                                            ControllerDB.printpich("Ukuran arrcom" + arr.get(i).getCommentses().size());
+                                            ArrayList<Comments> com = arr.get(i).getCommentses();
+                                            arrCom.addAll(com);
+                                            ControllerDB.printpich("size arrCom" + arrCom.size());
                                         %>
                                         <h6><%= arrCom.size()%> Comments</h6>
                                         <%
@@ -300,7 +328,7 @@
                                                 for (int j = 0; j < arrCom.size(); j++) {
                                         %>
                                         <div class="row">
-                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= arrCom.get(j).getUsers().getName()%>"><img src="<%= arrCom.get(j).getUsers().getPicturePath()%>"/></span></div>
+                                            <div class="large-2 columns small-3"><span data-tooltip aria-haspopup="true" class="has-tip radius tip-left" title="<%= arrCom.get(j).getUsers().getName()%>"><img src="<%= ControllerDB.serverStorage%><%= arrCom.get(j).getUsers().getPicturePath()%>"/></span></div>
                                             <div class="large-10 columns"><p><%= arrCom.get(j).getContent()%></p></div>
                                         </div>
                                         <hr/>
@@ -348,11 +376,11 @@
                             <div class="small-8">
                                 <div class="row">
                                     <div class="small-5 push-1 columns">
-                                        <div class="columns profpict"><img class="radius" src="<%= userr.get(i).getPicturePath()%>"/></div>
+                                        <div class="columns profpict"><img class="radius" src="<%= ControllerDB.serverStorage%><%= userr.get(i).getPicturePath()%>"/></div>
                                     </div>
                                     <div class="large-7 columns">
                                         <p><a href="FriendsBlog<%= "?user_id=" + userr.get(i).getUserId()%>"><%= userr.get(i).getName()%></a></p>
-                                        <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
+                                            <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
                                                 if (i > 0) {%>
                                         <a href="#" class="unfollow" data-unfol="<%= userr.get(i).getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
                                         <% } else {%>
@@ -378,15 +406,15 @@
                         <hr/>
                         <input type="hidden" id="hidden" data-user="<%= ModelStatic.useRumbler.getUserId()%>"/>
                         <%
-                        //ControllerDB.printpich("MASUK RAND USER");
+                            //ControllerDB.printpich("MASUK RAND USER");
 //                            randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
                             randUser = ControllerDB.randUsrs();
-                            for (int itr = 0;itr<randUser.size(); itr++) {
+                            for (int itr = 0; itr < randUser.size(); itr++) {
                                 Users usr = randUser.get(itr);
                                 //ControllerDB.printpich("userId random"+usr.getUserId());
                         %>
-                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()+usr.getName() %>"><img class="radius left" src="<%= usr.getPicturePath()%>" height="40" width="40"/>
-                            <p class="left blogname"> <%= usr.getName() %> </p></a>
+                        <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= ControllerDB.serverStorage%><%= usr.getPicturePath()%>" height="40" width="40"/>
+                            <p class="left blogname"> <%= usr.getUsername()%> </p></a>
                         <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>
                         <hr class="hr-child"/>
                         <% }%>
