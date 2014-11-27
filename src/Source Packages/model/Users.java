@@ -36,7 +36,7 @@ public class Users  implements java.io.Serializable {
     }
 
 	
-    public Users(String name, String username, String email, Date birthday, String password, String description, String blogTitle, Date registeredAt, Date lastLogin, String picturePath) {
+    public Users(String name, String username, String email, Date birthday, String password, String description, String blogTitle, Date registeredAt, Date lastLogin, String picturePath,int userid) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -47,6 +47,7 @@ public class Users  implements java.io.Serializable {
         this.registeredAt = registeredAt;
         this.lastLogin = lastLogin;
         this.picturePath = picturePath;
+        this.userId=userid;
     }
     public Users(String name, String username, String email, Date birthday, String password, String description, String blogTitle, Date registeredAt, Date lastLogin, String picturePath, Set<Comments> commentses, Set<Followers> followersesForFollowerId, Set<Notifications> notificationsesForUserId, Set<Notifications> notificationsesForFromUserId, Set<Posts> postses, Set<Likes> likeses, Settings settings, Set<Followers> followersesForUserId) {
        this.name = name;

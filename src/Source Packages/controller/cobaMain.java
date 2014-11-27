@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class cobaMain {
 
         // System.out.println(usernames+passwords);
         try {
-            HttpPost httpPost = new HttpPost("http://192.168.43.97:8000/api/auth/");
+            HttpPost httpPost = new HttpPost(ControllerDB.urlstatic+"auth/");
             String json = "";
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("email", username);
@@ -70,66 +71,70 @@ public class cobaMain {
     }
 
     public static void main(String[] args) {
-        HttpClient client = new DefaultHttpClient();
-        ControllerDB db = new ControllerDB(client);
-        loginDBweb(client);
-        JSONObject obj = (db.controllPost());
-//        JSONObject timeline = obj.getJSONObject("timeline");
-        System.out.println(((JSONObject) obj.getJSONArray("timeline").get(0)).get("is_link"));
-        JSONArray tl = obj.getJSONArray("timeline");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        for (int i = 0; i < tl.length(); i++) {
-            System.out.println(((JSONObject) tl.get(i)).get("id"));
-            System.out.println("----");
-            JSONArray comment = ((JSONObject) tl.get(i)).getJSONArray("comments");
-            String title = ((JSONObject) tl.get(i)).getString("title");
-            String content = ((JSONObject) tl.get(i)).getString("content");
-            String tag = ((JSONObject) tl.get(i)).getString("tag");
-            String regisDateStr = ((JSONObject) tl.get(i)).get("created_at").toString();
-            Date regisDate = new Date();
-            int isVideo = ((JSONObject) tl.get(i)).getInt("is_video");
-            int isQuote = ((JSONObject) tl.get(i)).getInt("is_quote");
-            int islink = ((JSONObject) tl.get(i)).getInt("is_link");
-            Set<Comments> arrcom = new HashSet<Comments>(0);
-            String image = ((JSONObject) tl.get(i)).getString("image");
-
-            try {
-
-                regisDate = formatter.parse(regisDateStr);
-//                        System.out.println(datess);
-//                        System.out.println(formatter.format(datess));
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Posts po = new Posts(db.ambiluser(((JSONObject) tl.get(i)).getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote);
-            for (int j = 0; j < comment.length(); j++) {
-                Date regisDates = new Date();
-                try {
-
-                    regisDate = formatter.parse(regisDateStr);
-//                        System.out.println(datess);
-//                        System.out.println(formatter.format(datess));
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                String contents = ((JSONObject) comment.get(j)).getString("content");
-                System.out.println("UserID:" + ((JSONObject) comment.get(j)).get("userid"));
-                Comments com = new Comments(po, ambiluser(((JSONObject) comment.get(j)).getInt("userid")), contents, regisDates);
-                arrcom.add(com);
-                System.out.println("User:" + com.getUsers().getName());
-            }
-
-            Posts pos = new Posts(ambiluser(((JSONObject) tl.get(i)).getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote, image, arrcom);
-            System.out.println("------");
-
-        }
+        //HttpClient client = ControllerDB.httpClient;
+//        ControllerDB db = new ControllerDB();
+        loginDBweb(ControllerDB.httpClient);
+        ArrayList<Posts> post = new ArrayList<Posts>();
+        post=ControllerDB.homePost();
+        for(int i=0;i<post.size();i++)
+        System.out.println(post.get(i).getUsers().getUserId());
+//        JSONObject obj = (db.controllPost());
+////        JSONObject timeline = obj.getJSONObject("timeline");
+//        System.out.println(((JSONObject) obj.getJSONArray("timeline").get(0)).get("is_link"));
+//        JSONArray tl = obj.getJSONArray("timeline");
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        for (int i = 0; i < tl.length(); i++) {
+//            System.out.println(((JSONObject) tl.get(i)).get("id"));
+//            System.out.println("----");
+//            JSONArray comment = ((JSONObject) tl.get(i)).getJSONArray("comments");
+//            String title = ((JSONObject) tl.get(i)).getString("title");
+//            String content = ((JSONObject) tl.get(i)).getString("content");
+//            String tag = ((JSONObject) tl.get(i)).getString("tag");
+//            String regisDateStr = ((JSONObject) tl.get(i)).get("created_at").toString();
+//            Date regisDate = new Date();
+//            int isVideo = ((JSONObject) tl.get(i)).getInt("is_video");
+//            int isQuote = ((JSONObject) tl.get(i)).getInt("is_quote");
+//            int islink = ((JSONObject) tl.get(i)).getInt("is_link");
+//            Set<Comments> arrcom = new HashSet<Comments>(0);
+//            String image = ((JSONObject) tl.get(i)).getString("image");
+//
+//            try {
+//
+//                regisDate = formatter.parse(regisDateStr);
+////                        System.out.println(datess);
+////                        System.out.println(formatter.format(datess));
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            Posts po = new Posts(db.ambiluser(((JSONObject) tl.get(i)).getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote);
+//            for (int j = 0; j < comment.length(); j++) {
+//                Date regisDates = new Date();
+//                try {
+//
+//                    regisDate = formatter.parse(regisDateStr);
+////                        System.out.println(datess);
+////                        System.out.println(formatter.format(datess));
+//
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                String contents = ((JSONObject) comment.get(j)).getString("content");
+//                System.out.println("UserID:" + ((JSONObject) comment.get(j)).get("userid"));
+//                Comments com = new Comments(po, ambiluser(((JSONObject) comment.get(j)).getInt("userid")), contents, regisDates,((JSONObject) comment.get(j)).getInt("id"));
+//                arrcom.add(com);
+//                System.out.println("User:" + com.getUsers().getName());
+//            }
+//
+//            Posts pos = new Posts(ambiluser(((JSONObject) tl.get(i)).getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote, image, arrcom,((JSONObject) tl.get(i)).getInt("id"));
+//            System.out.println("posId:"+pos.getPostId()+pos.getUsers().getName()+pos.getCommentses().iterator().next().getCommentId());
+//            System.out.println("------");
+//
+//        }
 //        int id=((JSONObject)
 //        ((JSONObject)obj.getJSONArray("timeline").get(0)).getJSONArray("comments").get(0)).getInt("userid");
 //        JSONObject user1=db.ambiluser(id);
-
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {

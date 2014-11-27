@@ -1,6 +1,7 @@
 package model;
 // Generated Oct 13, 2014 2:34:17 PM by Hibernate Tools 4.3.1
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,9 +21,9 @@ public class Posts implements java.io.Serializable {
     private int isVideo;
     private int isLink;
     private int isQuote;
-    private Set<Comments> commentses = new HashSet<Comments>(0);
-    private Set<Notifications> notificationses = new HashSet<Notifications>(0);
-    private Set<Likes> likeses = new HashSet<Likes>(0);
+    private ArrayList<Comments> commentses = new ArrayList<Comments>(0);
+    private ArrayList<Notifications> notificationses = new ArrayList<Notifications>(0);
+    private ArrayList<Likes> likeses = new ArrayList<Likes>(0);
 
     public Posts() {
     }
@@ -36,20 +37,22 @@ public class Posts implements java.io.Serializable {
         this.isVideo = isVideo;
     }
 
-    public Posts(Users users, String title, String content, Date createdAt, 
-            String tag, int isVideo,int isLink,int isQuote) {
+    public Posts(Users users, String title, String content, Date createdAt,
+            String tag, int isVideo, int isLink, int isQuote) {
         this.users = users;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.tag = tag;
         this.isVideo = isVideo;
-        this.isQuote=isQuote;
-        this.isLink=isLink;
+        this.isQuote = isQuote;
+        this.isLink = isLink;
     }
-     public Posts(Users users, String title, String content, Date createdAt, 
-             String tag,int isVideo, int isLink,int isQuote,  String image, 
-             Set<Comments> commentses ) {
+
+    public Posts(Users users, String title, String content, Date createdAt,
+            String tag, int isVideo, int isLink, int isQuote, String image,
+            ArrayList<Comments> commentses, int id) {
+        this.postId = id;
         this.users = users;
         this.title = title;
         this.image = image;
@@ -57,11 +60,12 @@ public class Posts implements java.io.Serializable {
         this.createdAt = createdAt;
         this.tag = tag;
         this.isVideo = isVideo;
-        this.isQuote=isQuote;
-        this.isLink=isLink;
+        this.isQuote = isQuote;
+        this.isLink = isLink;
         this.commentses = commentses;
     }
-    public Posts(Users users, String title, String image, String content, Date createdAt, String tag, int isVideo, Set<Comments> commentses, Set<Notifications> notificationses, Set<Likes> likeses) {
+
+    public Posts(Users users, String title, String image, String content, Date createdAt, String tag, int isVideo, ArrayList<Comments> commentses, ArrayList<Notifications> notificationses, ArrayList<Likes> likeses) {
         this.users = users;
         this.title = title;
         this.image = image;
@@ -138,27 +142,27 @@ public class Posts implements java.io.Serializable {
         this.isVideo = isVideo;
     }
 
-    public Set<Comments> getCommentses() {
+    public ArrayList<Comments> getCommentses() {
         return this.commentses;
     }
 
-    public void setCommentses(Set<Comments> commentses) {
+    public void setCommentses(ArrayList<Comments> commentses) {
         this.commentses = commentses;
     }
 
-    public Set<Notifications> getNotificationses() {
+    public ArrayList<Notifications> getNotificationses() {
         return this.notificationses;
     }
 
-    public void setNotificationses(Set<Notifications> notificationses) {
+    public void setNotificationses(ArrayList<Notifications> notificationses) {
         this.notificationses = notificationses;
     }
 
-    public Set<Likes> getLikeses() {
+    public ArrayList<Likes> getLikeses() {
         return this.likeses;
     }
 
-    public void setLikeses(Set<Likes> likeses) {
+    public void setLikeses(ArrayList<Likes> likeses) {
         this.likeses = likeses;
     }
 

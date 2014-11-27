@@ -48,7 +48,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.hibernate.SessionFactory;
+//import org.hibernate.SessionFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -153,9 +153,9 @@ public class ServController extends HttpServlet {
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         RequestDispatcher reqDispatcher;
-        SessionFactory factory;
+//        SessionFactory factory;
         Integer usrCount = 0;
-        DatabaseController dbc = new DatabaseController();
+//        DatabaseController dbc = new DatabaseController();
         List results = null;
         String username = "";
         String password = "";
@@ -165,186 +165,186 @@ public class ServController extends HttpServlet {
         String name = "";
         switch (userPath) {
             case "/LikeAction":
-                String act = request.getParameter("action");
-                Integer userid = Integer.valueOf(request.getParameter("userid"));
-                Integer postid = Integer.valueOf(request.getParameter("postid"));
-
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-
-                if (act.equals("like")) {
-                    System.out.println("masuk ke like");
-                    dbc.likePost(factory.openSession(), userid, postid);
-                } else {
-                    dbc.unlikePost(factory.openSession(), userid, postid);
-                }
+//                String act = request.getParameter("action");
+//                Integer userid = Integer.valueOf(request.getParameter("userid"));
+//                Integer postid = Integer.valueOf(request.getParameter("postid"));
+//
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//
+//                if (act.equals("like")) {
+//                    System.out.println("masuk ke like");
+//                    dbc.likePost(factory.openSession(), userid, postid);
+//                } else {
+//                    dbc.unlikePost(factory.openSession(), userid, postid);
+//                }
                 break;
             case "/ReloadFollower":
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("<h3 class=\"title\">Followers</h3>");
-                    out.print("<p class=\"size-12\">The lists of your followers</p>");
-                    out.print("<hr/>");
-                    try {
-                        factory = util.HibernateUtil.getSessionFactory();
-                    } catch (Throwable ex) {
-                        System.err.println("Failed to create sessionFactory object." + ex);
-                        throw new ExceptionInInitializerError(ex);
-                    }
-                    List followers = dbc.selectFollowers(factory.openSession(), ModelStatic.useRumbler.getUserId());
-                    for (Iterator itr = followers.iterator(); itr.hasNext();) {
-                        Users flw = (Users) itr.next();
-                        out.print("<div class=\"row\">");
-                        out.print("<div class=\"small-8\">");
-                        out.print("<div class=\"row\">");
-                        out.print("<div class=\"small-5 push-1 columns\">");
-                        out.print("<div class=\"columns profpict\"><img class=\"radius\" src=\"" + flw.getPicturePath() + "\"/></div>");
-                        out.print("</div>");
-                        out.print("<div class=\"small-7 columns\">");
-                        out.print("<p><a href=\"FriendsBlog?user_id=" + flw.getUserId() + "\">" + flw.getName() + "</a></p>");
-                        out.print("<a href=\"#\" class='unfollow' data-unfol=\"" + flw.getUserId() + "\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"><span class=\"label radius success medium\">Following</span></a>"
-                        );
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("<hr/>");
-                    }
-                }
+//                try (PrintWriter out = response.getWriter()) {
+//                    out.print("<h3 class=\"title\">Followers</h3>");
+//                    out.print("<p class=\"size-12\">The lists of your followers</p>");
+//                    out.print("<hr/>");
+//                    try {
+//                        factory = util.HibernateUtil.getSessionFactory();
+//                    } catch (Throwable ex) {
+//                        System.err.println("Failed to create sessionFactory object." + ex);
+//                        throw new ExceptionInInitializerError(ex);
+//                    }
+//                    List followers = dbc.selectFollowers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+//                    for (Iterator itr = followers.iterator(); itr.hasNext();) {
+//                        Users flw = (Users) itr.next();
+//                        out.print("<div class=\"row\">");
+//                        out.print("<div class=\"small-8\">");
+//                        out.print("<div class=\"row\">");
+//                        out.print("<div class=\"small-5 push-1 columns\">");
+//                        out.print("<div class=\"columns profpict\"><img class=\"radius\" src=\"" + flw.getPicturePath() + "\"/></div>");
+//                        out.print("</div>");
+//                        out.print("<div class=\"small-7 columns\">");
+//                        out.print("<p><a href=\"FriendsBlog?user_id=" + flw.getUserId() + "\">" + flw.getName() + "</a></p>");
+//                        out.print("<a href=\"#\" class='unfollow' data-unfol=\"" + flw.getUserId() + "\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"><span class=\"label radius success medium\">Following</span></a>"
+//                        );
+//                        out.print("</div>");
+//                        out.print("</div>");
+//                        out.print("</div>");
+//                        out.print("</div>");
+//                        out.print("<hr/>");
+//                    }
+//                }
                 break;
             case "/ReloadRecommend":
-                System.out.println("reloadrecommend");
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                List randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("<p>Recommended Blogs</p>\n"
-                            + "                        <hr/>\n"
-                            + "                        <input type=\"hidden\" id=\"hidden\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"/>");
-                }
-                for (Iterator itr = randUser.iterator(); itr.hasNext();) {
-                    Users usr = (Users) itr.next();
-                    try (PrintWriter out = response.getWriter()) {
-
-                        out.print("<a href=\"FriendsBlog?user_id=" + usr.getUserId() + "\"><img class=\"radius left\" src=\"" + usr.getPicturePath() + "\" height=\"40\" width=\"40\"/>\n"
-                                + "                                <p class=\"left blogname\">" + usr.getUsername() + " </p></a>\n"
-                                + "                            <a href=\"#\"><span class=\"left\"><i class=\"fi-plus size-28 followTo\" data-user=\"" + usr.getUserId() + "\"></i></span></a>\n"
-                                + "                            <hr class=\"hr-child\"/>");
-                    }
-
-                }
+//                System.out.println("reloadrecommend");
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                List randUser = dbc.selectRandomUsers(factory.openSession(), ModelStatic.useRumbler.getUserId());
+//                try (PrintWriter out = response.getWriter()) {
+//                    out.print("<p>Recommended Blogs</p>\n"
+//                            + "                        <hr/>\n"
+//                            + "                        <input type=\"hidden\" id=\"hidden\" data-user=\"" + ModelStatic.useRumbler.getUserId() + "\"/>");
+//                }
+//                for (Iterator itr = randUser.iterator(); itr.hasNext();) {
+//                    Users usr = (Users) itr.next();
+//                    try (PrintWriter out = response.getWriter()) {
+//
+//                        out.print("<a href=\"FriendsBlog?user_id=" + usr.getUserId() + "\"><img class=\"radius left\" src=\"" + usr.getPicturePath() + "\" height=\"40\" width=\"40\"/>\n"
+//                                + "                                <p class=\"left blogname\">" + usr.getUsername() + " </p></a>\n"
+//                                + "                            <a href=\"#\"><span class=\"left\"><i class=\"fi-plus size-28 followTo\" data-user=\"" + usr.getUserId() + "\"></i></span></a>\n"
+//                                + "                            <hr class=\"hr-child\"/>");
+//                    }
+//
+//                }
                 break;
 
             case "/FollowTo":
-                System.out.println("follow to");
-                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
-                Integer userId = Integer.valueOf(request.getParameter("userid"));
-                System.out.println(followTo + " " + userId);
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                dbc.followTo(factory.openSession(), userId, followTo);
-                try (PrintWriter out = response.getWriter()) {
-                    out.print(dbc.selectFriendsName(factory.openSession(), followTo));
-                }
+//                System.out.println("follow to");
+//                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
+//                Integer userId = Integer.valueOf(request.getParameter("userid"));
+//                System.out.println(followTo + " " + userId);
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                dbc.followTo(factory.openSession(), userId, followTo);
+//                try (PrintWriter out = response.getWriter()) {
+//                    out.print(dbc.selectFriendsName(factory.openSession(), followTo));
+//                }
                 break;
 
             case "/Unfollow":
-                System.out.println("unfollow");
-                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
-                Integer myId = Integer.valueOf(request.getParameter("userid"));
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                dbc.unfollowUser(factory.openSession(), myId, unfollow);
-                try (PrintWriter out = response.getWriter()) {
-                    out.print(dbc.selectFriendsName(factory.openSession(), unfollow));
-                }
+//                System.out.println("unfollow");
+//                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
+//                Integer myId = Integer.valueOf(request.getParameter("userid"));
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                dbc.unfollowUser(factory.openSession(), myId, unfollow);
+//                try (PrintWriter out = response.getWriter()) {
+//                    out.print(dbc.selectFriendsName(factory.openSession(), unfollow));
+//                }
                 break;
             case "/infiniteScroll":
-                response.setContentType("text/html;charset=UTF-8");
-
-                List<Posts> res = null;
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                res = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
-                ArrayList<Posts> arr = new ArrayList<Posts>();
-                String pic = "";
-                try (PrintWriter out = response.getWriter()) {
-                    for (Posts entity : res) {
-                        arr.add(entity);
-                    }
-                    for (int i = n; i < n + 3; i++) {
-                        List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
-                        for (Users entity1 : res12) {
-                            pic = entity1.getPicturePath();
-                        }
-                        out.print("<div class=\"row\" style=\"display:none;\">");
-                        out.print("<div class=\"large-2 columns small-3 profpict\"><img class=\"radius\" src=\"" + pic + "\"/></div>");
-                        out.print("<div class=\"large-10 columns bubble radius\">");
-                        out.print("<section>");
-                        out.print("<p class=\"size-14\"><a href=\"FriendsBlog?user_id=" + arr.get(i).getUsers().getUserId() + "\">" + dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId()) + "</a></p>");
-                        if (arr.get(i).getTitle() != null) {
-                            out.print("<header><h3 class=\"title\">" + arr.get(i).getTitle() + "</h3></header>");
-                        }
-                        if (arr.get(i).getContent() != null) {
-                            out.print("<p>" + arr.get(i).getContent() + "</p>");
-
-                        }
-                        if (!arr.get(i).getImage().equals("no image")) {
-                            out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\"" + arr.get(i).getImage() + "\" width=\"480\" height=\"320\" /></span>");
-
-                        }
-                        out.print("<hr/>");
-                        if (arr.get(i).getTag() != null) {
-                            out.print("<p>" + arr.get(i).getTag() + "</p>");
-                        }
-                        out.print("<ul class=\"inline-list\">\n"
-                                + "                                    <li><a href=\"#\"><i class=\"step fi-heart size-36\"></i></a></li>\n"
-                                + "                                    <li><a href=\"#\" data-reveal-id=\"commentModal\"><i class=\"step fi-comment size-36\"></i></a></li>\n"
-                                + "                                </ul>");
-                        out.print("</section>");
-                        out.print("<dl class=\"accordion radius\" data-accordion>");
-                        out.print("<dd class=\"accordion-navigation\">");
-                        out.print("<a href=\"#commentView" + arr.get(i).getPostId() + "\" >View Comments</a>");
-                        out.print("<div id=\"commentView" + arr.get(i).getPostId() + "\" class=\"content radius\">");
-                        out.print("<h6>2 Comments</h6>");
-                        out.print("<div class=\"row\">");
-                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
-                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
-                        out.print("</div>");
-
-                        out.print("<div class=\"row\">");
-                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Nama User\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
-                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
-
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("</dd>");
-                        out.print("</dl>");
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("<div class=\"jarak\"></div>");
-                    }
-                }
-                n += 3;
+//                response.setContentType("text/html;charset=UTF-8");
+//
+//                List<Posts> res = null;
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                res = dbc.selectPosts(factory.openSession(), ModelStatic.useRumbler.getUserId());
+//                ArrayList<Posts> arr = new ArrayList<Posts>();
+//                String pic = "";
+//                try (PrintWriter out = response.getWriter()) {
+//                    for (Posts entity : res) {
+//                        arr.add(entity);
+//                    }
+//                    for (int i = n; i < n + 3; i++) {
+//                        List<Users> res12 = dbc.selectOperator(factory.openSession(), (arr.get(i).getUsers().getUserId()));
+//                        for (Users entity1 : res12) {
+//                            pic = entity1.getPicturePath();
+//                        }
+//                        out.print("<div class=\"row\" style=\"display:none;\">");
+//                        out.print("<div class=\"large-2 columns small-3 profpict\"><img class=\"radius\" src=\"" + pic + "\"/></div>");
+//                        out.print("<div class=\"large-10 columns bubble radius\">");
+//                        out.print("<section>");
+//                        out.print("<p class=\"size-14\"><a href=\"FriendsBlog?user_id=" + arr.get(i).getUsers().getUserId() + "\">" + dbc.selectFriendsName(factory.openSession(), arr.get(i).getUsers().getUserId()) + "</a></p>");
+//                        if (arr.get(i).getTitle() != null) {
+//                            out.print("<header><h3 class=\"title\">" + arr.get(i).getTitle() + "</h3></header>");
+//                        }
+//                        if (arr.get(i).getContent() != null) {
+//                            out.print("<p>" + arr.get(i).getContent() + "</p>");
+//
+//                        }
+//                        if (!arr.get(i).getImage().equals("no image")) {
+//                            out.print("<span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Gambar\"><img src=\"" + arr.get(i).getImage() + "\" width=\"480\" height=\"320\" /></span>");
+//
+//                        }
+//                        out.print("<hr/>");
+//                        if (arr.get(i).getTag() != null) {
+//                            out.print("<p>" + arr.get(i).getTag() + "</p>");
+//                        }
+//                        out.print("<ul class=\"inline-list\">\n"
+//                                + "                                    <li><a href=\"#\"><i class=\"step fi-heart size-36\"></i></a></li>\n"
+//                                + "                                    <li><a href=\"#\" data-reveal-id=\"commentModal\"><i class=\"step fi-comment size-36\"></i></a></li>\n"
+//                                + "                                </ul>");
+//                        out.print("</section>");
+//                        out.print("<dl class=\"accordion radius\" data-accordion>");
+//                        out.print("<dd class=\"accordion-navigation\">");
+//                        out.print("<a href=\"#commentView" + arr.get(i).getPostId() + "\" >View Comments</a>");
+//                        out.print("<div id=\"commentView" + arr.get(i).getPostId() + "\" class=\"content radius\">");
+//                        out.print("<h6>2 Comments</h6>");
+//                        out.print("<div class=\"row\">");
+//                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"<%  %>\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
+//                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
+//                        out.print("</div>");
+//
+//                        out.print("<div class=\"row\">");
+//                        out.print("<div class=\"large-2 columns small-3\"><span data-tooltip aria-haspopup=\"true\" class=\"has-tip radius tip-left\" title=\"Nama User\"><img src=\"http://placehold.it/50x50&text=[img]\"/></span></div>");
+//                        out.print("<div class=\"large-10 columns\"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>");
+//
+//                        out.print("</div>");
+//                        out.print("</div>");
+//                        out.print("</dd>");
+//                        out.print("</dl>");
+//                        out.print("</div>");
+//                        out.print("</div>");
+//                        out.print("<div class=\"jarak\"></div>");
+//                    }
+//                }
+//                n += 3;
                 break;
 
             case "/ServLogin":
@@ -384,7 +384,7 @@ public class ServController extends HttpServlet {
 //                    e.printStackTrace();
 //                }
                 try {
-                    HttpPost httpPost = new HttpPost("http://localhost:8000/api/auth/");
+                    HttpPost httpPost = new HttpPost(ControllerDB.urlstatic+"auth/");
                     String json = "";
                     JSONObject jsonObject = new JSONObject();
 
@@ -409,14 +409,15 @@ public class ServController extends HttpServlet {
                     }
 
                     respon = new JSONObject(result);
-
+                    //System.out.println(respon);
                 } catch (Exception e) {
                     System.err.println(e.getLocalizedMessage());
                 }
-                System.out.println("masuk\n\n\n aa");
+                //System.out.println("masuk\n\n\n aa");
                 if (respon.get("status").equals("failed")) {
                     request.setAttribute("userVal", username);
                     request.setAttribute("reason", respon.get("reason"));
+                    System.out.println("gagal");
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                     dispatcher.forward(request, response);
                 } else {
@@ -436,10 +437,11 @@ public class ServController extends HttpServlet {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
+                    System.out.println("ayo ke index");
                     ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(),
                             user.get("email").toString(), birthdate, user.get("password").toString(), user.get("description").toString(),
-                            user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString());
+                            user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString(),user.getInt("id"));
+
                     String encodedURL = response.encodeRedirectURL("index.jsp");
                     response.sendRedirect(encodedURL);
 //                    try (PrintWriter out = response.getWriter()) {
@@ -526,16 +528,16 @@ public class ServController extends HttpServlet {
                 response.sendRedirect(encodedURL1);
                 break;
             case "/PostText":
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
                 String title = request.getParameter("post-title");
                 String text = request.getParameter("post-content");
                 String hastag = request.getParameter("post-tag");
-                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
+//                dbc.insertOperation(factory.openSession(), title, text, hastag, ModelStatic.useRumbler.getUserId());
                 String encodedURL2 = response.encodeRedirectURL("index.jsp");
                 response.sendRedirect(encodedURL2);
                 break;
@@ -551,19 +553,19 @@ public class ServController extends HttpServlet {
                     int count = 0;
                     UploadSeting(request, response);
                     System.out.println(listz.size());
-                    System.out.println(userPath);
-                    try {
-                        factory = util.HibernateUtil.getSessionFactory();
-                    } catch (Throwable ex) {
-                        System.err.println("Failed to create sessionFactory object." + ex);
-                        throw new ExceptionInInitializerError(ex);
-                    }
+//                    System.out.println(userPath);
+//                    try {
+//                        factory = util.HibernateUtil.getSessionFactory();
+//                    } catch (Throwable ex) {
+//                        System.err.println("Failed to create sessionFactory object." + ex);
+//                        throw new ExceptionInInitializerError(ex);
+//                    }
 
                     email = this.email;
                     date = this.date;
                     blog = this.blog;
                     name = this.name;
-                    password = this.password == "" ? ModelStatic.useRumbler.getPassword() : dbc.MD5(this.password);
+                    password = this.password;//== "" ? ModelStatic.useRumbler.getPassword() : dbc.MD5(this.password);
                     Date dates = new Date();
                     System.out.println(email + date + blog + name + dates);
                     try {
@@ -574,7 +576,7 @@ public class ServController extends HttpServlet {
                     }
                     System.out.println("beres");
                     String path = this.pathDB == "" ? "assets/img/ProfPic/default.png" : this.pathDB;
-                    dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId(), path);
+//                    dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId(), path);
                     response.sendRedirect("setting.jsp");
                 } catch (FileUploadException ex) {
                     Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
@@ -584,34 +586,34 @@ public class ServController extends HttpServlet {
             }
             break;
             case "/settingNotif":
-                System.out.println(userPath);
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-
-                int like = request.getParameter("likesNotif") == null ? 0 : 1;
-                int comN = request.getParameter("commentsNotif") == null ? 0 : 1;
-                int fol = request.getParameter("followerNotif") == null ? 0 : 1;
-                Date dates2 = new Date();
-                dbc.updateOperation(factory.openSession(), like, comN, fol, ModelStatic.useRumbler.getUserId());
-                reqDispatcher = request.getRequestDispatcher("setting.jsp");
-                reqDispatcher.forward(request, response);
-                break;
-            case "/commentHandle":
-                int post_id = Integer.parseInt(request.getParameter("post_id"));
-                int userPost = Integer.parseInt(request.getParameter("user_id"));
-                String content = request.getParameter("commentContent");
-                try {
-                    factory = util.HibernateUtil.getSessionFactory();
-                } catch (Throwable ex) {
-                    System.err.println("Failed to create sessionFactory object." + ex);
-                    throw new ExceptionInInitializerError(ex);
-                }
-                dbc.insertOperation(factory.openSession(), post_id, userPost, content);
-                response.sendRedirect("index.jsp");
+//                System.out.println(userPath);
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//
+//                int like = request.getParameter("likesNotif") == null ? 0 : 1;
+//                int comN = request.getParameter("commentsNotif") == null ? 0 : 1;
+//                int fol = request.getParameter("followerNotif") == null ? 0 : 1;
+//                Date dates2 = new Date();
+//                dbc.updateOperation(factory.openSession(), like, comN, fol, ModelStatic.useRumbler.getUserId());
+//                reqDispatcher = request.getRequestDispatcher("setting.jsp");
+//                reqDispatcher.forward(request, response);
+//                break;
+//            case "/commentHandle":
+//                int post_id = Integer.parseInt(request.getParameter("post_id"));
+//                int userPost = Integer.parseInt(request.getParameter("user_id"));
+//                String content = request.getParameter("commentContent");
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                dbc.insertOperation(factory.openSession(), post_id, userPost, content);
+//                response.sendRedirect("index.jsp");
                 break;
 
         }
@@ -663,14 +665,14 @@ public class ServController extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factorys);
 
         upload.setSizeMax(MAX_REQUEST_SIZE);
-        SessionFactory factory;
-        DatabaseController dbc = new DatabaseController();
-        try {
-            factory = util.HibernateUtil.getSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+//        SessionFactory factory;
+//        DatabaseController dbc = new DatabaseController();
+//        try {
+//            factory = util.HibernateUtil.getSessionFactory();
+//        } catch (Throwable ex) {
+//            System.err.println("Failed to create sessionFactory object." + ex);
+//            throw new ExceptionInInitializerError(ex);
+//        }
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
