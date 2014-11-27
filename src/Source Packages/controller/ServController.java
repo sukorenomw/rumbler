@@ -8,6 +8,7 @@ package controller;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,10 +38,15 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.hibernate.SessionFactory;
 import org.json.JSONArray;
@@ -140,7 +146,8 @@ public class ServController extends HttpServlet {
     public static String date = "";
     public static String name = "";
     public static String pathDB = "";
-    public static ModelStatic modelstatic =new ModelStatic();
+    public static ModelStatic modelstatic = new ModelStatic();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -429,7 +436,7 @@ public class ServController extends HttpServlet {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    
+
                     ModelStatic.useRumbler = new Users(user.get("name").toString(), user.get("username").toString(),
                             user.get("email").toString(), birthdate, user.get("password").toString(), user.get("description").toString(),
                             user.get("blog_title").toString(), regisDate, new Date(), user.get("picture_path").toString());
@@ -618,7 +625,7 @@ public class ServController extends HttpServlet {
          }*/
     }
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+    public static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
         String result = "";
@@ -698,18 +705,34 @@ public class ServController extends HttpServlet {
                     text1 = item.getString();
                     System.out.println("hashtag:" + text1);
                 }
-
             }
-
-            dbc.insertOperation(factory.openSession(), text1, path + fileName, ModelStatic.useRumbler.getUserId());
-
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost;
+            if (jenis.equals("image")) {
+                httppost = new HttpPost("http://localhost:8000/api/post/image/");
+            } else {
+                httppost = new HttpPost("http://localhost:8000/api/post/vid/");
+            }
+            FileBody fileContent = new FileBody(new File(uploadFolder + File.separator + fileName));
+            MultipartEntity reqEntity = new MultipartEntity();
+            reqEntity.addPart("file", fileContent);
+            httppost.setEntity(reqEntity);
+            StringBody comment = new StringBody(text1);
+            reqEntity.addPart("hashtag", comment);
+            HttpResponse responses = httpclient.execute(httppost);
+            HttpEntity resEntity = responses.getEntity();
+            InputStream inputStream = resEntity.getContent();
+            if (inputStream == null) {
+                System.out.println("gagal");
+            } else {
+                System.out.println("sukses");
+                System.out.println(ServController.convertInputStreamToString(inputStream));
+            }
         } catch (FileUploadException ex) {
             throw new ServletException(ex);
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
-        
-        
     }
 
     private void UploadSeting(HttpServletRequest request, HttpServletResponse response) throws ServletException, FileUploadException, Exception {
@@ -723,18 +746,9 @@ public class ServController extends HttpServlet {
         factorys.setRepository(new File(System.getProperty("java.io.tmpdir")));
         String urlPath = getServletContext().getRealPath("").substring(0, getServletContext().getRealPath("").indexOf("build"));
         String uploadFolder = urlPath + path;
-//        System.out.println("uploadFolder:" + uploadFolder);
         ServletFileUpload upload = new ServletFileUpload(factorys);
 
         upload.setSizeMax(MAX_REQUEST_SIZE);
-//        SessionFactory factory;
-//        DatabaseController dbc = new DatabaseController();
-//        try {
-//            factory = util.HibernateUtil.getSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
         List items = upload.parseRequest(request);
         this.listz = items;
         int count = 0;

@@ -5,7 +5,6 @@
  */
 package controller;
 
-import com.sun.media.jai.remote.JAIServerConfigurationSpi;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
