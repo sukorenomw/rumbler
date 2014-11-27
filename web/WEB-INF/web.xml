@@ -23,7 +23,8 @@
         <url-pattern>/settingGeneral</url-pattern>
         <url-pattern>/settingPrivacy</url-pattern>
         <url-pattern>/PostText</url-pattern>
-         <url-pattern>/PostQuote</url-pattern>
+        <url-pattern>/PostQuote</url-pattern>
+        <url-pattern>/PostLink</url-pattern>
         <url-pattern>/settingNotif</url-pattern>
         <url-pattern>/ServSignUp</url-pattern>
         <url-pattern>/infiniteScroll</url-pattern>

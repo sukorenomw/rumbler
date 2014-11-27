@@ -550,6 +550,37 @@ public class ServController extends HttpServlet {
                 String encodedURL1 = response.encodeRedirectURL("index.jsp");
                 response.sendRedirect(encodedURL1);
                 break;
+            case "/PostLink":
+                String ltitle = request.getParameter("post-title");
+                
+                //HttpPost httpPost = new HttpPost("http://localhost:8000/api/posts/");
+                HttpPost lhttpPost = new HttpPost(ControllerDB.urlstatic + "post/link");
+                String ljson = "";
+                JSONObject ljsonObject = new JSONObject();
+                ljsonObject.accumulate("content", ltitle);
+                              
+                ljson = ljsonObject.toString();
+                StringEntity lse = new StringEntity(ljson);
+                lhttpPost.setEntity(lse);
+
+                lhttpPost.setHeader("Accept", "application/json");
+                lhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse lhttpResponse = ControllerDB.httpClient.execute(lhttpPost);
+                inputStream = lhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
+
+                String lencodedURL2 = response.encodeRedirectURL("index.jsp");
+                response.sendRedirect(lencodedURL2);
+                break;
             case "/PostQuote":
                 String qtitle = request.getParameter("post-title");
                 String qtext = request.getParameter("post-content");
@@ -558,7 +589,7 @@ public class ServController extends HttpServlet {
                 HttpPost qhttpPost = new HttpPost(ControllerDB.urlstatic + "post/quote");
                 String qjson = "";
                 JSONObject qjsonObject = new JSONObject();
-                qjsonObject.accumulate("content", qtext);
+                qjsonObject.accumulate("quote", qtext);
                 qjsonObject.accumulate("title", qtitle);
                 qjsonObject.accumulate("from", qfrom);
 
@@ -680,18 +711,38 @@ public class ServController extends HttpServlet {
 //                reqDispatcher = request.getRequestDispatcher("setting.jsp");
 //                reqDispatcher.forward(request, response);
 //                break;
-//            case "/commentHandle":
-//                int post_id = Integer.parseInt(request.getParameter("post_id"));
-//                int userPost = Integer.parseInt(request.getParameter("user_id"));
-//                String content = request.getParameter("commentContent");
-//                try {
-//                    factory = util.HibernateUtil.getSessionFactory();
-//                } catch (Throwable ex) {
-//                    System.err.println("Failed to create sessionFactory object." + ex);
-//                    throw new ExceptionInInitializerError(ex);
-//                }
-//                dbc.insertOperation(factory.openSession(), post_id, userPost, content);
-//                response.sendRedirect("index.jsp");
+            case "/commentHandle":
+                int post_id = Integer.parseInt(request.getParameter("post_id"));
+                int userPost = Integer.parseInt(request.getParameter("user_id"));
+                String content = request.getParameter("commentContent");
+                
+                HttpPost chttpPost = new HttpPost(ControllerDB.urlstatic + "comments/");
+                String cjson = "";
+                JSONObject cjsonObject = new JSONObject();
+                cjsonObject.accumulate("content", content);
+                cjsonObject.accumulate("postid", post_id);
+               
+
+                cjson = cjsonObject.toString();
+                StringEntity cse = new StringEntity(cjson);
+                chttpPost.setEntity(cse);
+
+                chttpPost.setHeader("Accept", "application/json");
+                chttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse chttpResponse = ControllerDB.httpClient.execute(chttpPost);
+                inputStream = chttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
+                
+                response.sendRedirect("index.jsp");
                 break;
 
         }

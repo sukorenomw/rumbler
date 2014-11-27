@@ -88,7 +88,7 @@
                                 <form data-abide name="text-only-post" action="PostLink" method="POST">
                                     <div class="row">
                                         <div>
-                                            <input name="post-title" type="text" placeholder="Link .." required pattern="alpha_numeric">
+                                            <input name="post-title" type="text" placeholder="Link .." required>
                                         </div>   
                                     </div>
                                     <div class="jarak"></div>
@@ -319,6 +319,7 @@
 //                                            }
                                             ControllerDB.printpich("Ukuran arrcom" + arr.get(i).getCommentses().size());
                                             ArrayList<Comments> com = arr.get(i).getCommentses();
+                                            arrCom=new ArrayList<Comments>();
                                             arrCom.addAll(com);
                                             ControllerDB.printpich("size arrCom" + arrCom.size());
                                         %>
