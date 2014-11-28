@@ -319,7 +319,7 @@
 //                                            }
                                             ControllerDB.printpich("Ukuran arrcom" + arr.get(i).getCommentses().size());
                                             ArrayList<Comments> com = arr.get(i).getCommentses();
-                                            arrCom=new ArrayList<Comments>();
+                                            arrCom = new ArrayList<Comments>();
                                             arrCom.addAll(com);
                                             ControllerDB.printpich("size arrCom" + arrCom.size());
                                         %>
@@ -381,8 +381,7 @@
                                     </div>
                                     <div class="large-7 columns">
                                         <p><a href="FriendsBlog<%= "?user_id=" + userr.get(i).getUserId()%>"><%= userr.get(i).getName()%></a></p>
-                                            <% // if (dbc.isFollowing(factory.openSession(), ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) 
-                                                if (i > 0) {%>
+                                            <% if (ControllerDB.isFollowing(ModelStatic.useRumbler.getUserId(), userr.get(i).getUserId()) == 1) {%>
                                         <a href="#" class="unfollow" data-unfol="<%= userr.get(i).getUserId()%>" data-user="<%= ModelStatic.useRumbler.getUserId()%>"><span class="label radius success medium">Following</span></a>
                                         <% } else {%>
                                         <a href="#" class="followToSearch" data-user="<%= userr.get(i).getUserId()%>" "><span class="label radius success medium">Follow User</span></a>
@@ -413,7 +412,7 @@
                             for (int itr = 0; itr < randUser.size(); itr++) {
                                 Users usr = randUser.get(itr);
                                 //ControllerDB.printpich("userId random"+usr.getUserId());
-                        %>
+%>
                         <a href="FriendsBlog<%= "?user_id=" + usr.getUserId()%>"><img class="radius left" src="<%= ControllerDB.serverStorage%><%= usr.getPicturePath()%>" height="40" width="40"/>
                             <p class="left blogname"> <%= usr.getUsername()%> </p></a>
                         <a href="#"><span class="left"><i class="fi-plus size-28 followTo" data-user="<%= usr.getUserId()%>"></i></span></a>

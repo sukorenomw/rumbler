@@ -43,6 +43,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -306,10 +307,34 @@ public class ServController extends HttpServlet {
                 break;
 
             case "/FollowTo":
-//                System.out.println("follow to");
-//                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
-//                Integer userId = Integer.valueOf(request.getParameter("userid"));
-//                System.out.println(followTo + " " + userId);
+                System.out.println("follow to");
+                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
+                Integer userId = Integer.valueOf(request.getParameter("userid"));
+                System.out.println(followTo + " " + userId);
+
+                HttpPost flwhttpPost = new HttpPost(ControllerDB.urlstatic + "people");
+                String flwjson = "";
+                JSONObject flwjsonObject = new JSONObject();
+                flwjsonObject.accumulate("followTo", followTo);
+
+                flwjson = flwjsonObject.toString();
+                StringEntity flwse = new StringEntity(flwjson);
+                flwhttpPost.setEntity(flwse);
+
+                flwhttpPost.setHeader("Accept", "application/json");
+                flwhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse flwhttpResponse = ControllerDB.httpClient.execute(flwhttpPost);
+                inputStream = flwhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
 //                try {
 //                    factory = util.HibernateUtil.getSessionFactory();
 //                } catch (Throwable ex) {
@@ -317,15 +342,15 @@ public class ServController extends HttpServlet {
 //                    throw new ExceptionInInitializerError(ex);
 //                }
 //                dbc.followTo(factory.openSession(), userId, followTo);
-//                try (PrintWriter out = response.getWriter()) {
-//                    out.print(dbc.selectFriendsName(factory.openSession(), followTo));
-//                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(respon.get("nama").toString());
+                }
                 break;
 
             case "/Unfollow":
-//                System.out.println("unfollow");
-//                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
-//                Integer myId = Integer.valueOf(request.getParameter("userid"));
+                System.out.println("unfollow");
+                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
+                Integer myId = Integer.valueOf(request.getParameter("userid"));
 //                try {
 //                    factory = util.HibernateUtil.getSessionFactory();
 //                } catch (Throwable ex) {
@@ -336,6 +361,39 @@ public class ServController extends HttpServlet {
 //                try (PrintWriter out = response.getWriter()) {
 //                    out.print(dbc.selectFriendsName(factory.openSession(), unfollow));
 //                }
+                HttpPost uflwhttpPost = new HttpPost(ControllerDB.urlstatic + "people/remove");
+                String uflwjson = "";
+                JSONObject uflwjsonObject = new JSONObject();
+                uflwjsonObject.accumulate("followTo", unfollow);
+
+                uflwjson = uflwjsonObject.toString();
+                StringEntity uflwse = new StringEntity(uflwjson);
+                uflwhttpPost.setEntity(uflwse);
+
+                uflwhttpPost.setHeader("Accept", "application/json");
+                uflwhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse uflwhttpResponse = ControllerDB.httpClient.execute(uflwhttpPost);
+                inputStream = uflwhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                dbc.followTo(factory.openSession(), userId, followTo);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(respon.get("nama").toString());
+                }
                 break;
             case "/infiniteScroll":
 //                response.setContentType("text/html;charset=UTF-8");
@@ -709,12 +767,11 @@ public class ServController extends HttpServlet {
 //                        System.err.println("Failed to create sessionFactory object." + ex);
 //                        throw new ExceptionInInitializerError(ex);
 //                    }
-
                     email = this.email;
                     date = this.date;
                     blog = this.blog;
                     name = this.name;
-                    password = this.password;//== "" ? ModelStatic.useRumbler.getPassword() : dbc.MD5(this.password);
+                    password = this.password== "" ? ModelStatic.useRumbler.getPassword() : ControllerDB.MD5(this.password);
                     Date dates = new Date();
                     System.out.println(email + date + blog + name + dates);
                     try {
@@ -726,6 +783,29 @@ public class ServController extends HttpServlet {
                     System.out.println("beres");
                     String path = this.pathDB == "" ? "assets/img/ProfPic/default.png" : this.pathDB;
 //                    dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId(), path);
+                    HttpPut del = new HttpPut(ControllerDB.urlstatic + "users/"+ModelStatic.useRumbler.getUserId());
+                    jsonObject = new JSONObject();
+//                jsonObject.accumulate("email", "sukorenomukti");
+//                jsonObject.accumulate("password", password);
+                    jsonObject.accumulate("name", name);
+                    jsonObject.accumulate("password", password);
+                    jsonObject.accumulate("blog", blog);
+                    jsonObject.accumulate("email", email);
+                    jsonObject.accumulate("dates", dates);
+                    json = jsonObject.toString();
+                    se = new StringEntity(json);
+                    del.setEntity(se);
+                    del.setHeader("Accept", "application/json");
+                    del.setHeader("Content-type", "application/json");
+                    httpResponse = ControllerDB.httpClient.execute(del);
+                    InputStream inputStream = httpResponse.getEntity().getContent();
+                    String result = "";
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
+                    }
+                    JSONObject responz = new JSONObject(result);
                     response.sendRedirect("setting.jsp");
                 } catch (FileUploadException ex) {
                     Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);

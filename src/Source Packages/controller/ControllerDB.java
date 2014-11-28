@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import model.Comments;
 import model.Posts;
+import model.Settings;
 import model.Users;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -44,7 +47,7 @@ public class ControllerDB {
     }
     public static HttpClient httpClient = new DefaultHttpClient();
     public static ArrayList<Posts> postclient = new ArrayList<>();
-    public static String urlstatic = "http://192.168.1.11:8000/api/";
+    public static String urlstatic = "http://localhost:8000/api/";
     public static String serverStorage = "http://192.168.1.11:8000";
 
     public static ArrayList pushBlog(int userid) {
@@ -120,6 +123,76 @@ public class ControllerDB {
         return post;
     }
 
+<<<<<<< HEAD
+=======
+    public static void updateModelStatic(Integer user) {
+        System.out.println("masuk postcontrol");
+        JSONObject respons = new JSONObject();
+        String result = "";
+        try {
+            HttpGet httpGet = new HttpGet(urlstatic + "users/"+user);
+
+            httpGet.setHeader("Accept", "application/json");
+            httpGet.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            if (inputStream != null) {
+                result = convertInputStreamToString(inputStream);
+            } else {
+                result = "Did not work!";
+            }
+//            System.out.println(result);
+            respons = new JSONObject(result);
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+        JSONObject obj = new JSONObject(result);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        ArrayList<Posts> post = new ArrayList<>();
+        //System.out.println(obj.getJSONArray("timeline").length());
+        int a = 0;
+//        while (obj.getJSONArray("timeline").get(a) != null) {
+//            
+//        }
+        JSONArray tl = obj.getJSONArray("users");
+        for (int i = 0; i < tl.length(); i++) {
+//            System.out.println(((JSONObject) tl.get(i)).get("id"));
+//            System.out.println("----");
+            JSONArray setting = ((JSONObject) tl.get(i)).getJSONArray("setting");
+            ModelStatic.useRumbler.setBlogTitle(((JSONObject) tl.get(i)).getString("blog_title"));
+            ModelStatic.useRumbler.setDescription(((JSONObject) tl.get(i)).getString("description"));
+            ModelStatic.useRumbler.setEmail(((JSONObject) tl.get(i)).getString("email"));
+            ModelStatic.useRumbler.setUsername(((JSONObject) tl.get(i)).getString("username"));
+            ModelStatic.useRumbler.setName(((JSONObject) tl.get(i)).getString("name"));
+            String birthday = ((JSONObject) tl.get(i)).get("birthday").toString();
+            Date bd = new Date();
+            try {
+
+                bd = formatter.parse(birthday);
+//                        System.out.println(datess);
+//                        System.out.println(formatter.format(datess));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Settings sett = new Settings();
+            for (int j = 0; j < setting.length(); j++) {
+//                System.out.println(((JSONObject) comment.get(j)).get("content"));
+                sett.setBirthday(((JSONObject) setting.get(j)).getInt("birthday"));
+                sett.setEmail(((JSONObject) setting.get(j)).getInt("email"));
+                sett.setNewComment(((JSONObject) setting.get(j)).getInt("newComment"));
+                sett.setNewFollower(((JSONObject) setting.get(j)).getInt("newFollower"));
+                sett.setNewLikes(((JSONObject) setting.get(j)).getInt("newLike"));
+                sett.setRealname(((JSONObject) setting.get(j)).getInt("realname"));
+                sett.setUsername(((JSONObject) setting.get(j)).getInt("username"));
+                //  Comments com=new Comments()
+            }
+            ModelStatic.useRumbler.setSettings(sett);
+        }
+    }
+
+>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
     public static ArrayList homePost() {
         JSONObject obj = controllPost();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -217,7 +290,46 @@ public class ControllerDB {
 //        System.out.println(respons);
         return respons;
     }
+<<<<<<< HEAD
 
+=======
+//<<<<<<< HEAD
+    
+     public static int isFollowing(int userid1, int userid2) {
+        JSONObject res = new JSONObject();
+//        res=controllPost();
+        JSONObject respons = new JSONObject();
+        try {
+            HttpGet get = new HttpGet(urlstatic + "people/" + userid1 + "/" + userid2);
+            HttpClient httpClients = new DefaultHttpClient();
+            get.setHeader("Accept", "application/json");
+            get.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse;
+            httpResponse = httpClients.execute(get);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            String result = "";
+            if (inputStream != null) {
+                result = convertInputStreamToString(inputStream);
+//                System.out.println("ga null");
+            } else {
+                result = "Did not work!";
+            }
+             System.out.println(result);
+            respons = new JSONObject(result);
+        } catch (IOException ex) {
+            Logger.getLogger(ControllerDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String status = respons.get("isFollow").toString();
+        if (status.equals("true")) {
+            return 1;
+        }
+        return 0;
+    }
+    
+//=======
+//
+//>>>>>>> 4d4a8b532cfb2c229907f51ea12f3f3ac481eeec
+>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
     public static int isLiked(int userid, int postid) {
         JSONObject res = new JSONObject();
 //        res=controllPost();
@@ -419,4 +531,21 @@ public class ControllerDB {
         System.out.println(u.getPicturePath());
     }
 
+<<<<<<< HEAD
+=======
+    public static String MD5(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+
+        byte byteData[] = md.digest();
+
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
+    }
+>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
 }
