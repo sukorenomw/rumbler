@@ -123,8 +123,8 @@ public class ControllerDB {
         return post;
     }
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
     public static void updateModelStatic(Integer user) {
         System.out.println("masuk postcontrol");
         JSONObject respons = new JSONObject();
@@ -192,7 +192,7 @@ public class ControllerDB {
         }
     }
 
->>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
+//>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
     public static ArrayList homePost() {
         JSONObject obj = controllPost();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -290,9 +290,9 @@ public class ControllerDB {
 //        System.out.println(respons);
         return respons;
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
-=======
+//=======
 //<<<<<<< HEAD
     
      public static int isFollowing(int userid1, int userid2) {
@@ -329,7 +329,7 @@ public class ControllerDB {
 //=======
 //
 //>>>>>>> 4d4a8b532cfb2c229907f51ea12f3f3ac481eeec
->>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
+//>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
     public static int isLiked(int userid, int postid) {
         JSONObject res = new JSONObject();
 //        res=controllPost();
@@ -531,8 +531,8 @@ public class ControllerDB {
         System.out.println(u.getPicturePath());
     }
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
     public static String MD5(String password) throws NoSuchAlgorithmException {
 
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -547,5 +547,5 @@ public class ControllerDB {
         }
         return sb.toString();
     }
->>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
+//>>>>>>> d857cbb43b92db79337f7dc1591e6101ca4f9db8
 }
