@@ -218,6 +218,37 @@ public class ControllerDB {
         return respons;
     }
     
+     public static int isFollowing(int userid1, int userid2) {
+        JSONObject res = new JSONObject();
+//        res=controllPost();
+        JSONObject respons = new JSONObject();
+        try {
+            HttpGet get = new HttpGet(urlstatic + "people/" + userid1 + "/" + userid2);
+            HttpClient httpClients = new DefaultHttpClient();
+            get.setHeader("Accept", "application/json");
+            get.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse;
+            httpResponse = httpClients.execute(get);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            String result = "";
+            if (inputStream != null) {
+                result = convertInputStreamToString(inputStream);
+//                System.out.println("ga null");
+            } else {
+                result = "Did not work!";
+            }
+             System.out.println(result);
+            respons = new JSONObject(result);
+        } catch (IOException ex) {
+            Logger.getLogger(ControllerDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String status = respons.get("isFollow").toString();
+        if (status.equals("true")) {
+            return 1;
+        }
+        return 0;
+    }
+    
     public static int isLiked(int userid, int postid) {
         JSONObject res = new JSONObject();
 //        res=controllPost();
@@ -348,9 +379,9 @@ public class ControllerDB {
         // System.out.println(((JSONObject) respons.get(0)).get("name"));
         for (int b = 0; b < respons.length(); b++) {
             Users usr = new Users();
-            usr.setPicturePath(((JSONObject) respons.get(0)).getString("picture_path"));
-            usr.setName(((JSONObject) respons.get(0)).getString("name"));
-            usr.setUserId(((JSONObject) respons.get(0)).getInt("id"));
+            usr.setPicturePath(((JSONObject) respons.get(b)).getString("picture_path"));
+            usr.setName(((JSONObject) respons.get(b)).getString("name"));
+            usr.setUserId(((JSONObject) respons.get(b)).getInt("id"));
             // System.out.println("ISI ARRAY:" + usr);
             users.add(usr);
         }

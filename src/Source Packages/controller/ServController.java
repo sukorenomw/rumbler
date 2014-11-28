@@ -306,10 +306,34 @@ public class ServController extends HttpServlet {
                 break;
 
             case "/FollowTo":
-//                System.out.println("follow to");
-//                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
-//                Integer userId = Integer.valueOf(request.getParameter("userid"));
-//                System.out.println(followTo + " " + userId);
+                System.out.println("follow to");
+                Integer followTo = Integer.valueOf(request.getParameter("followTo"));
+                Integer userId = Integer.valueOf(request.getParameter("userid"));
+                System.out.println(followTo + " " + userId);
+
+                HttpPost flwhttpPost = new HttpPost(ControllerDB.urlstatic + "people");
+                String flwjson = "";
+                JSONObject flwjsonObject = new JSONObject();
+                flwjsonObject.accumulate("followTo", followTo);
+
+                flwjson = flwjsonObject.toString();
+                StringEntity flwse = new StringEntity(flwjson);
+                flwhttpPost.setEntity(flwse);
+
+                flwhttpPost.setHeader("Accept", "application/json");
+                flwhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse flwhttpResponse = ControllerDB.httpClient.execute(flwhttpPost);
+                inputStream = flwhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
 //                try {
 //                    factory = util.HibernateUtil.getSessionFactory();
 //                } catch (Throwable ex) {
@@ -317,15 +341,15 @@ public class ServController extends HttpServlet {
 //                    throw new ExceptionInInitializerError(ex);
 //                }
 //                dbc.followTo(factory.openSession(), userId, followTo);
-//                try (PrintWriter out = response.getWriter()) {
-//                    out.print(dbc.selectFriendsName(factory.openSession(), followTo));
-//                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(respon.get("nama").toString());
+                }
                 break;
 
             case "/Unfollow":
-//                System.out.println("unfollow");
-//                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
-//                Integer myId = Integer.valueOf(request.getParameter("userid"));
+                System.out.println("unfollow");
+                Integer unfollow = Integer.valueOf(request.getParameter("unfollow"));
+                Integer myId = Integer.valueOf(request.getParameter("userid"));
 //                try {
 //                    factory = util.HibernateUtil.getSessionFactory();
 //                } catch (Throwable ex) {
@@ -336,6 +360,39 @@ public class ServController extends HttpServlet {
 //                try (PrintWriter out = response.getWriter()) {
 //                    out.print(dbc.selectFriendsName(factory.openSession(), unfollow));
 //                }
+                HttpPost uflwhttpPost = new HttpPost(ControllerDB.urlstatic + "people/remove");
+                String uflwjson = "";
+                JSONObject uflwjsonObject = new JSONObject();
+                uflwjsonObject.accumulate("followTo", unfollow);
+
+                uflwjson = uflwjsonObject.toString();
+                StringEntity uflwse = new StringEntity(uflwjson);
+                uflwhttpPost.setEntity(uflwse);
+
+                uflwhttpPost.setHeader("Accept", "application/json");
+                uflwhttpPost.setHeader("Content-type", "application/json");
+
+                HttpResponse uflwhttpResponse = ControllerDB.httpClient.execute(uflwhttpPost);
+                inputStream = uflwhttpResponse.getEntity().getContent();
+
+                if (inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                } else {
+                    result = "Did not work!";
+                }
+
+                respon = new JSONObject(result);
+                System.out.println(respon);
+//                try {
+//                    factory = util.HibernateUtil.getSessionFactory();
+//                } catch (Throwable ex) {
+//                    System.err.println("Failed to create sessionFactory object." + ex);
+//                    throw new ExceptionInInitializerError(ex);
+//                }
+//                dbc.followTo(factory.openSession(), userId, followTo);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(respon.get("nama").toString());
+                }
                 break;
             case "/infiniteScroll":
 //                response.setContentType("text/html;charset=UTF-8");
