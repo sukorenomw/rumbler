@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import model.Comments;
 import model.Posts;
+import model.Settings;
 import model.Users;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,21 +40,21 @@ import org.json.JSONObject;
  * @author giansebastian
  */
 public class ControllerDB {
-    
+
     public ControllerDB() {
     }
     public static HttpClient httpClient = new DefaultHttpClient();
     public static ArrayList<Posts> postclient = new ArrayList<>();
-    public static String urlstatic = "http://192.168.1.11:8000/api/";
+    public static String urlstatic = "http://localhost:8000/api/";
     public static String serverStorage = "http://192.168.1.11:8000";
-    
+
     public static ArrayList pushBlog(int userid) {
         JSONObject respons = new JSONObject();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ArrayList<Posts> post = new ArrayList<>();
         try {
             HttpGet httpGet = new HttpGet(urlstatic + "posts/users/" + userid);
-            
+
             httpGet.setHeader("Accept", "application/json");
             httpGet.setHeader("Content-type", "application/json");
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -72,7 +73,7 @@ public class ControllerDB {
         JSONArray arr = respons.getJSONArray("posts");
         for (int ik = 0; ik < arr.length(); ik++) {
             JSONObject obj = arr.getJSONObject(ik);
-            JSONArray arrComment=obj.getJSONArray("comments");
+            JSONArray arrComment = obj.getJSONArray("comments");
             String title = obj.getString("title");
             String content = obj.getString("content");
             String tag = obj.getString("tag");
@@ -84,7 +85,7 @@ public class ControllerDB {
             ArrayList<Comments> arrcom = new ArrayList<Comments>(0);
             String image = obj.getString("image");
             try {
-                
+
                 regisDate = formatter.parse(regisDateStr);
 //                        System.out.println(datess);
 //                        System.out.println(formatter.format(datess));
@@ -97,7 +98,7 @@ public class ControllerDB {
 //                System.out.println(((JSONObject) comment.get(j)).get("content"));
                 Date regisDates = new Date();
                 try {
-                    
+
                     regisDate = formatter.parse(regisDateStr);
 //                        System.out.println(datess);
 //                        System.out.println(formatter.format(datess));
@@ -111,19 +112,86 @@ public class ControllerDB {
                 arrcom.add(com);
                 //  Comments com=new Comments()
             }
-            
+
             Posts pos = new Posts(ambiluser(obj.getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote, image, arrcom, obj.getInt("id"));
 //            System.out.println("------");
             post.add(pos);
         }
-        
+
         return post;
     }
-    
+
+    public static void updateModelStatic(Integer user) {
+        System.out.println("masuk postcontrol");
+        JSONObject respons = new JSONObject();
+        String result = "";
+        try {
+            HttpGet httpGet = new HttpGet(urlstatic + "users/"+user);
+
+            httpGet.setHeader("Accept", "application/json");
+            httpGet.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            if (inputStream != null) {
+                result = convertInputStreamToString(inputStream);
+            } else {
+                result = "Did not work!";
+            }
+//            System.out.println(result);
+            respons = new JSONObject(result);
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+        JSONObject obj = new JSONObject(result);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        ArrayList<Posts> post = new ArrayList<>();
+        //System.out.println(obj.getJSONArray("timeline").length());
+        int a = 0;
+//        while (obj.getJSONArray("timeline").get(a) != null) {
+//            
+//        }
+        JSONArray tl = obj.getJSONArray("users");
+        for (int i = 0; i < tl.length(); i++) {
+//            System.out.println(((JSONObject) tl.get(i)).get("id"));
+//            System.out.println("----");
+            JSONArray setting = ((JSONObject) tl.get(i)).getJSONArray("setting");
+            ModelStatic.useRumbler.setBlogTitle(((JSONObject) tl.get(i)).getString("blog_title"));
+            ModelStatic.useRumbler.setDescription(((JSONObject) tl.get(i)).getString("description"));
+            ModelStatic.useRumbler.setEmail(((JSONObject) tl.get(i)).getString("email"));
+            ModelStatic.useRumbler.setUsername(((JSONObject) tl.get(i)).getString("username"));
+            ModelStatic.useRumbler.setName(((JSONObject) tl.get(i)).getString("name"));
+            String birthday = ((JSONObject) tl.get(i)).get("birthday").toString();
+            Date bd = new Date();
+            try {
+
+                bd = formatter.parse(birthday);
+//                        System.out.println(datess);
+//                        System.out.println(formatter.format(datess));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Settings sett = new Settings();
+            for (int j = 0; j < setting.length(); j++) {
+//                System.out.println(((JSONObject) comment.get(j)).get("content"));
+                sett.setBirthday(((JSONObject) setting.get(j)).getInt("birthday"));
+                sett.setEmail(((JSONObject) setting.get(j)).getInt("email"));
+                sett.setNewComment(((JSONObject) setting.get(j)).getInt("newComment"));
+                sett.setNewFollower(((JSONObject) setting.get(j)).getInt("newFollower"));
+                sett.setNewLikes(((JSONObject) setting.get(j)).getInt("newLike"));
+                sett.setRealname(((JSONObject) setting.get(j)).getInt("realname"));
+                sett.setUsername(((JSONObject) setting.get(j)).getInt("username"));
+                //  Comments com=new Comments()
+            }
+            ModelStatic.useRumbler.setSettings(sett);
+        }
+    }
+
     public static ArrayList homePost() {
         JSONObject obj = controllPost();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
+
         ArrayList<Posts> post = new ArrayList<>();
         //System.out.println(obj.getJSONArray("timeline").length());
         int a = 0;
@@ -146,7 +214,7 @@ public class ControllerDB {
             ArrayList<Comments> arrcom = new ArrayList<Comments>(0);
             String image = ((JSONObject) tl.get(i)).getString("image");
             try {
-                
+
                 regisDate = formatter.parse(regisDateStr);
 //                        System.out.println(datess);
 //                        System.out.println(formatter.format(datess));
@@ -159,7 +227,7 @@ public class ControllerDB {
 //                System.out.println(((JSONObject) comment.get(j)).get("content"));
                 Date regisDates = new Date();
                 try {
-                    
+
                     regisDate = formatter.parse(regisDateStr);
 //                        System.out.println(datess);
 //                        System.out.println(formatter.format(datess));
@@ -173,7 +241,7 @@ public class ControllerDB {
                 arrcom.add(com);
                 //  Comments com=new Comments()
             }
-            
+
             Posts pos = new Posts(ambiluser(((JSONObject) tl.get(i)).getInt("userid")), title, content, regisDate, tag, isVideo, islink, isQuote, image, arrcom, ((JSONObject) tl.get(i)).getInt("id"));
 //            System.out.println("------");
             post.add(pos);
@@ -181,20 +249,20 @@ public class ControllerDB {
         postclient = post;
         return post;
     }
-    
+
     public static ArrayList<Comments> arryComent(int postid) {
         ArrayList<Comments> com = new ArrayList<>();
         postclient = homePost();
         com = (ArrayList<Comments>) postclient.get(postid).getCommentses();
         return com;
     }
-    
+
     public static JSONObject controllPost() {
         System.out.println("masuk postcontrol");
         JSONObject respons = new JSONObject();
         try {
             HttpGet httpGet = new HttpGet(urlstatic + "timeline");
-            
+
             httpGet.setHeader("Accept", "application/json");
             httpGet.setHeader("Content-type", "application/json");
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -217,7 +285,7 @@ public class ControllerDB {
 //        System.out.println(respons);
         return respons;
     }
-    
+
     public static int isLiked(int userid, int postid) {
         JSONObject res = new JSONObject();
 //        res=controllPost();
@@ -285,13 +353,13 @@ public class ControllerDB {
         usr.setUserId(userid);
         return usr;
     }
-    
+
     public static List listpost() {
         List<Posts> a = null;
         JSONObject obj = new JSONObject();
         return a;
     }
-    
+
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
@@ -299,10 +367,10 @@ public class ControllerDB {
         while ((line = bufferedReader.readLine()) != null) {
             result += line;
         }
-        
+
         inputStream.close();
         return result;
-        
+
     }
 
 //    public static void print(List a) {
@@ -356,10 +424,10 @@ public class ControllerDB {
         }
         return users;
     }
-    
+
     public static ArrayList randUsrs() throws IOException {
         ArrayList<Users> randuser = new ArrayList();
-        
+
         HttpGet get = new HttpGet(ControllerDB.urlstatic + "users/random");
         HttpClient httpClients = new DefaultHttpClient();
         get.setHeader("Accept", "application/json");
@@ -390,16 +458,16 @@ public class ControllerDB {
             System.out.println("ISI name:" + name);
             System.out.println("ISI picturepath:" + picpath);
             System.out.println("ISI id:" + useridn);
-            
+
             randuser.add(usr);
         }
         System.out.println(randuser.get(0).getName() + "hahaha");
         return randuser;
     }
-    
+
     public static void printUser(Users u) {
         System.out.println(u.getName());
         System.out.println(u.getPicturePath());
     }
-    
+
 }

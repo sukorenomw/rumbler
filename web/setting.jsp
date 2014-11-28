@@ -4,11 +4,11 @@
     Author     : smw
 --%>
 
+<%@page import="controller.ControllerDB"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Users"%>
 <%@page import="controller.ModelStatic"%>
-<%@page import="controller.DatabaseController"%>
 <%@page import="org.hibernate.SessionFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -42,14 +42,7 @@
             List<Users> followers = null;
         %>
         <%
-            DatabaseController dbc = new DatabaseController();
-            try {
-                factory = util.HibernateUtil.getSessionFactory();
-            } catch (Throwable ex) {
-                System.err.println("Failed to create sessionFactory object." + ex);
-                throw new ExceptionInInitializerError(ex);
-            }
-            dbc.updateModelStatic(ModelStatic.useRumbler.getUsername());
+            ControllerDB.updateModelStatic(ModelStatic.useRumbler.getUserId());
         %>
         <div class="row mainbg radius">
             <div class="large-9 columns">
