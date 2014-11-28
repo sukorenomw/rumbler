@@ -43,6 +43,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -709,12 +710,11 @@ public class ServController extends HttpServlet {
 //                        System.err.println("Failed to create sessionFactory object." + ex);
 //                        throw new ExceptionInInitializerError(ex);
 //                    }
-
                     email = this.email;
                     date = this.date;
                     blog = this.blog;
                     name = this.name;
-                    password = this.password;//== "" ? ModelStatic.useRumbler.getPassword() : dbc.MD5(this.password);
+                    password = this.password== "" ? ModelStatic.useRumbler.getPassword() : ControllerDB.MD5(this.password);
                     Date dates = new Date();
                     System.out.println(email + date + blog + name + dates);
                     try {
@@ -726,6 +726,29 @@ public class ServController extends HttpServlet {
                     System.out.println("beres");
                     String path = this.pathDB == "" ? "assets/img/ProfPic/default.png" : this.pathDB;
 //                    dbc.updateOperation(factory.openSession(), password, email, dates, blog, name, ModelStatic.useRumbler.getUserId(), path);
+                    HttpPut del = new HttpPut(ControllerDB.urlstatic + "users/"+ModelStatic.useRumbler.getUserId());
+                    jsonObject = new JSONObject();
+//                jsonObject.accumulate("email", "sukorenomukti");
+//                jsonObject.accumulate("password", password);
+                    jsonObject.accumulate("name", name);
+                    jsonObject.accumulate("password", password);
+                    jsonObject.accumulate("blog", blog);
+                    jsonObject.accumulate("email", email);
+                    jsonObject.accumulate("dates", dates);
+                    json = jsonObject.toString();
+                    se = new StringEntity(json);
+                    del.setEntity(se);
+                    del.setHeader("Accept", "application/json");
+                    del.setHeader("Content-type", "application/json");
+                    httpResponse = ControllerDB.httpClient.execute(del);
+                    InputStream inputStream = httpResponse.getEntity().getContent();
+                    String result = "";
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
+                    }
+                    JSONObject responz = new JSONObject(result);
                     response.sendRedirect("setting.jsp");
                 } catch (FileUploadException ex) {
                     Logger.getLogger(ServController.class.getName()).log(Level.SEVERE, null, ex);
