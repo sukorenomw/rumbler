@@ -287,7 +287,7 @@ public class ControllerDB {
 //        System.out.println(respons);
         return respons;
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
     
      public static int isFollowing(int userid1, int userid2) {
         JSONObject res = new JSONObject();
@@ -320,9 +320,9 @@ public class ControllerDB {
         return 0;
     }
     
-=======
-
->>>>>>> 4d4a8b532cfb2c229907f51ea12f3f3ac481eeec
+//=======
+//
+//>>>>>>> 4d4a8b532cfb2c229907f51ea12f3f3ac481eeec
     public static int isLiked(int userid, int postid) {
         JSONObject res = new JSONObject();
 //        res=controllPost();
