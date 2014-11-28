@@ -33,6 +33,8 @@ import org.json.JSONObject;
  */
 public class cobaMain {
 
+    public static int userids = 0;
+
     public static void loginDBweb(HttpClient client) {
         JSONObject respons = new JSONObject();
         System.out.println("masuk login");
@@ -41,7 +43,7 @@ public class cobaMain {
 
         // System.out.println(usernames+passwords);
         try {
-            HttpPost httpPost = new HttpPost(ControllerDB.urlstatic+"auth/");
+            HttpPost httpPost = new HttpPost(ControllerDB.urlstatic + "auth/");
             String json = "";
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("email", username);
@@ -61,7 +63,7 @@ public class cobaMain {
             }
             respons = new JSONObject(result);
 //            System.out.println(respons);
-            //System.out.println(respons.getJSONObject("user").get("id"));
+            userids = respons.getJSONObject("user").getInt("id");
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
         } finally {
@@ -75,9 +77,12 @@ public class cobaMain {
 //        ControllerDB db = new ControllerDB();
         loginDBweb(ControllerDB.httpClient);
         ArrayList<Posts> post = new ArrayList<Posts>();
-        post=ControllerDB.homePost();
-        for(int i=0;i<post.size();i++)
-        System.out.println(post.get(i).getUsers().getUserId());
+        post = ControllerDB.pushBlog(userids);
+        for (int i = 0; i < post.size(); i++) {
+            System.out.println("Post ID:"+post.get(i).getPostId());
+            System.out.println("User ID yg Post"+post.get(i).getUsers().getUserId());
+            System.out.println("Content"+post.get(i).getContent());
+        }
 //        JSONObject obj = (db.controllPost());
 ////        JSONObject timeline = obj.getJSONObject("timeline");
 //        System.out.println(((JSONObject) obj.getJSONArray("timeline").get(0)).get("is_link"));

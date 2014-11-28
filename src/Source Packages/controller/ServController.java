@@ -188,23 +188,63 @@ public class ServController extends HttpServlet {
         String name = "";
         switch (userPath) {
             case "/LikeAction":
-//                String act = request.getParameter("action");
-//                Integer userid = Integer.valueOf(request.getParameter("userid"));
-//                Integer postid = Integer.valueOf(request.getParameter("postid"));
-//
-//                try {
-//                    factory = util.HibernateUtil.getSessionFactory();
-//                } catch (Throwable ex) {
-//                    System.err.println("Failed to create sessionFactory object." + ex);
-//                    throw new ExceptionInInitializerError(ex);
-//                }
-//
-//                if (act.equals("like")) {
-//                    System.out.println("masuk ke like");
+                String act = request.getParameter("action");
+                Integer userid = Integer.valueOf(request.getParameter("userid"));
+                Integer postid = Integer.valueOf(request.getParameter("postid"));
+
+                if (act.equals("like")) {
+                    System.out.println("masuk ke like");
 //                    dbc.likePost(factory.openSession(), userid, postid);
-//                } else {
+                    HttpPost lhttpPost = new HttpPost(ControllerDB.urlstatic + "like");
+                    String ljson = "";
+                    JSONObject ljsonObject = new JSONObject();
+                    ljsonObject.accumulate("postid", postid);
+
+                    ljson = ljsonObject.toString();
+                    StringEntity lse = new StringEntity(ljson);
+                    lhttpPost.setEntity(lse);
+
+                    lhttpPost.setHeader("Accept", "application/json");
+                    lhttpPost.setHeader("Content-type", "application/json");
+
+                    HttpResponse lhttpResponse = ControllerDB.httpClient.execute(lhttpPost);
+                    inputStream = lhttpResponse.getEntity().getContent();
+
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
+                    }
+
+                    respon = new JSONObject(result);
+                    System.out.println(respon);
+                } else {
+                    System.out.println("unlike");
+                    HttpPost lhttpPost = new HttpPost(ControllerDB.urlstatic + "like/remove");
+                    String ljson = "";
+                    JSONObject ljsonObject = new JSONObject();
+                    ljsonObject.accumulate("postid", postid);
+
+                    ljson = ljsonObject.toString();
+                    StringEntity lse = new StringEntity(ljson);
+                    lhttpPost.setEntity(lse);
+
+                    lhttpPost.setHeader("Accept", "application/json");
+                    lhttpPost.setHeader("Content-type", "application/json");
+
+                    HttpResponse lhttpResponse = ControllerDB.httpClient.execute(lhttpPost);
+                    inputStream = lhttpResponse.getEntity().getContent();
+
+                    if (inputStream != null) {
+                        result = convertInputStreamToString(inputStream);
+                    } else {
+                        result = "Did not work!";
+                    }
+
+                    respon = new JSONObject(result);
+                    System.out.println(respon);
 //                    dbc.unlikePost(factory.openSession(), userid, postid);
-//                }
+                }
                 break;
             case "/ReloadFollower":
 //                try (PrintWriter out = response.getWriter()) {
@@ -552,13 +592,13 @@ public class ServController extends HttpServlet {
                 break;
             case "/PostLink":
                 String ltitle = request.getParameter("post-title");
-                
+
                 //HttpPost httpPost = new HttpPost("http://localhost:8000/api/posts/");
                 HttpPost lhttpPost = new HttpPost(ControllerDB.urlstatic + "post/link");
                 String ljson = "";
                 JSONObject ljsonObject = new JSONObject();
                 ljsonObject.accumulate("content", ltitle);
-                              
+
                 ljson = ljsonObject.toString();
                 StringEntity lse = new StringEntity(ljson);
                 lhttpPost.setEntity(lse);
@@ -715,13 +755,12 @@ public class ServController extends HttpServlet {
                 int post_id = Integer.parseInt(request.getParameter("post_id"));
                 int userPost = Integer.parseInt(request.getParameter("user_id"));
                 String content = request.getParameter("commentContent");
-                
+
                 HttpPost chttpPost = new HttpPost(ControllerDB.urlstatic + "comments/");
                 String cjson = "";
                 JSONObject cjsonObject = new JSONObject();
                 cjsonObject.accumulate("content", content);
                 cjsonObject.accumulate("postid", post_id);
-               
 
                 cjson = cjsonObject.toString();
                 StringEntity cse = new StringEntity(cjson);
@@ -741,7 +780,7 @@ public class ServController extends HttpServlet {
 
                 respon = new JSONObject(result);
                 System.out.println(respon);
-                
+
                 response.sendRedirect("index.jsp");
                 break;
 
