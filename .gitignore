@@ -1,0 +1,6 @@
+/build/generated/
+/nbproject/private/
+/dist/
+/build/
+/src/Source\ Packages/hibernate.cfg.xml
+/src/Source\ Packages/hibernate.reveng.xml
